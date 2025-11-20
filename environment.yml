@@ -1,8 +1,10 @@
-name: '522'
+name: 522
 channels:
-- conda-forge
+  - conda-forge
 dependencies:
-- python=3.14.0
-- pandas=2.3.3
-- conda-lock=2.5.8
-prefix: /Users/Nicole/miniforge3/envs/522
+  - python=3.14
+  - pandas=2.3.3
+  - conda-lock=2.5.8
+  - pip
+  - pip:
+      - kagglehub
