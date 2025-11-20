@@ -1,10 +1,14 @@
-name: 522
+name: "522"
 channels:
   - conda-forge
 dependencies:
-  - python=3.14
+  - python=3.12
+  - pip
+  - ipykernel
+  - nb_conda_kernels
+  - altair-all
   - pandas=2.3.3
   - conda-lock=2.5.8
-  - pip
+  - folium
   - pip:
       - kagglehub
