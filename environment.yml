@@ -1,14 +1,23 @@
 name: "522"
 channels:
   - conda-forge
+  - defaults
 dependencies:
   - python=3.12
   - pip
   - ipykernel
   - nb_conda_kernels
-  - altair-all
-  - pandas=2.3.3
+  - pandas=2.2
+  - numpy=1.26
+  - scikit-learn=1.5
+  - imbalanced-learn=0.12
+  - altair-all=5.4
+  - matplotlib=3.9
+  - seaborn=0.13
+  - folium=0.18
+  - jupyterlab=4.2
+  - jupyter=1.1
   - conda-lock=2.5.8
-  - folium
+  - requests=2.32
   - pip:
       - kagglehub
