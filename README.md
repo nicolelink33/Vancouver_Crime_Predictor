@@ -12,7 +12,7 @@ The dataset includes over 530,000 crime incidents across 11 different crime type
 
 ## Report
 
-The complete analysis is available in the Jupyter notebook `proj.ipynb` in this repository. The notebook includes:
+The complete analysis is available in the Jupyter notebook `vancouver_crime_predictor.ipynb` in this repository. The notebook includes:
 - Data loading and preprocessing
 - Exploratory data analysis with visualizations
 - Feature engineering and model training
@@ -55,7 +55,7 @@ To view the notebook, you can either:
    ```
 
 2. **Open and run the notebook:**
-   - Navigate to `proj.ipynb` in the Jupyter interface
+   - Navigate to `vancouver_crime_predictor.ipynb` in the Jupyter interface
    - Run all cells sequentially (Cell → Run All) or execute cells individually
 
 The notebook will automatically download the latest version of the crime dataset from Kaggle and perform the complete analysis. The entire analysis may take several minutes to complete, particularly the model training sections.
