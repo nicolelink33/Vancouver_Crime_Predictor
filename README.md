@@ -94,3 +94,5 @@ The software code contained within this repository is licensed under the [MIT Li
 4. Altair developers. (2024). *Altair: Declarative Visualization in Python*. https://altair-viz.github.io/
 
 5. UBC Master of Data Science. (2025-26). *DSCI 571: Supervised Learning I*. University of British Columbia. https://github.com/UBC-MDS
+
+6. AI Coding Assistant: Claude AI agent in VS Code was used for debugging assistance and code optimization. All data analysis, model selection, and interpretation of results were completed independently by the authors.
