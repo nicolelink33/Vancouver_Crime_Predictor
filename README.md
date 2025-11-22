@@ -35,8 +35,8 @@ To view the notebook, you can either:
 
 2. **Create and activate the conda environment:**
    ```bash
-   conda env create -f environment.yml
-   conda activate Vancouver_Crime_Predictor
+   conda-lock install --name vancouver_crime_predictor conda-lock.yml
+   conda activate vancouver_crime_predictor
    ```
 
    This will install all necessary dependencies including Python 3.12, pandas, scikit-learn, and visualization libraries.
@@ -56,6 +56,7 @@ To view the notebook, you can either:
 
 2. **Open and run the notebook:**
    - Navigate to `vancouver_crime_predictor.ipynb` in the Jupyter interface
+   - Under Switch/Select Kernel choose "Python [conda env:vancouver_crime_predictor]"
    - Run all cells sequentially (Cell → Run All) or execute cells individually
 
 The notebook will automatically download the latest version of the crime dataset from Kaggle and perform the complete analysis. The entire analysis may take several minutes to complete, particularly the model training sections.
