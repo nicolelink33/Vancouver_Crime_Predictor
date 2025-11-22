@@ -51,6 +51,6 @@ The dataset includes the following columns:
 
 ## Notes
 
-- This directory may remain empty in the repository since data is downloaded automatically
+- A zipped version of this dataset is available in crime_data_2025-11-22.zip, available in case there are issues with Kaggle. 
 - The dataset is approximately 60 MB in size
 - Data is provided by the Vancouver Police Department and hosted on Kaggle
