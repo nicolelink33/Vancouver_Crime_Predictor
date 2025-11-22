@@ -85,10 +85,12 @@ The software code contained within this repository is licensed under the [MIT Li
 
 ## References
 
-1. Vancouver Crime Dataset : Vancouver Police Department. (2017). *Crime Data* [Dataset]. Kaggle. https://www.kaggle.com/datasets/wosaku/crime-in-vancouver
+1. Vancouver Police Department. (2017). *Crime Data* [Dataset]. Kaggle. https://www.kaggle.com/datasets/wosaku/crime-in-vancouver
 
-2. Scikit-learn : Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., ... & Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research*, 12, 2825-2830.
+2. Scikit-learn developers. (2024). *Scikit-learn: Machine Learning in Python*. https://scikit-learn.org/
 
-3. Pandas : McKinney, W. (2010). Data structures for statistical computing in Python. *Proceedings of the 9th Python in Science Conference*, 445, 51-56.
+3. Pandas development team. (2024). *pandas documentation*. https://pandas.pydata.org/docs/
 
-4. Altair : VanderPlas, J., Granger, B., Heer, J., Moritz, D., Wongsuphasawat, K., Satyanarayan, A., ... & Sievert, S. (2018). Altair: Interactive statistical visualizations for Python. *Journal of Open Source Software*, 3(32), 1057.
+4. Altair developers. (2024). *Altair: Declarative Visualization in Python*. https://altair-viz.github.io/
+
+5. UBC Master of Data Science. (2025-26). *DSCI 571: Supervised Learning I*. University of British Columbia. https://github.com/UBC-MDS
