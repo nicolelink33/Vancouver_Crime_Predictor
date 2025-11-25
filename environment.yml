@@ -1,23 +1,23 @@
 name: '522'
 channels:
-- conda-forge
-- defaults
+  - conda-forge
 dependencies:
-- python=3.12
-- pip
-- ipykernel
-- nb_conda_kernels
-- pandas=2.2
-- numpy=1.26
-- scikit-learn=1.5
-- imbalanced-learn=0.12
-- altair-all=5.4
-- matplotlib=3.9
-- seaborn=0.13
-- folium=0.18
-- jupyterlab=4.2
-- jupyter=1.1
-- conda-lock=2.5.8
-- requests=2.32
-- pip:
-  - kagglehub
+  - python=3.12
+  - pandas=2.2.3
+  - conda-lock=2.5.8
+  - folium=0.18
+  - ipykernel=7.1.0
+  - nb_conda_kernels=2.5.1
+  - altair-all=5.4
+  - pip=25.3
+  - scikit-learn=1.5
+  - requests=2.32
+  - jupyter=1.1
+  - numpy=1.26
+  - seaborn=0.13
+  - jupyterlab=4.2
+  - matplotlib=3.9
+  - imbalanced-learn=0.12
+  - pandera=0.26.1
+  - deepchecks=0.3.2
+prefix: /Users/Nicole/miniforge3/envs/522
