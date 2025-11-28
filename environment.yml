@@ -2,8 +2,8 @@ name: '522'
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
-  - pandas=2.2.3
+  - python=3.10
+  - pandas=1.5.3
   - conda-lock=2.5.8
   - folium=0.18
   - ipykernel=7.1.0
@@ -19,5 +19,7 @@ dependencies:
   - matplotlib=3.9
   - imbalanced-learn=0.12
   - pandera=0.26.1
-  - deepchecks=0.3.2
-prefix: /Users/Nicole/miniforge3/envs/522
+  
+  - pip:
+      - kagglehub
+      - deepchecks==0.17.3
