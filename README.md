@@ -28,18 +28,18 @@ To view the notebook, you can either:
 ### Setting up the environment
 
 1. **Clone this repository:**
-   ```bash
+```bash
    git clone https://github.com/nicolelink33/Vancouver_Crime_Predictor.git
    cd Vancouver_Crime_Predictor
-   ```
+```
 
 2. **Create and activate the conda environment:**
-   ```bash
+```bash
    conda-lock install --name vancouver_crime_predictor conda-lock.yml
    conda activate vancouver_crime_predictor
-   ```
+```
 
-   This will install all necessary dependencies including Python 3.12, pandas, scikit-learn, and visualization libraries.
+   This will install all necessary dependencies including Python 3.11, pandas, scikit-learn, and visualization libraries.
 
 3. **Set up Kaggle authentication (required if want to download data):**
    
@@ -50,9 +50,9 @@ To view the notebook, you can either:
 ### Running the analysis
 
 1. **Launch Jupyter Lab:**
-   ```bash
+```bash
    jupyter lab
-   ```
+```
 
 2. **Open and run the notebook:**
    - Navigate to `vancouver_crime_predictor.ipynb` in the Jupyter interface
@@ -61,16 +61,61 @@ To view the notebook, you can either:
 
 The notebook will automatically download the latest version of the crime dataset from Kaggle and perform the complete analysis. The entire analysis may take several minutes to complete, particularly the model training sections.
 
+## Running with Docker
+
+For a fully reproducible environment, you can run this analysis using Docker.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed on your machine
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+### Using Docker Compose (Recommended)
+
+1. Clone this repository:
+```bash
+   git clone https://github.com/nicolelink33/Vancouver_Crime_Predictor.git
+   cd Vancouver_Crime_Predictor
+```
+
+2. Launch the container:
+```bash
+   docker-compose up
+```
+
+3. Open Jupyter Lab at the URL shown in the terminal (usually http://localhost:8888)
+
+4. Navigate to the `work` folder, then open `vancouver_crime_predictor.ipynb` and run the analysis
+
+5. To stop the container, press `Ctrl+C` in the terminal
+
+### Pulling the Docker Image Directly
+
+You can also pull the pre-built image from DockerHub:
+```bash
+docker pull tirthjoship/vancouver-crime-predictor:latest
+docker run -p 8888:8888 -v $(pwd):/home/jovyan/work tirthjoship/vancouver-crime-predictor:latest
+```
+
+### Updating the Docker Image
+
+When dependencies in `environment.yml` change:
+
+1. The GitHub Actions workflow automatically rebuilds and pushes the image to DockerHub
+2. Pull the latest image: `docker pull tirthjoship/vancouver-crime-predictor:latest`
+3. Regenerate the lock file if needed: `conda-lock -f environment.yml --lockfile conda-lock.yml`
+
 ## Dependencies
 
 This project requires the following main dependencies:
 
-- **Python 3.12**
+- **Python 3.11**
 - **Data manipulation:** pandas 2.2, numpy 1.26
 - **Machine learning:** scikit-learn 1.5, imbalanced-learn 0.12
 - **Visualization:** altair-all 5.4, matplotlib 3.9, seaborn 0.13, folium 0.18
 - **Notebook environment:** jupyterlab 4.2, jupyter 1.1, ipykernel, nb_conda_kernels
 - **Data access:** kagglehub (via pip)
+- **Data validation:** pandera 0.26.1, deepchecks 0.17.3
 - **Environment management:** conda-lock 2.5.8
 - **HTTP requests:** requests 2.32
 
