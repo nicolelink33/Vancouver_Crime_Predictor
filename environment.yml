@@ -2,8 +2,8 @@ name: '522'
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
-  - pandas=1.5.3
+  - python=3.11
+  - pandas=2.2
   - conda-lock=2.5.8
   - folium=0.18
   - ipykernel=7.1.0
