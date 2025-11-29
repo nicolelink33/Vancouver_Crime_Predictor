@@ -12,7 +12,7 @@ The dataset includes over 530,000 crime incidents across 11 different crime type
 
 ## Report
 
-The complete analysis is available in the Jupyter notebook `vancouver_crime_predictor.ipynb` in this repository. The notebook includes:
+The complete analysis is available in the Jupyter notebook `reports/vancouver_crime_predictor.ipynb` in this repository. The notebook includes:
 - Data loading and preprocessing
 - Exploratory data analysis with visualizations
 - Feature engineering and model training
@@ -56,7 +56,7 @@ jupyter lab
 ```
 
 2. **Open and run the notebook:**
-   - Navigate to `vancouver_crime_predictor.ipynb` in the Jupyter interface
+   - Navigate to `reports/vancouver_crime_predictor.ipynb` in the Jupyter interface
    - Under Switch/Select Kernel choose "Python [conda env:vancouver_crime_predictor]"
    - Run all cells sequentially (Cell → Run All) or execute cells individually
 
@@ -86,7 +86,7 @@ docker-compose up
 ```
 
 3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
-4. Navigate to the `work` folder, then open `vancouver_crime_predictor.ipynb` and run the analysis
+4. Navigate to the `work` folder, then open `reports/vancouver_crime_predictor.ipynb` and run the analysis
 
 5. To stop the container, press `Ctrl+C` in the terminal
 
