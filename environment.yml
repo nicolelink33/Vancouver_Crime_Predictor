@@ -22,4 +22,4 @@ dependencies:
   
   - pip:
       - kagglehub
-      - deepchecks==0.17.3
+      - deepchecks>=0.18.0
