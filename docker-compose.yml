@@ -2,7 +2,7 @@ services:
   vancouver-crime-predictor:
     image: tirthjoship/vancouver-crime-predictor:latest
     ports:
-      - "8888:8888"
+      - "10000:8888"
     volumes:
       - .:/home/jovyan/work
     platform: linux/amd64
