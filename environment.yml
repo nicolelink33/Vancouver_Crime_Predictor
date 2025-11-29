@@ -24,3 +24,4 @@ dependencies:
   - pip:
       - kagglehub
       - deepchecks>=0.18.0
+      - vegafusion[embed]>=1.5.0
