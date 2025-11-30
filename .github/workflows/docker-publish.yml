@@ -2,10 +2,13 @@ name: Build and Push Docker Image
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'Dockerfile'
       - 'conda-lock.yml'
       - 'environment.yml'
+      - 'docker-compose.yml'
   workflow_dispatch:
 
 jobs:
@@ -17,20 +20,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.ref }}
 
       - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
+
       - name: Get short SHA
         id: sha
         run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-      
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -38,18 +38,12 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/vancouver-crime-predictor:${{ steps.sha.outputs.short_sha }}
-            ${{ secrets.DOCKER_USERNAME }}/vancouver-crime-predictor:latest
-      
+
       - name: Update docker-compose.yml with new image tag
-        if: success()
         run: |
           sed -i "s|image: .*/vancouver-crime-predictor:.*|image: ${{ secrets.DOCKER_USERNAME }}/vancouver-crime-predictor:${{ steps.sha.outputs.short_sha }}|" docker-compose.yml
-          
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           git add docker-compose.yml
           git commit -m "Update docker-compose.yml with image tag ${{ steps.sha.outputs.short_sha }}" || echo "No changes to commit"
-
-          # push to the same branch that triggered the workflow
-          git push origin HEAD:${{ github.ref_name }}
+          git push
