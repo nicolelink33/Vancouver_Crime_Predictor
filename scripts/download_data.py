@@ -17,10 +17,13 @@ def download_data(dataset, output_csv, output_zip):
     """Download dataset from Kaggle and save locally as CSV and ZIP."""
     
     path = kagglehub.dataset_download(dataset)
+
+    try:
+        df = pd.read_csv(os.path.join(path, "crime.csv"))
+    except Exception as e:
+        raise ValueError(f"File format issue: {e}")
     
-    
-    df = pd.read_csv(os.path.join(path, "crime.csv"))
-    
+        
     df.to_csv(output_csv, index=False)
     
     
