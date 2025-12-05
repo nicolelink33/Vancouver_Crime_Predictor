@@ -1,0 +1,146 @@
+---
+title: Predicting type of crime from location and time information
+author: Zain Nofal, Tirth Joshi, Nicole Link
+date: 2025-12-07
+jupyter: python3
+editor: source
+format:
+  html:
+    toc: true
+    toc-depth: 3
+  pdf:
+    toc: true
+    toc-depth: 3
+bibliography: references.bib
+execute:
+  echo: false
+---
+
+```{python}
+import pandas as pd
+from IPython.display import Markdown, display
+from tabulate import tabulate
+import pickle
+```
+
+# Summary
+
+In this project, we aim to predict what type of crime occurred in Vancouver based on when and where it happened. 
+We use a dataset from the Vancouver Police Department with over 530,000 crime records from 2003-2017, 
+covering 11 different crime types including theft, break-ins, and vehicle collisions.
+
+We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. 
+After tuning, all three models performed similarly, achieving around 62-64% accuracy. 
+While this isn't perfect, it shows that time and location do provide some useful information for predicting crime types, 
+though there is clearly room for improvement, possibly with additional features.
+
+# Introduction
+
+## Background
+
+Crime prediction is an important tool for police departments trying to figure out where to focus their resources.
+Vancouver, like most big cities, has many different types of crime happening at different times and places. 
+If we can predict what kind of crime is likely to happen based on patterns in the data, 
+it could help with planning patrols and prevention efforts.
+
+## Research Question
+
+Can we predict the type of crime based on when and where it happens?
+
+We're comparing three different classification algorithms (K-NN, SVM, and Logistic Regression) to see if this is possible, 
+and which model works best for this problem.
+
+
+# Methods
+
+## Data
+
+We're using the Vancouver Crime Dataset from Kaggle, which originally came from the Vancouver Police Department [@CrimeKaggle]. 
+It has 530,652 crime records from 2003 to 2017, split into 11 crime types. 
+The most common is "Theft from Vehicle" (over 172,000 cases) and the rarest is "Homicide" (220 cases).
+
+Each record includes:
+- Time info: year, month, day, hour, minute
+- Location info: neighborhood, street block, coordinates
+
+There's some missing data - about 10% of records don't have time information and 11% are missing neighborhood data. 
+We filled in missing times with the most common values and labeled missing neighborhoods as "Unknown."
+
+## Analysis
+
+### KNN
+
+The k-nearest neighbors (KNN) algorithm was used to build a classification model to predict the crime type for each incident in the Vancouver crime dataset. 
+All spatial, temporal, numeric, and categorical features were included. 
+The data was split using an 80/20 stratified train–test split to preserve class proportions. 
+Categorical variables were one-hot encoded, and numeric variables were standardized using a ColumnTransformer immediately before model fitting. 
+A baseline model using k = 5 achieved 58.8% accuracy. 
+The hyperparameter k was tuned using cross-validation on a stratified sample of 15,000 training observations, using accuracy as the selection metric. 
+The optimal value was k = 85, yielding a final accuracy of 64.2% on the test set. 
+The model performed best on “Theft from Vehicle”, while categories such as “Mischief” and “Break and Enter” were more challenging. 
+The analysis was conducted in Python using python, numpy, pandas, matplotlib, tqdm, and scikit-learn 
+[@python; @numpy; @pandas; @matplotlib, @tqdm; @scikit-learn, @click].
+
+
+### SVM
+
+A linear Support Vector Machine (SVM) classifier was trained to predict crime type using all spatial, temporal, numeric, and categorical features. 
+The data was split using an 80/20 stratified train–test split. 
+Numeric features were standardized and categorical features were passed through unchanged using a ColumnTransformer. 
+A baseline LinearSVC model with C = 1 achieved 64.2% accuracy. 
+The regularization parameter C was tuned using grid search, followed by randomized search on a 15,000-observation stratified subset to reduce computational cost. 
+The optimal value gave a final accuracy of 64.3%, only slightly higher than the baseline, indicating that model performance was not highly sensitive to this hyperparameter. 
+
+### Logistic Regression
+
+A multinomial Logistic Regression model was trained to predict crime type using all numeric and categorical features. 
+The data was split using an 80/20 stratified train–test split. 
+Numeric features were standardized and categorical features were passed through unchanged using a ColumnTransformer. 
+Hyperparameters, including the regularization strength (C) and penalty type (l1 or l2), 
+were tuned using a grid search on a 15,000-observation stratified subset of the training data, with accuracy as the selection metric. 
+The optimal hyperparameters were C and penalty. 
+The final model achieved a test accuracy of 62.8%, indicating slightly lower performance than KNN and SVM. 
+The analysis was conducted in Python using numpy, pandas, scikit-learn, and seaborn. 
+
+The code used to perform this analysis is available at: <https://github.com/nicolelink33/Vancouver_Crime_Predictor>.
+
+
+# Results & Discussion
+
+## What We Found
+
+All three of our models ended up with pretty similar accuracy:
+- Baseline K-NN: ~58%
+- Optimized K-NN: 64.2%
+- Optimized SVM: 64.3%
+- Logistic Regression: 62.8%
+
+The models did well on common crimes like "Theft from Vehicle" but struggled with rarer or more ambiguous categories. 
+We also noticed that crime in Vancouver decreased from 2003 to 2011, then started increasing again after 2012.
+
+## Was This Expected?
+
+Somewhat! Crime classification is tough because different crime types often happen in similar places at similar times. 
+For example, various types of theft might all peak at night in the same neighborhoods. 
+We're also only using time and location so we don't have info about weather, economic conditions, or other factors that might matter.
+
+The fact that all three algorithms performed similarly suggests the limiting factor isn't the algorithm choice, 
+but rather what we can predict using only "when" and "where" information.
+
+## Why This Matters
+
+Even with 64% accuracy, these models could still be useful for:
+- Helping police decide where to patrol
+- Understanding which crime types are more predictable
+- Showing that we need more features beyond just time and location
+
+# Future Work
+
+Possible next steps:
+- Add more features like weather, day of week, proximity to bars/schools
+- Try more advanced models like Random Forests or neural networks
+- Instead of predicting exact crime type, predict severity level (minor/moderate/serious)
+- Use more recent data (this dataset ends in 2017)
+- Apply techniques to handle the class imbalance problem
+
+# References
