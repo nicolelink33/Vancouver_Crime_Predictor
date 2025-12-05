@@ -9,8 +9,8 @@ import json
 import logging
 
 @click.command()
-@click.option('--input_csv', required=True, help='Path to input CSV file')
-@click.option('--output_csv', required=True, help='Path to save cleaned + validated CSV')
+@click.option('--input-csv', required=True, help='Path to input CSV file')
+@click.option('--output-csv', required=True, help='Path to save cleaned + validated CSV')
 
 def data_validation(input_csv, output_csv):
     """Clean, validate, and save crime data."""
@@ -143,9 +143,7 @@ def data_validation(input_csv, output_csv):
     # Filter out invalid rows based on the error cases
     if not error_cases.empty:
         invalid_indices = error_cases["index"].dropna().unique()
-        validated_data = (
-            data.drop(index=invalid_indices)
-            .reset_index(drop=True)
+        validated_data = (deduped_df.drop(index=invalid_indices).reset_index(drop=True)
         )
     else:
         validated_data = deduped_df
