@@ -11,10 +11,12 @@ import folium
 
 
 @click.command()
-@click.option('--processed-training-data',type=str,required=True,help="Path to processed training CSV containing features + TYPE column.")
+@click.option('--processed-training-data',type=str,required=True,help="Path to processed training CSV containing features")
 @click.option('--plot-to',type=str,required=True,help="Directory to save the generated EDA plots.")
+@click.option('--target-csv', type=str, required=True, help="Path to CSV file containing the target column TYPE")
 
-def eda(processed_training_data, plot_to):
+
+def eda(processed_training_data,  target_csv, plot_to):
     """
     Generates exploratory data analysis visualizations for the crime dataset.
     Saves static PNG files for each plot.
@@ -27,8 +29,12 @@ def eda(processed_training_data, plot_to):
     os.makedirs(plot_to, exist_ok=True)
 
     # Load data
-    df = pd.read_csv(processed_training_data)
+    df_features = pd.read_csv(processed_training_data)
+    df_target = pd.read_csv(target_csv)
 
+    # Merge target column like in notebook
+    df = df_features.copy()
+    df['TYPE'] = df_target['TYPE'].values
 
     alt.data_transformers.disable_max_rows()
 
@@ -119,17 +125,17 @@ def eda(processed_training_data, plot_to):
             color='red',
             fill=True,
             fill_opacity=0.5,
-            popup=f"{row[target]} - {row['NEIGHBOURHOOD']}"
+            popup=f"{row['TYPE']} - {row['NEIGHBOURHOOD']}"
         ).add_to(crime_map)
 
     # Save map as HTML
-    map_path = os.path.join(output_dir, "crime_map.html")
+    map_path = os.path.join(plot_to, "crime_map.html")
     crime_map.save(map_path)
 
-    print(f"EDA completed. Plots and map saved in {output_dir}")
+    print(f"EDA completed. Plots and map saved in {plot_to}")
 
 if __name__ == '__main__':
-    main()
+    eda()
     
 
 
