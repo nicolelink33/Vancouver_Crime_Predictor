@@ -86,9 +86,42 @@ docker-compose up
 ```
 
 3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
-4. Navigate to the `work` folder, then open `reports/vancouver_crime_predictor.ipynb` and run the analysis
+4. To run the analysis, open a terminal and run the following commands: 
+```
 
-5. To stop the container, press `Ctrl+C` in the terminal
+
+
+python scripts/svm_training.py \
+    --X_train_path=data/processed/X_train.csv \
+    --y_train_path=data/processed/y_train.csv \
+    --preprocessor=results/models/preprocessor.pickle \
+    --pipeline-to=results/models \
+    --plot-to=results/figures \
+    --seed=522
+
+python scripts/svm_small_data_test.py \
+    --X_train_path=data/processed/X_train.csv \
+    --y_train_path=data/processed/y_train.csv \
+    --pipeline-to=results/models \
+    --plot-to=results/figures \
+    --seed=522
+
+python scripts/svm_eval.py \
+    --X_test_path=data/processed/X_test.csv \
+    --y_test_path=data/processed/y_test.csv \
+    --pipeline-from=results/models \
+    --results-to=results/tables \
+    --plot-to=results/figures \
+
+
+
+
+quarto render
+
+```
+5. Navigate to the `work` folder, then open `reports/vancouver_crime_predictor.ipynb` and run the analysis
+
+6. To stop the container, press `Ctrl+C` in the terminal
 
 ### Pulling the Docker Image Directly
 
