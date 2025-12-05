@@ -2,27 +2,22 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-01
 
-
 import click
-import os
 import numpy as np
 import pandas as pd
-import pandera as pa
 import pickle
-from sklearn.model_selection import train_test_split
-from sklearn import set_config
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer
 
 
+
 @click.command()
-@click.option('--raw-data', type=str, help="Path to raw crime dataset")
-@click.option('--data-to', type=str, help="Path to save processed CSV")
-@click.option('--preprocessor-to', type=str, help="Path to save preprocessor object")
-@click.option('--seed', type=int, default=123, help="Random seed")
+@click.option('--raw-data', type=str, required=True,help="Path to the raw crime dataset CSV")
+@click.option('--data-to', type=str, required=True,help="Path to save processed CSV")
+@click.option('--preprocessor-to', type=str, required=True,help="Path to save preprocessing object (pickle)")
+@click.option('--seed', type=int, default=123,help="Random seed for reproducibility")
 
-
-def preprocess(input_csv, output_csv):
+def preprocess(raw_data, data_to, preprocessor_to, seed):
     """
     This script loads the Vancouver crime dataset, performs preprocessing and 
     feature engineering, selects the top 4 crime types, validates the data, 
@@ -127,9 +122,9 @@ def preprocess(input_csv, output_csv):
     selected_crimes = crime_counts.head(n_classes).index.tolist()
 
     #print(f"\nSelected {n_classes} crime types for classification:")
-    for i, crime in enumerate(selected_crimes, 1):
-        pct = (crime_counts[crime] / len(df_processed)) * 100
-        print(f"{i}. {crime}: {crime_counts[crime]:,} ({pct:.1f}%)")
+    #for i, crime in enumerate(selected_crimes, 1):
+    #    pct = (crime_counts[crime] / len(df_processed)) * 100
+    #    print(f"{i}. {crime}: {crime_counts[crime]:,} ({pct:.1f}%)")
 
     # Filter dataset
     df_model = df_processed[df_processed['TYPE'].isin(selected_crimes)].copy()
@@ -145,6 +140,25 @@ def preprocess(input_csv, output_csv):
     ]
 
     categorical_cols = ['NEIGHBOURHOOD', 'TIME_OF_DAY', 'SEASON']
+
+    preprocessor = make_column_transformer(
+    (StandardScaler(), numeric_cols),
+    remainder='passthrough'
+    )
+
+    # Fit preprocessor
+    preprocessor.fit(df_model[numeric_cols + categorical_cols])
+
+    # Save processed data
+    df_model.to_csv(data_to, index=False)
+
+    # Save preprocessor
+    with open(preprocessor_to, "wb") as f:
+        pickle.dump(preprocessor, f)
+
+
+if __name__ == '__main__':
+    preprocess()
 
 
 
