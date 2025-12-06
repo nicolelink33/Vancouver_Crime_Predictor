@@ -14,20 +14,36 @@ from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, 
 @click.option('--X_test_path', type=str, help="Path to X_test")
 @click.option('--y_test_path', type=str, help="Path to y_test")
 @click.option('--pipeline-from', type=str, help="Path to directory where the fit pipeline object lives")
-@click.option('--results-to', type=str, help="Path to directory where the plot will be written to")
+@click.option('--results-to', type=str, help="Path to directory where the tables will be written to")
 @click.option('--plot-to', type=str, help="Path to directory where the plots will be written to")
 def svm_eval(X_test_path, y_test_path, pipeline-from, results-to, plot-to):
     '''Evaluates the Vancouver Crime Predictor on the test data 
     and saves the evaluation results.'''
-
-    # Read in the data and fitted svm model
+    
+    # Read in the data, baseline model, and fitted svm model
     X_test = pd.read_csv(X_test_path)
     y_test = pd.read_csv(y_test_path)
+
+    with open(os.path.join(pipeline_from, "svm_baseline_fit.pickle"), 'rb') as f:
+        svm_base_fit = pickle.load(f)
 
     with open(os.path.join(pipeline_from, "svm_final_best_fit.pickle"), 'rb') as f:
         svm_fit = pickle.load(f)
     
-    # Compute accuracy, precision, recall, and F1 score
+    # Compute and save the baseline model scores
+    base_accuracy = svm_base_fit.score(X_test, y_test)
+    base_f1_score = f1_score(y_test, svm_base_fit.predict(X_test))
+    base_precision = precision_score(y_test, svm_base_fit.predict(X_test))
+    base_recall = recall_score(y_test, svm_base_fit.predict(X_test))
+
+    results_table = pd.DataFrame({'accuracy': [base_accuracy],
+                                  'f1': [base_f1_score],
+                                  'precision': [base_precision],
+                                  'recall': [base_recall]})
+    results_table.to_csv(os.path.join(results_to, "svm_baseline_score.csv"), index=False)
+
+
+    # Compute and save final accuracy, precision, recall, and F1 score
     accuracy = svm_fit.score(X_test, y_test)
     f1_score = f1_score(y_test, svm_fit.predict(X_test))
     precision = precision_score(y_test, svm_fit.predict(X_test))
