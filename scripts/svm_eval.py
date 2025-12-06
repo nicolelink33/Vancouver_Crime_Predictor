@@ -45,7 +45,7 @@ def svm_eval(X_test_path, y_test_path, pipeline-from, results-to, plot-to):
     plt.ylabel('Actual Crime Type', fontsize=12)
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-    plt.save(os.path.join(plot_to, "svm_confusion_matrix"), scale_factor=2.0)
+    plt.save(os.path.join(plot_to, "svm_confusion_matrix.png"), scale_factor=2.0)
 
     # Create and save classification report
     class_report = pd.DataFrame(classification_report(y_test, final_svm_pred, output_dict=True))
