@@ -116,7 +116,7 @@ python scripts/svm_eval.py \
 
 
 
-quarto render
+quarto render reports/vancouver_crime_predictor.qmd
 
 ```
 5. Navigate to the `work` folder, then open `reports/vancouver_crime_predictor.ipynb` and run the analysis
