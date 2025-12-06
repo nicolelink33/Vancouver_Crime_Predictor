@@ -23,6 +23,12 @@ from IPython.display import Markdown, display
 import pickle
 ```
 
+```{python}
+baseline_svm_scores = pd.read_csv("../results/tables/svm_baseline_score.csv").round(2)
+svm_scores = pd.read_csv("../results/tables/svm_score.csv").round(2)
+
+```
+
 # Summary
 
 In this project, we aim to predict what type of crime occurred in Vancouver based on when and where it happened. 
@@ -98,9 +104,10 @@ k-NN model performance by crime type is shown in the produced confusion matrix, 
 ![Confusion matrix for best fit k-NN model, showing predicted crime type versus actual crime type.](../results/figures/knn_confusion_matrix.png){#fig-KNN_cm width=100%}
 
 ### SVM
-The baseline LinearSVC model with C = 1 achieved 64.2% accuracy. 
+The baseline LinearSVC model with C = 1 achieved an accuracy of `{python} baseline_svm_scores['accuracy'].values[0]`. 
 Results of the hyperparameter optimization search are shown in @fig-SVM_opt. 
-The selected model gave a final accuracy of 64.3%, only slightly higher than the baseline, 
+The selected model gave a final accuracy of `{python} svm_scores['accuracy'].values[0]` 
+and an F1 score of `{python} svm_scores['f1'].values[0]`, only slightly higher than the baseline, 
 indicating that model performance was not highly sensitive to the value of C. 
 The confusion matrix for the best fit linear SVM model is shown in @fig-SVM_cm. 
 ![Hyperparameter optimization of the C value for linear SVM model.](../results/figures/svm_final_random_fit.png){#fig-SVM_opt width=100%}
@@ -116,7 +123,7 @@ The confusion matrix for the best fit logistic regression model is shown in @fig
 All three of our models gave quite similar accuracies:
 - Baseline K-NN: ~58%
 - Optimized K-NN: 64.2%
-- Optimized SVM: 64.3%
+- Optimized SVM: `{python} svm_scores['accuracy'].values[0]`
 - Logistic Regression: 62.8%
 
 The models did well on common crimes like "Theft from Vehicle" but struggled with rarer or more ambiguous categories. 
