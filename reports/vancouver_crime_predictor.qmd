@@ -19,7 +19,6 @@ execute:
 ```{python}
 import pandas as pd
 from IPython.display import Markdown, display
-from tabulate import tabulate
 import pickle
 ```
 
