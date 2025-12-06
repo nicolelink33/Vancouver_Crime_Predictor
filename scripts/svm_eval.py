@@ -8,6 +8,7 @@ import os
 import altair as alt
 import numpy as np
 import pandas as pd
+from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score
 
 @click.command()
 @click.option('--X_test_path', type=str, help="Path to X_test")
@@ -26,10 +27,17 @@ def svm_eval(X_test_path, y_test_path, pipeline-from, results-to, plot-to):
     with open(os.path.join(pipeline_from, "svm_final_best_fit.pickle"), 'rb') as f:
         svm_fit = pickle.load(f)
     
-    # Compute accuracy
+    # Compute accuracy, precision, recall, and F1 score
     accuracy = svm_fit.score(X_test, y_test)
-    accuracy_table = pd.DataFrame({'accuracy': [accuracy]})
-    accuracy_table.to_csv(os.path.join(results_to, "svm_score.csv"), index=False)
+    f1_score = f1_score(y_test, svm_fit.predict(X_test))
+    precision = precision_score(y_test, svm_fit.predict(X_test))
+    recall = recall_score(y_test, svm_fit.predict(X_test))
+
+    results_table = pd.DataFrame({'accuracy': [accuracy],
+                                  'f1': [f1_score],
+                                  'precision': [precision],
+                                  'recall': [recall]})
+    results_table.to_csv(os.path.join(results_to, "svm_score.csv"), index=False)
 
     # Create and save confusion matrix
     final_svm_pred = final_svm.predict(X_test)

@@ -4,6 +4,7 @@ channels:
 dependencies:
   - python=3.11
   - pandas=2.2
+  - click=8.1.7
   - conda-lock=2.5.8
   - folium=0.18
   - ipykernel=7.1.0
@@ -21,8 +22,8 @@ dependencies:
   - pandera=0.26.1
   - ipywidgets=8
   - quarto=1.8.26
-  - anywidget
+  - anywidget=0.9.21
   - pip:
-      - kagglehub
-      - deepchecks>=0.18.0
-      - vegafusion[embed]>=1.5.0
+      - kagglehub==0.3.4
+      - deepchecks==0.19.1
+      - vegafusion[embed]==2.0.1
