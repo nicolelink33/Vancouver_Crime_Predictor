@@ -92,7 +92,7 @@ docker-compose up
 
 
 
-python download_data.py \
+python scripts/download_data.py \
     --dataset wosaku/crime-in-vancouver \
     --output_csv data/crimedata.csv \
     --output_zip data/crimedata.zip
@@ -101,13 +101,13 @@ python scripts/data_validation.py \
     --input_csv data/crimedata.csv \
     --output_csv data/crimedata_clean.csv
 
-python preprocessing.py \
+python scripts/preprocessing.py \
     --raw-data data/crime.csv \
     --data-to data/crime_processed.csv \
     --preprocessor-to data/preprocessor.pickle \
     --seed=522
 
-python eda.py \
+python scripts/eda.py \
   --processed-training-data data/crime_processed.csv \
   --target-csv data/crime_target.csv \
   --plot-to plots/eda
