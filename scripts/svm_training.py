@@ -1,4 +1,4 @@
-# evaluate_svm.py
+# svm_training.py
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-01
 
@@ -46,7 +46,7 @@ import click
 import pickle
 import os
 import altair as alt
-#import numpy as np
+import numpy as np
 import pandas as pd
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.compose import make_column_transformer
@@ -54,14 +54,17 @@ from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV, RandomizedSearchCV
 
 @click.command()
-@click.option('--X_train', type=str, help="Path to X_train")
-@click.option('--y_train', type=str, help="Path to y_train")
+@click.option('--X_train_path', type=str, help="Path to X_train")
+@click.option('--y_train_path', type=str, help="Path to y_train")
 @click.option('--preprocessor', type=str, help="Path to preprocessor object")
 @click.option('--pipeline-to', type=str, help="Path to directory where the pipeline object will be written to")
 @click.option('--plot-to', type=str, help="Path to directory where the plot will be written to")
 @click.option('--seed', type=int, help="Random seed", default=522)
-
-def svm_fitting(X_train, y_train, preprocessor, pipeline-to, plot-to, seed):
+def svm_fitting(X_train_path, y_train_path, preprocessor, pipeline-to, plot-to, seed):
+    # Read in train data
+    X_train = pd.read_csv(X_train_path)
+    y_train = pd.read_csv(y_train_path)
+    
     # Create and fit baseline SVM model, save the model
     svm_base_pipe = make_pipeline(
         preprocessor,
@@ -154,6 +157,20 @@ def svm_fitting(X_train, y_train, preprocessor, pipeline-to, plot-to, seed):
             ).title("Cross-Validation Accuracy")
     )
     svm_random_results_plot.save(os.path.join(plot_to, "svm_final_random_fit"), scale_factor=2.0)
+
+    # Create and fit final best model:
+
+    best_C = svm_random_search.best_params_['linearsvc__C']
+
+    final_svm = make_pipeline(
+        preprocessor,
+        LinearSVC(C=best_C)
+    )
+    final_svm.fit(X_train, y_train)
+
+    # Save the final best model:
+    with open (os.path.join(pipeline_to, "svm_final_best_fit.pickle"), 'wb') as f:
+        pickle.dump(final_svm, f)
 
 if __name__ == '__main__':
     svm_fitting()
