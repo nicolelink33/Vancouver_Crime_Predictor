@@ -11,6 +11,7 @@ format:
   pdf:
     toc: true
     toc-depth: 3
+    pdf-engine: xelatex
 bibliography: references.bib
 execute:
   echo: false
@@ -56,7 +57,10 @@ and which model works best for this problem.
 
 We're using the Vancouver Crime Dataset from Kaggle, which originally came from the Vancouver Police Department [@CrimeKaggle]. 
 It has 530,652 crime records from 2003 to 2017, split into 11 crime types. 
-The most common is "Theft from Vehicle" (over 172,000 cases) and the rarest is "Homicide" (220 cases).
+The most common is "Theft from Vehicle" (over 172,000 cases) and the rarest is "Homicide" (220 cases). 
+We selected the four most common types of crime, to ensure that all of our target classes have a sufficient number of observations. 
+The counts of these crimes in our training data are shown in @fig-type_dist.
+![Observed counts of the four most frequent crime types in the training dataset.](../results/figures/crime_type_distribution.png){#fig-type_dist width=100%}
 
 Each record includes:
 - Time info: year, month, day, hour, minute
@@ -67,48 +71,49 @@ We filled in missing times with the most common values and labeled missing neigh
 
 ## Analysis
 
-### KNN
-
-The k-nearest neighbors (KNN) algorithm was used to build a classification model to predict the crime type for each incident in the Vancouver crime dataset. 
-All spatial, temporal, numeric, and categorical features were included. 
-The data was split using an 80/20 stratified train–test split to preserve class proportions. 
-Categorical variables were one-hot encoded, and numeric variables were standardized using a ColumnTransformer immediately before model fitting. 
-A baseline model using k = 5 achieved 58.8% accuracy. 
-The hyperparameter k was tuned using cross-validation on a stratified sample of 15,000 training observations, using accuracy as the selection metric. 
-The optimal value was k = 85, yielding a final accuracy of 64.2% on the test set. 
-The model performed best on “Theft from Vehicle”, while categories such as “Mischief” and “Break and Enter” were more challenging. 
+We selected three models to use to build a classification model to predict the crime type for each incident in the Vancouver crime dataset: 
+a k-Nearest Neighbors (k-NN) algorithm, a linear Support Vector Machine (SVM) classifier, and a multinomial Logistic Regression model (LogReg).
+For all tested models, all spatial, temporal, numeric, and categorical features were included. 
+The categorical variables were one-hot encoded, and numeric variables were standardized using a column transformer immediately before model fitting. 
+The crime dataset was split using an 80/20 stratified train test split, in order to preserve class proportions in both sets. 
+A baseline model was created for each model type, using the default hyperparameter values. 
+Then, hyperparameter optimization was performed on all models, using a 15,000-observation stratified subset of the training data, 
+in order to decrease computational load. The best fit models found from these optimizations were then scored on the test data set. 
 The analysis was conducted in Python using python, numpy, pandas, matplotlib, tqdm, and scikit-learn 
 [@python; @numpy; @pandas; @matplotlib, @tqdm; @scikit-learn, @click].
-
-
-### SVM
-
-A linear Support Vector Machine (SVM) classifier was trained to predict crime type using all spatial, temporal, numeric, and categorical features. 
-The data was split using an 80/20 stratified train–test split. 
-Numeric features were standardized and categorical features were passed through unchanged using a ColumnTransformer. 
-A baseline LinearSVC model with C = 1 achieved 64.2% accuracy. 
-The regularization parameter C was tuned using grid search, followed by randomized search on a 15,000-observation stratified subset to reduce computational cost. 
-The optimal value gave a final accuracy of 64.3%, only slightly higher than the baseline, indicating that model performance was not highly sensitive to this hyperparameter. 
-
-### Logistic Regression
-
-A multinomial Logistic Regression model was trained to predict crime type using all numeric and categorical features. 
-The data was split using an 80/20 stratified train–test split. 
-Numeric features were standardized and categorical features were passed through unchanged using a ColumnTransformer. 
-Hyperparameters, including the regularization strength (C) and penalty type (l1 or l2), 
-were tuned using a grid search on a 15,000-observation stratified subset of the training data, with accuracy as the selection metric. 
-The optimal hyperparameters were C and penalty. 
-The final model achieved a test accuracy of 62.8%, indicating slightly lower performance than KNN and SVM. 
-The analysis was conducted in Python using numpy, pandas, scikit-learn, and seaborn. 
-
 The code used to perform this analysis is available at: <https://github.com/nicolelink33/Vancouver_Crime_Predictor>.
 
 
 # Results & Discussion
 
-## What We Found
+## Model Performance
 
-All three of our models ended up with pretty similar accuracy:
+### KNN
+The baseline k-NN model, using k = 5, achieved 58.8% accuracy. 
+After hyperparameter optimizaation, the optimal value was found to be k = 85, yielding a final accuracy of 64.2% on the test set. 
+The hyperparameter optimization results are shown in @fig-KNN_opt. 
+![Hyperparameter optimization of the k value for k-NN model.](../results/figures/knn_k_optimization_plot.png){#fig-KNN_opt width=100%}
+This model performed best on “Theft from Vehicle”, while categories such as “Mischief” and “Break and Enter” were more challenging. 
+k-NN model performance by crime type is shown in the produced confusion matrix, shown in @fig-KNN_cm.
+![Confusion matrix for best fit k-NN model, showing predicted crime type versus actual crime type.](../results/figures/knn_confusion_matrix.png){#fig-KNN_cm width=100%}
+
+### SVM
+The baseline LinearSVC model with C = 1 achieved 64.2% accuracy. 
+Results of the hyperparameter optimization search are shown in @fig-SVM_opt. 
+The selected model gave a final accuracy of 64.3%, only slightly higher than the baseline, 
+indicating that model performance was not highly sensitive to the value of C. 
+The confusion matrix for the best fit linear SVM model is shown in @fig-SVM_cm. 
+![Hyperparameter optimization of the C value for linear SVM model.](../results/figures/svm_final_random_fit.png){#fig-SVM_opt width=100%}
+![Confusion matrix for best fit SVM model, showing predicted crime type versus actual crime type.](../results/figures/svm_confusion_matrix.png){#fig-SVM_cm width=100%}
+
+### Logistic Regression
+The best fit logistic regression model achieved a test accuracy of 62.8%, indicating slightly lower performance than KNN and SVM. 
+The confusion matrix for the best fit logistic regression model is shown in @fig-LR_cm. 
+![Confusion matrix for best fit logistic regression model, showing predicted crime type versus actual crime type.](../results/figures/logreg_confusion_matrix.png){#fig-LR_cm width=100%}
+
+## Comparison
+
+All three of our models gave quite similar accuracies:
 - Baseline K-NN: ~58%
 - Optimized K-NN: 64.2%
 - Optimized SVM: 64.3%
@@ -117,7 +122,7 @@ All three of our models ended up with pretty similar accuracy:
 The models did well on common crimes like "Theft from Vehicle" but struggled with rarer or more ambiguous categories. 
 We also noticed that crime in Vancouver decreased from 2003 to 2011, then started increasing again after 2012.
 
-## Was This Expected?
+# Was This Expected?
 
 Somewhat! Crime classification is tough because different crime types often happen in similar places at similar times. 
 For example, various types of theft might all peak at night in the same neighborhoods. 
@@ -128,14 +133,12 @@ but rather what we can predict using only "when" and "where" information.
 
 ## Why This Matters
 
-Even with 64% accuracy, these models could still be useful for:
-- Helping police decide where to patrol
-- Understanding which crime types are more predictable
-- Showing that we need more features beyond just time and location
+Even with 64% accuracy, these models could still be useful for helping police decide where to patrol,
+understanding which crime types are more predictable, showing that we need more features beyond just time and location. 
 
 # Future Work
 
-Possible next steps:
+Going forward, to continue this project, we would like to try:
 - Add more features like weather, day of week, proximity to bars/schools
 - Try more advanced models like Random Forests or neural networks
 - Instead of predicting exact crime type, predict severity level (minor/moderate/serious)
