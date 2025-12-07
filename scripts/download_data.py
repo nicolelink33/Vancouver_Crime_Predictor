@@ -31,8 +31,6 @@ def download_data(dataset, output_csv, output_zip):
         zipf.write(output_csv, arcname=os.path.basename(output_csv))
     
     
-    os.remove(output_csv)
-    
 
 if __name__ == '__main__':
     download_data()
