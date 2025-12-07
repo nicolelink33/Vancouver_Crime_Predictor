@@ -9,7 +9,7 @@ import altair as alt
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score
+from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score, classification_report
 
 @click.command()
 @click.option('--x-test-path', type=str, help="Path to X_test")
