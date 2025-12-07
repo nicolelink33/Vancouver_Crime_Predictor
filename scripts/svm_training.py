@@ -65,9 +65,13 @@ def svm_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     X_train = pd.read_csv(x_train_path)
     y_train = pd.read_csv(y_train_path)
     
+    # Load preprocessor from pickle file
+    with open(preprocessor, 'rb') as f:
+        preprocessor_obj = pickle.load(f)
+    
     # Create and fit baseline SVM model, save the model
     svm_base_pipe = make_pipeline(
-        preprocessor,
+        preprocessor_obj,
         LinearSVC(C=1)
     )
     svm_base_pipe.fit(X_train, y_train)
@@ -87,7 +91,7 @@ def svm_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
 
     # Hyperparameter optimization for C
     svm_pipe = make_pipeline(
-        preprocessor,
+        preprocessor_obj,
         LinearSVC()
     )
     param_grid = {
@@ -163,7 +167,7 @@ def svm_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     best_C = svm_random_search.best_params_['linearsvc__C']
 
     final_svm = make_pipeline(
-        preprocessor,
+        preprocessor_obj,
         LinearSVC(C=best_C)
     )
     final_svm.fit(X_train, y_train)
