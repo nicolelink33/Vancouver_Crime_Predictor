@@ -32,9 +32,9 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
     
     # Compute and save the baseline model scores
     base_accuracy = svm_base_fit.score(X_test, y_test)
-    base_f1 = f1_score(y_test, svm_base_fit.predict(X_test))
-    base_precision = precision_score(y_test, svm_base_fit.predict(X_test))
-    base_recall = recall_score(y_test, svm_base_fit.predict(X_test))
+    base_f1 = f1_score(y_test, svm_base_fit.predict(X_test), average='weighted')
+    base_precision = precision_score(y_test, svm_base_fit.predict(X_test), average='weighted')
+    base_recall = recall_score(y_test, svm_base_fit.predict(X_test), average='weighted')
 
     results_table = pd.DataFrame({'accuracy': [base_accuracy],
                                   'f1': [base_f1],
@@ -44,9 +44,9 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
 
 
     accuracy = svm_fit.score(X_test, y_test)
-    test_f1 = f1_score(y_test, svm_fit.predict(X_test))
-    precision = precision_score(y_test, svm_fit.predict(X_test))
-    recall = recall_score(y_test, svm_fit.predict(X_test))
+    test_f1 = f1_score(y_test, svm_fit.predict(X_test), average='weighted')
+    precision = precision_score(y_test, svm_fit.predict(X_test), average='weighted')
+    recall = recall_score(y_test, svm_fit.predict(X_test), average='weighted')
 
     results_table = pd.DataFrame({'accuracy': [accuracy],
                                   'f1': [test_f1],
