@@ -19,3 +19,5 @@ RUN mamba env update --name base --file /tmp/environment.yml && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
+
+# Rebuilt for vl-convert-python
