@@ -94,8 +94,8 @@ docker-compose up
 
 python scripts/download_data.py \
     --dataset wosaku/crime-in-vancouver \
-    --output_csv data/crimedata.csv \
-    --output_zip data/crimedata.zip
+    --output-csv data/crimedata.csv \
+    --output-zip data/crimedata.zip
 
 python scripts/data_validation.py \
     --input_csv data/crimedata.csv \
