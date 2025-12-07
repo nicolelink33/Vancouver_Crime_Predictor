@@ -60,7 +60,7 @@ from sklearn.model_selection import train_test_split, cross_val_score, GridSearc
 @click.option('--pipeline-to', type=str, help="Path to directory where the pipeline object will be written to")
 @click.option('--plot-to', type=str, help="Path to directory where the plot will be written to")
 @click.option('--seed', type=int, help="Random seed", default=522)
-def svm_fitting(X_train_path, y_train_path, preprocessor, pipeline-to, plot-to, seed):
+def svm_fitting(X_train_path, y_train_path, preprocessor, pipeline_to, plot_to, seed):
     # Read in train data
     X_train = pd.read_csv(X_train_path)
     y_train = pd.read_csv(y_train_path)

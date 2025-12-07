@@ -16,7 +16,7 @@ from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, 
 @click.option('--pipeline-from', type=str, help="Path to directory where the fit pipeline object lives")
 @click.option('--results-to', type=str, help="Path to directory where the tables will be written to")
 @click.option('--plot-to', type=str, help="Path to directory where the plots will be written to")
-def svm_eval(X_test_path, y_test_path, pipeline-from, results-to, plot-to):
+def svm_eval(X_test_path, y_test_path, pipeline_from, results_to, plot_to):
     '''Evaluates the Vancouver Crime Predictor on the test data 
     and saves the evaluation results.'''
     
