@@ -41,7 +41,7 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
                                   'f1': [base_f1],
                                   'precision': [base_precision],
                                   'recall': [base_recall]})
-    results_table.to_csv(os.path.join(results_to, "svm_baseline_score.csv"), index=False)
+    results_table.to_csv(os.path.join(results_to, "tables", "svm_baseline_score.csv"), index=False)
 
 
     accuracy = svm_fit.score(X_test, y_test)
@@ -53,7 +53,7 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
                                   'f1': [test_f1],
                                   'precision': [precision],
                                   'recall': [recall]})
-    results_table.to_csv(os.path.join(results_to, "svm_score.csv"), index=False)
+    results_table.to_csv(os.path.join(results_to, "tables", "svm_score.csv"), index=False)
 
     # Create and save confusion matrix
     final_svm_pred = svm_fit.predict(X_test)
@@ -73,7 +73,7 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
 
     # Create and save classification report
     class_report = pd.DataFrame(classification_report(y_test, final_svm_pred, output_dict=True))
-    class_report.to_csv(os.path.join(results_to, "svm_class_report.csv"), index=False)
+    class_report.to_csv(os.path.join(results_to, "tables", "svm_class_report.csv"), index=False)
 
 if __name__ == '__main__':
     svm_eval()
