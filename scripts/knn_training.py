@@ -15,13 +15,12 @@ from sklearn.model_selection import train_test_split, cross_val_score
 import matplotlib.pyplot as plt
 
 @click.command()
-@click.option('--X-train-path', type=str, required=True, help="Path to X_train CSV")
-@click.option('--y-train-path', type=str, required=True, help="Path to y_train CSV")
-@click.option('--preprocessor', type=str, required=True, help="Path to preprocessor pickle file")
-@click.option('--pipeline-to', type=str, required=True, help="Directory to save model pipelines")
-@click.option('--plot-to', type=str, required=True, help="Directory to save plots")
+@click.option('--x-train-path', type=str, default='data/processed/X_train.csv', help="Path to X_train CSV")
+@click.option('--y-train-path', type=str, default='data/processed/y_train.csv', help="Path to y_train CSV")
+@click.option('--model-out', type=str, default='models/knn_model.pickle', help="Path to save trained KNN model")
+@click.option('--plot-out', type=str, default='results/knn_k_optimization.png', help="Path to save optimization plot")
 @click.option('--seed', type=int, default=522, help="Random seed for reproducibility")
-def knn_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, seed):
+def knn_fit(x_train_path, y_train_path, model_out, plot_out, seed):
     """
     Train and optimize KNN classifier for Vancouver crime type prediction.
     Tests k values from 5 to 100 and saves the best model.
@@ -30,16 +29,12 @@ def knn_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     np.random.seed(seed)
     
     # Create output directories if they don't exist
-    os.makedirs(pipeline_to, exist_ok=True)
-    os.makedirs(plot_to, exist_ok=True)
+    os.makedirs(os.path.dirname(model_out), exist_ok=True)
+    os.makedirs(os.path.dirname(plot_out), exist_ok=True)
     
     # Load data
     X_train = pd.read_csv(x_train_path)
     y_train = pd.read_csv(y_train_path).squeeze()
-    
-    # Load preprocessor
-    with open(preprocessor, 'rb') as f:
-        preprocessor_obj = pickle.load(f)
     
     # Determine numeric and categorical column indices
     num_numeric = 15  # Based on preprocessing.py numeric_cols
@@ -64,10 +59,11 @@ def knn_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     baseline_pipeline.fit(X_train, y_train)
     
     # Save baseline model
-    with open(os.path.join(pipeline_to, "knn_baseline_fit.pickle"), 'wb') as f:
+    baseline_path = model_out.replace('.pickle', '_baseline.pickle')
+    with open(baseline_path, 'wb') as f:
         pickle.dump(baseline_pipeline, f)
     
-    print("Baseline model saved.")
+    print(f"Baseline model saved to {baseline_path}")
     
     # Create subsample for faster k-value optimization
     print("Creating subsample for k-value optimization...")
@@ -106,13 +102,6 @@ def knn_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     
     print(f"\nBest k: {best_k} (CV accuracy: {best_score:.4f})")
     
-    # Save optimization results
-    results_df = pd.DataFrame({
-        'k': k_values,
-        'cv_accuracy': scores
-    })
-    results_df.to_csv(os.path.join(pipeline_to, "knn_optimization_results.csv"), index=False)
-    
     # Create optimization plot
     plt.figure(figsize=(10, 6))
     plt.plot(k_values, scores, 'o-', linewidth=2, markersize=8, color='#4A90E2')
@@ -123,10 +112,10 @@ def knn_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     plt.legend(fontsize=11)
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(os.path.join(plot_to, "knn_k_optimization_plot.png"), dpi=300, bbox_inches='tight')
+    plt.savefig(plot_out, dpi=300, bbox_inches='tight')
     plt.close()
     
-    print(f"Optimization plot saved.")
+    print(f"Optimization plot saved to {plot_out}")
     
     # Train final model with best k on full training data
     print(f"\nTraining final KNN model with k={best_k} on full training data...")
@@ -138,11 +127,12 @@ def knn_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     final_pipeline.fit(X_train, y_train)
     
     # Save final model
-    with open(os.path.join(pipeline_to, "knn_final_fit.pickle"), 'wb') as f:
+    with open(model_out, 'wb') as f:
         pickle.dump(final_pipeline, f)
     
-    print(f"Final KNN model saved to {pipeline_to}")
+    print(f"\nFinal KNN model saved to {model_out}")
+    print(f"Best k value: {best_k}")
     print(f"Optimization complete!")
 
 if __name__ == '__main__':
-    knn_fitting()
+    knn_fit()
