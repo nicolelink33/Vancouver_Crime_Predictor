@@ -92,7 +92,7 @@ def eda(processed_training_data,  target_csv, plot_to):
         df["NEIGHBOURHOOD"]
         .value_counts()
         .reset_index()
-        .rename(columns={"index": "NEIGHBOURHOOD", "NEIGHBOURHOOD": "count"})
+        .rename(columns={"NEIGHBOURHOOD": "count"})
         .head(10)
     )
 
