@@ -88,9 +88,7 @@ docker-compose up
 3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
 4. To run the analysis, open a terminal and run the following commands: 
 ```
-
-
-
+cd work
 
 python scripts/download_data.py \
     --dataset wosaku/crime-in-vancouver \
