@@ -5,6 +5,9 @@ services:
       - "10000:8888"
     volumes:
       - .:/home/jovyan/work
+    environment:
+      - DISABLE_PANDERA_IMPORT_WARNING=True
+      - PYTHONWARNINGS=ignore
     platform: linux/amd64
     command: >
       jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=True --ServerApp.allow_origin='*' --ServerApp.allow_remote_access=True
