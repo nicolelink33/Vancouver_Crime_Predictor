@@ -6,8 +6,10 @@ import click
 import numpy as np
 import pandas as pd
 import pickle
+import os
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer
+from sklearn.model_selection import train_test_split
 
 
 
@@ -149,12 +151,38 @@ def preprocess(raw_data, data_to, preprocessor_to, seed):
     # Fit preprocessor
     preprocessor.fit(df_model[numeric_cols + categorical_cols])
 
-    # Save processed data
-    df_model.to_csv(data_to, index=False)
 
-    # Save preprocessor
     with open(preprocessor_to, "wb") as f:
         pickle.dump(preprocessor, f)
+
+    # Train/test split
+    y = df_model['TYPE']
+    X = df_model[numeric_cols + categorical_cols]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed, stratify=y)
+
+
+    # One-hot encode categorical features
+    X_train_cat = pd.get_dummies(X_train[categorical_cols], drop_first=True)
+    X_test_cat = pd.get_dummies(X_test[categorical_cols], drop_first=True)
+    X_test_cat = X_test_cat.reindex(columns=X_train_cat.columns, fill_value=0)
+
+    # Combine numeric + encoded categorical
+    X_train = pd.concat([X_train[numeric_cols].reset_index(drop=True), X_train_cat.reset_index(drop=True)], axis=1)
+    X_test = pd.concat([X_test[numeric_cols].reset_index(drop=True), X_test_cat.reset_index(drop=True)], axis=1)
+
+    # Create processed folder if it doesn't exist
+    processed_dir = os.path.join(data_to, "processed")
+    os.makedirs(processed_dir, exist_ok=True)
+
+    # Save train/test splits
+    X_train.to_csv(os.path.join(processed_dir, "X_train.csv"), index=False)
+    X_test.to_csv(os.path.join(processed_dir, "X_test.csv"), index=False)
+    y_train.to_csv(os.path.join(processed_dir, "y_train.csv"), index=False)
+    y_test.to_csv(os.path.join(processed_dir, "y_test.csv"), index=False)
+
+    print("Preprocessing and train/test split complete.")
+    print(f"Processed datasets saved to: {processed_dir}")
+
 
 
 if __name__ == '__main__':
