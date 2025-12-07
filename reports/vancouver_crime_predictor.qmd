@@ -24,8 +24,8 @@ import pickle
 ```
 
 ```{python}
-baseline_svm_scores = pd.read_csv("../results/tables/svm_baseline_score.csv").round(2)
-svm_scores = pd.read_csv("../results/tables/svm_score.csv").round(2)
+baseline_svm_scores = pd.read_csv("../results/svm_baseline_score.csv").round(2)
+svm_scores = pd.read_csv("../results/svm_score.csv").round(2)
 knn_scores = pd.read_csv("../results/knn_score.csv").round(2)
 
 ```
