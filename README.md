@@ -155,17 +155,17 @@ python scripts/svm_eval.py \
 python scripts/log_reg_fit.py \
     --x-train-path data/processed/X_train.csv \
     --y-train-path data/processed/y_train.csv \
-    --model-out results/models/log_reg_model.pickle \
-    --params-out results/models/log_reg_params.json \
+    --model-out results/models \
+    --params-out results/tables \
     --seed 522
 
 # Step 10: Evaluate Logistic Regression model
 python scripts/log_reg_eval.py \
     --x-test-path data/processed/X_test.csv \
     --y-test-path data/processed/y_test.csv \
-    --model-path results/models/log_reg_model.pickle \
+    --model-path results/models \
     --plot-out results/figures/log_reg_confusion_matrix.png \
-    --report-out results/log_reg_class_report.txt
+    --report-out results/tables
 
 # Step 11: Render the final report
 quarto render reports/vancouver_crime_predictor.qmd
