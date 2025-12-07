@@ -10,8 +10,8 @@ import pandas as pd
 
 @click.command()
 @click.option('--dataset', required=True, help='Kaggle dataset identifier')
-@click.option('--output_csv', required=True, help='Path to save the CSV file')
-@click.option('--output_zip', required=True, help='Path to save the zipped file')
+@click.option('--output-csv', required=True, help='Path to save the CSV file')
+@click.option('--output-zip', required=True, help='Path to save the zipped file')
 
 def download_data(dataset, output_csv, output_zip):
     """Download dataset from Kaggle and save locally as CSV and ZIP."""
@@ -30,8 +30,6 @@ def download_data(dataset, output_csv, output_zip):
     with zipfile.ZipFile(output_zip, 'w', zipfile.ZIP_DEFLATED) as zipf:
         zipf.write(output_csv, arcname=os.path.basename(output_csv))
     
-    
-    os.remove(output_csv)
     
 
 if __name__ == '__main__':
