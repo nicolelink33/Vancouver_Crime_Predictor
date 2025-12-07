@@ -1,0 +1,72 @@
+# log_reg_eval.py
+# author: Nicole Link, Zain Nofal, Tirth Joshi
+# date 2025-12-06
+
+
+import click
+import pandas as pd
+import pickle
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, f1_score
+@click.command()
+@click.option('--x-test-path', type=str, required=True,help="Path to X_test CSV file")
+@click.option('--y-test-path', type=str, required=True,help="Path to y_test CSV file")
+@click.option('--model-path', type=str, required=True,help="Path to trained Logistic Regression model pickle")
+@click.option('--plot-out', type=str, required=True,help="File path for saving confusion matrix plot")
+@click.option('--report-out', type=str, required=True,help="File path for saving classification report text")
+
+
+def log_reg_eval(x_test_path, y_test_path, model_path, plot_out, report_out):
+    """
+    Evaluates a trained Logistic Regression model on test data.
+    Saves a confusion matrix plot and classification report.
+    """
+
+    # Load data
+    X_test = pd.read_csv(x_test_path)
+    y_test = pd.read_csv(y_test_path).squeeze()
+
+    # Load trained model
+    with open(model_path, "rb") as f:
+        model = pickle.load(f)
+
+    # Predict
+    y_pred = model.predict(X_test)
+
+    # Accuracy & report
+    acc = accuracy_score(y_test, y_pred)
+    report = classification_report(y_test, y_pred)
+    f1_macro = f1_score(y_test, y_pred, average='macro')
+    f1_weighted = f1_score(y_test, y_pred, average='weighted')
+
+    report = classification_report(y_test, y_pred)
+
+    # Save classification report with F1 scores
+    with open(report_out, "w") as f:
+        f.write("Logistic Regression Classification Report\n")
+        f.write(f"Accuracy: {acc:.4f}\n")
+        f.write(f"Macro F1: {f1_macro:.4f}\n")
+        f.write(f"Weighted F1: {f1_weighted:.4f}\n\n")
+        f.write(report)
+        
+    # Confusion Matrix
+    cm = confusion_matrix(y_test, y_pred, labels=model.classes_)
+
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=model.classes_,
+                yticklabels=model.classes_)
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.title("Confusion Matrix - Logistic Regression")
+
+    plt.savefig(plot_out, bbox_inches='tight')
+
+    print("\nEvaluation complete.")
+    print("Confusion matrix saved to:", plot_out)
+    print("Classification report saved to:", report_out)
+
+
+if __name__ == '__main__':
+    log_reg_eval()

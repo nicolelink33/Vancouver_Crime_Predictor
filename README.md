@@ -88,9 +88,28 @@ docker-compose up
 3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
 4. To run the analysis, open a terminal and run the following commands: 
 ```
+cd work
 
+python scripts/download_data.py \
+    --dataset wosaku/crime-in-vancouver \
+    --output-csv data/crimedata.csv \
+    --output-zip data/crimedata.zip
 
+python scripts/data_validation.py \
+    --input-csv data/crimedata.csv \
+    --output-csv data/crimedata_clean.csv
 
+python scripts/preprocessing.py \
+    --raw-data data/crimedata_clean.csv \
+    --data-to data/crime_processed.csv \
+    --preprocessor-to data/preprocessor.pickle \
+    --seed=522
+
+python scripts/eda.py \
+  --processed-training-data data/processed/X_train.csv \
+  --target-csv data/processed/y_train.csv \
+  --plot-to plots/eda
+  
 python scripts/svm_training.py \
     --X_train_path=data/processed/X_train.csv \
     --y_train_path=data/processed/y_train.csv \
@@ -113,7 +132,19 @@ python scripts/svm_eval.py \
     --results-to=results/tables \
     --plot-to=results/figures \
 
+python log_reg_fit.py \
+  --x-train-path data/X_train.csv \
+  --y-train-path data/y_train.csv \
+  --model-out models/log_reg_model.pickle \
+  --params-out models/log_reg_params.json \
+  --seed 522
 
+python log_reg_eval.py \
+  --x-test-path data/X_test.csv \
+  --y-test-path data/y_test.csv \
+  --model-path models/log_reg_model.pickle \
+  --plot-out results/log_reg_confusion_matrix.png \
+  --report-out results/log_reg_class_report.txt
 
 
 quarto render reports/vancouver_crime_predictor.qmd
