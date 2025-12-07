@@ -1,0 +1,15 @@
+Logistic Regression Classification Report
+Accuracy: 0.4807
+Precision: 0.2715
+Recall: 0.4807
+
+                                   precision    recall  f1-score   support
+
+Break and Enter Residential/Other       0.22      0.02      0.03     12173
+                         Mischief       0.00      0.00      0.00     14083
+                      Other Theft       0.00      0.00      0.00     10433
+               Theft from Vehicle       0.48      0.99      0.65     34540
+
+                         accuracy                           0.48     71229
+                        macro avg       0.17      0.25      0.17     71229
+                     weighted avg       0.27      0.48      0.32     71229
