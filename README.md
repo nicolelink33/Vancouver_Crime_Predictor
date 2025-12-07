@@ -86,70 +86,89 @@ docker-compose up
 ```
 
 3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
-4. To run the analysis, open a terminal and run the following commands: 
-```
+
+4. To run the complete analysis pipeline, open a terminal in Jupyter Lab and run the following commands:
+
+```bash
 cd work
 
+# Step 1: Download data from Kaggle
 python scripts/download_data.py \
     --dataset wosaku/crime-in-vancouver \
     --output-csv data/crimedata.csv \
     --output-zip data/crimedata.zip
 
+# Step 2: Validate and clean the data
 python scripts/data_validation.py \
     --input-csv data/crimedata.csv \
     --output-csv data/crimedata_clean.csv
 
+# Step 3: Preprocess data and split into train/test sets
 python scripts/preprocessing.py \
     --raw-data data/crimedata_clean.csv \
-    --data-to data/crime_processed.csv \
+    --data-to data \
     --preprocessor-to data/preprocessor.pickle \
-    --seed=522
+    --seed 522
 
+# Step 4: Generate exploratory data analysis visualizations
 python scripts/eda.py \
-  --processed-training-data data/processed/X_train.csv \
-  --target-csv data/processed/y_train.csv \
-  --plot-to plots/eda
-  
+    --processed-training-data data/processed/X_train.csv \
+    --target-csv data/processed/y_train.csv \
+    --plot-to plots/eda
+
+# Step 5: Train KNN model
+python scripts/knn_training.py \
+    --x-train-path data/processed/X_train.csv \
+    --y-train-path data/processed/y_train.csv \
+    --model-out models/knn_model.pickle \
+    --plot-out results/knn_k_optimization.png \
+    --seed 522
+
+# Step 6: Evaluate KNN model
+python scripts/knn_eval.py \
+    --x-test-path data/processed/X_test.csv \
+    --y-test-path data/processed/y_test.csv \
+    --model-path models/knn_model.pickle \
+    --plot-out results/knn_confusion_matrix.png \
+    --report-out results/knn_class_report.txt
+
+# Step 7: Train SVM model
 python scripts/svm_training.py \
-    --X_train_path=data/processed/X_train.csv \
-    --y_train_path=data/processed/y_train.csv \
-    --preprocessor=results/models/preprocessor.pickle \
-    --pipeline-to=results/models \
-    --plot-to=results/figures \
-    --seed=522
+    --X_train_path data/processed/X_train.csv \
+    --y_train_path data/processed/y_train.csv \
+    --preprocessor data/preprocessor.pickle \
+    --pipeline-to models \
+    --plot-to results \
+    --seed 522
 
-python scripts/svm_small_data_test.py \
-    --X_train_path=data/processed/X_train.csv \
-    --y_train_path=data/processed/y_train.csv \
-    --pipeline-to=results/models \
-    --plot-to=results/figures \
-    --seed=522
-
+# Step 8: Evaluate SVM model
 python scripts/svm_eval.py \
-    --X_test_path=data/processed/X_test.csv \
-    --y_test_path=data/processed/y_test.csv \
-    --pipeline-from=results/models \
-    --results-to=results/tables \
-    --plot-to=results/figures \
+    --X_test_path data/processed/X_test.csv \
+    --y_test_path data/processed/y_test.csv \
+    --pipeline-from models \
+    --results-to results \
+    --plot-to results
 
-python log_reg_fit.py \
-  --x-train-path data/X_train.csv \
-  --y-train-path data/y_train.csv \
-  --model-out models/log_reg_model.pickle \
-  --params-out models/log_reg_params.json \
-  --seed 522
+# Step 9: Train Logistic Regression model
+python scripts/log_reg_fit.py \
+    --x-train-path data/processed/X_train.csv \
+    --y-train-path data/processed/y_train.csv \
+    --model-out models/log_reg_model.pickle \
+    --params-out models/log_reg_params.json \
+    --seed 522
 
-python log_reg_eval.py \
-  --x-test-path data/X_test.csv \
-  --y-test-path data/y_test.csv \
-  --model-path models/log_reg_model.pickle \
-  --plot-out results/log_reg_confusion_matrix.png \
-  --report-out results/log_reg_class_report.txt
+# Step 10: Evaluate Logistic Regression model
+python scripts/log_reg_eval.py \
+    --x-test-path data/processed/X_test.csv \
+    --y-test-path data/processed/y_test.csv \
+    --model-path models/log_reg_model.pickle \
+    --plot-out results/log_reg_confusion_matrix.png \
+    --report-out results/log_reg_class_report.txt
 
-
+# Step 11: Render the final report
 quarto render reports/vancouver_crime_predictor.qmd
-
 ```
+
 5. Navigate to the `work` folder, then open `reports/vancouver_crime_predictor.ipynb` and run the analysis
 
 6. To stop the container, press `Ctrl+C` in the terminal
