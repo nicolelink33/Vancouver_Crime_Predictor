@@ -32,18 +32,17 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
     
     # Compute and save the baseline model scores
     base_accuracy = svm_base_fit.score(X_test, y_test)
-    base_f1_score = f1_score(y_test, svm_base_fit.predict(X_test))
+    base_f1 = f1_score(y_test, svm_base_fit.predict(X_test))
     base_precision = precision_score(y_test, svm_base_fit.predict(X_test))
     base_recall = recall_score(y_test, svm_base_fit.predict(X_test))
 
     results_table = pd.DataFrame({'accuracy': [base_accuracy],
-                                  'f1': [base_f1_score],
+                                  'f1': [base_f1],
                                   'precision': [base_precision],
                                   'recall': [base_recall]})
     results_table.to_csv(os.path.join(results_to, "svm_baseline_score.csv"), index=False)
 
 
-    # Compute and save final accuracy, precision, recall, and F1 score
     accuracy = svm_fit.score(X_test, y_test)
     f1_score = f1_score(y_test, svm_fit.predict(X_test))
     precision = precision_score(y_test, svm_fit.predict(X_test))
