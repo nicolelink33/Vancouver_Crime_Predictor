@@ -13,10 +13,10 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: ff351bf21475dd839a3bad42667f6bed9389e03b4e8093d7cd4403024de9a1a1
-    osx-arm64: 5aefa85d1e5d45479d7e1f5aa8c89a3c37f26f7a75715c10765cd5d77e5636ca
-    osx-64: bccec4e9103c3078a042245a1737bc7a7b03854ed6487daaf31eb43a10859f62
-    win-64: 01a8caa1a32fde675c2e21c494275808ce4ed117b9711df56ca5a9cda2407c07
+    linux-64: 54e6509fe2a13d1eecaae9966b5295e672e9755cbc2283da517624b72a7e3a7f
+    osx-arm64: 81a077b504a305bde09dbef7e34017b4bd97eaae687b96eb5b454ff941b3944d
+    osx-64: 350afcf8ea6c4b6940dd9316365405bccafb2eed29b96534f8d688a6af8d6c09
+    win-64: 3dbfb397fd2087d5eb57fbee91e0a6715e747662db28a1c5cdf49c8e5e5ff171
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -1859,56 +1859,56 @@ package:
   category: main
   optional: false
 - name: click
-  version: 8.3.1
+  version: 8.1.7
   manager: conda
   platform: linux-64
   dependencies:
     __unix: ''
-    python: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/click-8.3.1-pyh8f84b5b_1.conda
+    python: '>=3.9'
+  url: https://conda.anaconda.org/conda-forge/noarch/click-8.1.7-unix_pyh707e725_1.conda
   hash:
-    md5: ea8a6c3256897cc31263de9f455e25d9
-    sha256: 38cfe1ee75b21a8361c8824f5544c3866f303af1762693a178266d7f198e8715
+    md5: cb8e52f28f5e592598190c562e7b5bf1
+    sha256: 1cd5fc6ccdd5141378e51252a7a3810b07fd5a7e6934a5b4a7eccba66566224b
   category: main
   optional: false
 - name: click
-  version: 8.3.1
+  version: 8.1.7
   manager: conda
   platform: osx-64
   dependencies:
     __unix: ''
-    python: '>=3.10'
-  url: https://conda.anaconda.org/conda-forge/noarch/click-8.3.1-pyh8f84b5b_1.conda
+    python: '>=3.9'
+  url: https://conda.anaconda.org/conda-forge/noarch/click-8.1.7-unix_pyh707e725_1.conda
   hash:
-    md5: ea8a6c3256897cc31263de9f455e25d9
-    sha256: 38cfe1ee75b21a8361c8824f5544c3866f303af1762693a178266d7f198e8715
+    md5: cb8e52f28f5e592598190c562e7b5bf1
+    sha256: 1cd5fc6ccdd5141378e51252a7a3810b07fd5a7e6934a5b4a7eccba66566224b
   category: main
   optional: false
 - name: click
-  version: 8.3.1
+  version: 8.1.7
   manager: conda
   platform: osx-arm64
   dependencies:
     __unix: ''
-    python: '>=3.10'
-  url: https://conda.anaconda.org/conda-forge/noarch/click-8.3.1-pyh8f84b5b_1.conda
+    python: '>=3.9'
+  url: https://conda.anaconda.org/conda-forge/noarch/click-8.1.7-unix_pyh707e725_1.conda
   hash:
-    md5: ea8a6c3256897cc31263de9f455e25d9
-    sha256: 38cfe1ee75b21a8361c8824f5544c3866f303af1762693a178266d7f198e8715
+    md5: cb8e52f28f5e592598190c562e7b5bf1
+    sha256: 1cd5fc6ccdd5141378e51252a7a3810b07fd5a7e6934a5b4a7eccba66566224b
   category: main
   optional: false
 - name: click
-  version: 8.3.1
+  version: 8.1.7
   manager: conda
   platform: win-64
   dependencies:
     __win: ''
     colorama: ''
-    python: '>=3.10'
-  url: https://conda.anaconda.org/conda-forge/noarch/click-8.3.1-pyha7b4d00_1.conda
+    python: '>=3.9'
+  url: https://conda.anaconda.org/conda-forge/noarch/click-8.1.7-win_pyh7428d3b_1.conda
   hash:
-    md5: 6cd3ccc98bacfcc92b2bd7f236f01a7e
-    sha256: c3bc9a49930fa1c3383a1485948b914823290efac859a2587ca57a270a652e08
+    md5: e2afd3b7e37a5363e292a8b33dbef65c
+    sha256: 98eeb47687c0a3260c7ea1e29f41057b8e57481b834d3bf5902b7a62e194f88f
   category: main
   optional: false
 - name: click-default-group
@@ -16300,59 +16300,55 @@ package:
   category: main
   optional: false
 - name: kagglehub
-  version: 0.3.13
+  version: 0.3.4
   manager: pip
   platform: linux-64
   dependencies:
     packaging: '*'
-    pyyaml: '*'
     requests: '*'
     tqdm: '*'
-  url: https://files.pythonhosted.org/packages/a4/8e/4077b08b95a1f8302c694a8b399bd413815fbe89045c41e6e08cd7d9439a/kagglehub-0.3.13-py3-none-any.whl
+  url: https://files.pythonhosted.org/packages/3c/74/10ea2151b11f8591f82d39c70c1dcc43d0160ba41f8ddb644eb1f5eac348/kagglehub-0.3.4-py3-none-any.whl
   hash:
-    sha256: e00dec8b81396cbad9c7b5eb62a33cf8ae27da26227abd196ed8f054c845ca00
+    sha256: ae608069ab09758fbbcdc51108e4786187bd1c77bf120b1c349d0a7e353f7940
   category: main
   optional: false
 - name: kagglehub
-  version: 0.3.13
+  version: 0.3.4
   manager: pip
   platform: osx-64
   dependencies:
     packaging: '*'
-    pyyaml: '*'
     requests: '*'
     tqdm: '*'
-  url: https://files.pythonhosted.org/packages/a4/8e/4077b08b95a1f8302c694a8b399bd413815fbe89045c41e6e08cd7d9439a/kagglehub-0.3.13-py3-none-any.whl
+  url: https://files.pythonhosted.org/packages/3c/74/10ea2151b11f8591f82d39c70c1dcc43d0160ba41f8ddb644eb1f5eac348/kagglehub-0.3.4-py3-none-any.whl
   hash:
-    sha256: e00dec8b81396cbad9c7b5eb62a33cf8ae27da26227abd196ed8f054c845ca00
+    sha256: ae608069ab09758fbbcdc51108e4786187bd1c77bf120b1c349d0a7e353f7940
   category: main
   optional: false
 - name: kagglehub
-  version: 0.3.13
+  version: 0.3.4
   manager: pip
   platform: osx-arm64
   dependencies:
     packaging: '*'
-    pyyaml: '*'
     requests: '*'
     tqdm: '*'
-  url: https://files.pythonhosted.org/packages/a4/8e/4077b08b95a1f8302c694a8b399bd413815fbe89045c41e6e08cd7d9439a/kagglehub-0.3.13-py3-none-any.whl
+  url: https://files.pythonhosted.org/packages/3c/74/10ea2151b11f8591f82d39c70c1dcc43d0160ba41f8ddb644eb1f5eac348/kagglehub-0.3.4-py3-none-any.whl
   hash:
-    sha256: e00dec8b81396cbad9c7b5eb62a33cf8ae27da26227abd196ed8f054c845ca00
+    sha256: ae608069ab09758fbbcdc51108e4786187bd1c77bf120b1c349d0a7e353f7940
   category: main
   optional: false
 - name: kagglehub
-  version: 0.3.13
+  version: 0.3.4
   manager: pip
   platform: win-64
   dependencies:
     packaging: '*'
-    pyyaml: '*'
     requests: '*'
     tqdm: '*'
-  url: https://files.pythonhosted.org/packages/a4/8e/4077b08b95a1f8302c694a8b399bd413815fbe89045c41e6e08cd7d9439a/kagglehub-0.3.13-py3-none-any.whl
+  url: https://files.pythonhosted.org/packages/3c/74/10ea2151b11f8591f82d39c70c1dcc43d0160ba41f8ddb644eb1f5eac348/kagglehub-0.3.4-py3-none-any.whl
   hash:
-    sha256: e00dec8b81396cbad9c7b5eb62a33cf8ae27da26227abd196ed8f054c845ca00
+    sha256: ae608069ab09758fbbcdc51108e4786187bd1c77bf120b1c349d0a7e353f7940
   category: main
   optional: false
 - name: plotly
@@ -16581,54 +16577,54 @@ package:
   category: main
   optional: false
 - name: vegafusion
-  version: 2.0.3
+  version: 2.0.1
   manager: pip
   platform: linux-64
   dependencies:
     arro3-core: '*'
-    narwhals: '>=1.42'
+    narwhals: '>=1.13'
     packaging: '*'
-  url: https://files.pythonhosted.org/packages/04/d5/81d1403788f072e7d0e2b2fe539a0ae4410f27886ff52df094e5348c99ea/vegafusion-2.0.3-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+  url: https://files.pythonhosted.org/packages/0c/a0/31bb67d9fb03fd4d4596f32ee3c1838ec75514f910e11a51769c3ba656bf/vegafusion-2.0.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
   hash:
-    sha256: 0b11c19a70f1bfe3d23d0a09aeecaac7bd03fac01a966d69fbd4dd8679dcb7e7
+    sha256: 58c02357aa1f4d8fe526546f8d175d3befc7abcb3347948c8d21a3e2bd68ddba
   category: main
   optional: false
 - name: vegafusion
-  version: 2.0.3
+  version: 2.0.1
   manager: pip
   platform: osx-64
   dependencies:
     arro3-core: '*'
-    narwhals: '>=1.42'
+    narwhals: '>=1.13'
     packaging: '*'
-  url: https://files.pythonhosted.org/packages/77/30/fd00de2da4a6093b0d20d7ea3a359a10bf52d656d70821e221376e29e779/vegafusion-2.0.3-cp39-abi3-macosx_10_12_x86_64.whl
+  url: https://files.pythonhosted.org/packages/53/82/6d99eca345220d9fee23913394bae07ddf45029d3366e649d1b5dddb111e/vegafusion-2.0.1-cp39-abi3-macosx_10_12_x86_64.whl
   hash:
-    sha256: 2a8f68e4425ff7c6513609d8d5308ef16e15f767a7d2b2f02422283b7abcf693
+    sha256: dcec2f97c564276d429ff1d0ba6f9f5b254089703d909479307c0971b1a46d99
   category: main
   optional: false
 - name: vegafusion
-  version: 2.0.3
+  version: 2.0.1
   manager: pip
   platform: osx-arm64
   dependencies:
     arro3-core: '*'
-    narwhals: '>=1.42'
+    narwhals: '>=1.13'
     packaging: '*'
-  url: https://files.pythonhosted.org/packages/c0/1a/2b8219908173b977419f30ea14e21c4578004906cd3c8e0b450a5b892c6d/vegafusion-2.0.3-cp39-abi3-macosx_11_0_arm64.whl
+  url: https://files.pythonhosted.org/packages/e3/25/c78aa5b7bd72eec2724071a4b6daba89e1c076746144c3b9c8e54a63a8ee/vegafusion-2.0.1-cp39-abi3-macosx_11_0_arm64.whl
   hash:
-    sha256: f80c605c0e759b5bb543d2ddde412083352b4711372eae2af76cd0c9f7da579f
+    sha256: 21be9d05dd65bd5f9c0077ccef117818280cc807568bd54661ed0b414d440664
   category: main
   optional: false
 - name: vegafusion
-  version: 2.0.3
+  version: 2.0.1
   manager: pip
   platform: win-64
   dependencies:
     arro3-core: '*'
-    narwhals: '>=1.42'
+    narwhals: '>=1.13'
     packaging: '*'
-  url: https://files.pythonhosted.org/packages/c4/62/3edb3e6bde43ccffcd0dbe70ed085a4c5a6b12ae80e7aad9f475800b3f11/vegafusion-2.0.3-cp39-abi3-win_amd64.whl
+  url: https://files.pythonhosted.org/packages/71/8f/0c927a5840938132666dce7f997600644efd0448a6ed046ef4d7cc0c7f50/vegafusion-2.0.1-cp39-abi3-win_amd64.whl
   hash:
-    sha256: 4f4b4bc21684b656c2b068016468155823c77d9261c76a27e52b510be00aba27
+    sha256: f1b1240b80c860a0d384fadcf33ecfce39e70a33eb565222f6e9c5d42cbf55f5
   category: main
   optional: false

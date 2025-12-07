@@ -22,7 +22,6 @@ dependencies:
   - pandera=0.26.1
   - ipywidgets=8
   - quarto=1.8.26
-  - texlive-core
   - anywidget=0.9.21
   - pip:
       - kagglehub==0.3.4
