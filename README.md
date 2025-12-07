@@ -164,7 +164,7 @@ python scripts/log_reg_eval.py \
     --x-test-path data/processed/X_test.csv \
     --y-test-path data/processed/y_test.csv \
     --model-path models/log_reg_model.pickle \
-    --plot-out results/log_reg_confusion_matrix.png \
+    --plot-out results/figures/log_reg_confusion_matrix.png \
     --report-out results/log_reg_class_report.txt
 
 # Step 11: Render the final report
