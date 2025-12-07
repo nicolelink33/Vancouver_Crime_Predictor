@@ -11,17 +11,17 @@ import pandas as pd
 from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score
 
 @click.command()
-@click.option('--X_test_path', type=str, help="Path to X_test")
-@click.option('--y_test_path', type=str, help="Path to y_test")
+@click.option('--x-test-path', type=str, help="Path to X_test")
+@click.option('--y-test-path', type=str, help="Path to y_test")
 @click.option('--pipeline-from', type=str, help="Path to directory where the fit pipeline object lives")
 @click.option('--results-to', type=str, help="Path to directory where the tables will be written to")
 @click.option('--plot-to', type=str, help="Path to directory where the plots will be written to")
-def svm_eval(X_test_path, y_test_path, pipeline_from, results_to, plot_to):
+def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
     '''Evaluates the Vancouver Crime Predictor on the test data 
     and saves the evaluation results.'''
     
     # Read in the data, baseline model, and fitted svm model
-    X_test = pd.read_csv(X_test_path)
+    X_test = pd.read_csv(x_test_path)
     y_test = pd.read_csv(y_test_path)
 
     with open(os.path.join(pipeline_from, "svm_baseline_fit.pickle"), 'rb') as f:
