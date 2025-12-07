@@ -34,6 +34,25 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
     X_test = pd.read_csv(x_test_path)
     y_test = pd.read_csv(y_test_path).squeeze()
     
+    # Load trained baseline KNN model
+    baseline_path = model_path.replace('.pickle', '_baseline.pickle')
+    with open(baseline_path, 'rb') as f:
+        baseline_model = pickle.load(f)
+
+    # Evaluate baseline model
+    y_base_pred = baseline_model.predict(X_test)
+
+    base_accuracy = baseline_model.score(X_test, y_test)
+    base_f1 = f1_score(y_test, baseline_model.predict(X_test), average='weighted')
+    base_precision = precision_score(y_test, baseline_model.predict(X_test), average='weighted')
+    base_recall = recall_score(y_test, baseline_model.predict(X_test), average='weighted')
+
+    results_table = pd.DataFrame({'accuracy': [base_accuracy],
+                                  'f1': [base_f1],
+                                  'precision': [base_precision],
+                                  'recall': [base_recall]})
+    results_table.to_csv(os.path.join(results_to, "tables", "knn_baseline_score.csv"), index=False)
+    
     # Load trained KNN model
     with open(model_path, 'rb') as f:
         knn_model = pickle.load(f)
@@ -56,7 +75,7 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
         'precision': [precision],
         'recall': [recall]
     })
-    results_table.to_csv(os.path.join(results_to, "knn_score.csv"), index=False)
+    results_table.to_csv(os.path.join(results_to, "tables", "knn_score.csv"), index=False)
     
     print(f"Metrics table saved to {results_to}/knn_score.csv")
     
