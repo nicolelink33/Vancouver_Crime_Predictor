@@ -55,7 +55,7 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
     results_table.to_csv(os.path.join(results_to, "svm_score.csv"), index=False)
 
     # Create and save confusion matrix
-    final_svm_pred = final_svm.predict(X_test)
+    final_svm_pred = svm_fit.predict(X_test)
 
     cm_svm = confusion_matrix(y_test, final_svm_pred)
     fig, ax = plt.subplots(figsize=(10, 8))
