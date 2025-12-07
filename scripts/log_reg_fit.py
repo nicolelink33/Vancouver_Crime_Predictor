@@ -5,10 +5,11 @@
 import click
 import pandas as pd
 import pickle
+import os
 import json
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 
@@ -46,6 +47,16 @@ def log_reg_fit(x_train_path, y_train_path, model_out, params_out, seed):
         ]
     )
 
+    # Create and fit baseline model, save the model
+    base_pipe = make_pipeline(
+        preprocessor,
+        LogisticRegression()
+    )
+    base_pipe.fit(X_train, y_train)
+
+    with open(os.path.join(model_out, "logreg_baseline_fit.pickle"), 'wb') as f:
+        pickle.dump(base_pipe, f)
+
     # Logistic Regression Pipeline
     logreg_pipeline = Pipeline([
         ('preprocessor', preprocessor),
@@ -75,14 +86,14 @@ def log_reg_fit(x_train_path, y_train_path, model_out, params_out, seed):
     grid.fit(X_train, y_train)
 
     # Save best model
-    with open(model_out, "wb") as f:
+    with open(os.path.join(model_out, "log_reg_model.pickle"), "wb") as f:
         pickle.dump(grid.best_estimator_, f)
 
     # Save best hyperparameters
-    with open(params_out, "w") as f:
+    with open(os.path.join(params_out, "log_reg_params.json"), "w") as f:
         json.dump(grid.best_params_, f, indent=4)
 
-    print("\nBest Logistic Regression model saved to:", model_out)
+    print("\nBest Logistic Regression model saved to:", model_out, "log_reg_model.pickle")
     print("Best hyperparameters:", grid.best_params_)
 
 

@@ -116,56 +116,56 @@ python scripts/preprocessing.py \
 python scripts/eda.py \
     --processed-training-data data/crimedata_clean.csv \
     --target-csv data/crimedata_clean.csv \
-    --plot-to plots/eda
+    --plot-to results/figures
 
 # Step 5: Train KNN model
 python scripts/knn_training.py \
     --x-train-path data/processed/X_train.csv \
     --y-train-path data/processed/y_train.csv \
-    --model-out models/knn_model.pickle \
-    --plot-out results/knn_k_optimization.png \
+    --model-out results/models/knn_model.pickle \
+    --plot-out results/figures/knn_k_optimization.png \
     --seed 522
 
 # Step 6: Evaluate KNN model
 python scripts/knn_eval.py \
     --x-test-path data/processed/X_test.csv \
     --y-test-path data/processed/y_test.csv \
-    --model-path models/knn_model.pickle \
-    --plot-out results/knn_confusion_matrix.png \
-    --report-out results/knn_class_report.txt
+    --model-path results/models/knn_model.pickle \
+    --plot-out results/figures/knn_confusion_matrix.png \
+    --report-out results/tables/knn_class_report.txt
 
 # Step 7: Train SVM model
 python scripts/svm_training.py \
     --x-train-path data/processed/X_train.csv \
     --y-train-path data/processed/y_train.csv \
     --preprocessor data/preprocessor.pickle \
-    --pipeline-to models \
-    --plot-to results \
+    --pipeline-to results/models \
+    --plot-to results/figures \
     --seed 522
 
 # Step 8: Evaluate SVM model
 python scripts/svm_eval.py \
     --x-test-path data/processed/X_test.csv \
     --y-test-path data/processed/y_test.csv \
-    --pipeline-from models \
+    --pipeline-from results/models \
     --results-to results \
-    --plot-to results
+    --plot-to results/figures
 
 # Step 9: Train Logistic Regression model
 python scripts/log_reg_fit.py \
     --x-train-path data/processed/X_train.csv \
     --y-train-path data/processed/y_train.csv \
-    --model-out models/log_reg_model.pickle \
-    --params-out models/log_reg_params.json \
+    --model-out results/models \
+    --params-out results/tables \
     --seed 522
 
 # Step 10: Evaluate Logistic Regression model
 python scripts/log_reg_eval.py \
     --x-test-path data/processed/X_test.csv \
     --y-test-path data/processed/y_test.csv \
-    --model-path models/log_reg_model.pickle \
-    --plot-out results/log_reg_confusion_matrix.png \
-    --report-out results/log_reg_class_report.txt
+    --model-path results/models \
+    --plot-out results/figures/log_reg_confusion_matrix.png \
+    --report-out results/tables
 
 # Step 11: Render the final report
 quarto render reports/vancouver_crime_predictor.qmd
