@@ -27,7 +27,9 @@ import pickle
 baseline_svm_scores = pd.read_csv("../results/tables/svm_baseline_score.csv").round(2)
 svm_scores = pd.read_csv("../results/tables/svm_score.csv").round(2)
 knn_scores = pd.read_csv("../results/tables/knn_score.csv").round(2)
-
+baseline_knn_scores = pd.read_csv("../results/tables/knn_baseline_score.csv").round(2)
+logreg_scores = pd.read_csv("../results/tables/logreg_score.csv").round(2)
+baseline_logreg_scores = pd.read_csv("../results/tables/logreg_baseline_score.csv").round(2)
 ```
 
 # Summary
@@ -37,7 +39,7 @@ We use a dataset from the Vancouver Police Department with over 530,000 crime re
 covering 11 different crime types including theft, break-ins, and vehicle collisions.
 
 We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. 
-After tuning, all three models performed similarly, achieving around 62-64% accuracy. 
+After tuning, all three models performed similarly, achieving an accuracy around `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + baseline_logreg_scores['accuracy'].values[0])/3, 2)`. 
 While this isn't perfect, it shows that time and location do provide some useful information for predicting crime types, 
 though there is clearly room for improvement, possibly with additional features.
 
@@ -76,6 +78,7 @@ Image('../results/figures/crime_type_distribution.png')
 ```
 
 Each record includes:
+
 - Time info: year, month, day, hour, minute
 - Location info: neighborhood, street block, coordinates
 
@@ -92,8 +95,7 @@ The crime dataset was split using an 80/20 stratified train test split, in order
 A baseline model was created for each model type, using the default hyperparameter values. 
 Then, hyperparameter optimization was performed on all models, using a 15,000-observation stratified subset of the training data, 
 in order to decrease computational load. The best fit models found from these optimizations were then scored on the test data set. 
-The analysis was conducted in Python using python, numpy, pandas, matplotlib, tqdm, and scikit-learn 
-[@python; @numpy; @pandas; @matplotlib, @tqdm; @scikit-learn, @click].
+The analysis was conducted in Python using python [@python], numpy [@numpy], pandas [@pandas], matplotlib [@matplotlib], tqdm [@tqdm],  click [@click], and scikit-learn [@scikit-learn]. 
 The code used to perform this analysis is available at: <https://github.com/nicolelink33/Vancouver_Crime_Predictor>.
 
 
@@ -102,7 +104,7 @@ The code used to perform this analysis is available at: <https://github.com/nico
 ## Model Performance
 
 ### KNN
-The baseline k-NN model, using k = 5, achieved 58.8% accuracy. 
+The baseline k-NN model, using k = 5, achieved an accuracy of `{python} baseline_knn_scores['accuracy'].values[0]`. 
 After hyperparameter optimization, the optimal value was found to be k = 85, yielding a final accuracy of `{python} knn_scores['accuracy'].values[0]` on the test set. 
 The hyperparameter optimization results are shown in @fig-knn-opt. 
 ```{python}
@@ -124,18 +126,9 @@ Image('../results/figures/knn_confusion_matrix.png')
 
 ### SVM
 The baseline LinearSVC model with C = 1 achieved an accuracy of `{python} baseline_svm_scores['accuracy'].values[0]`. 
-Results of the hyperparameter optimization search are shown in @fig-svm-opt. 
-The selected model gave a final accuracy of `{python} svm_scores['accuracy'].values[0]` 
-and an F1 score of `{python} svm_scores['f1'].values[0]`, only slightly higher than the baseline, 
-indicating that model performance was not highly sensitive to the value of C. 
+A best fit model was then found through hyperparameter optimization of C, which gave a final accuracy of `{python} svm_scores['accuracy'].values[0]` and an F1 score of `{python} svm_scores['f1'].values[0]`, 
+only slightly higher than the baseline, indicating that model performance was not highly sensitive to the value of C. 
 The confusion matrix for the best fit linear SVM model is shown in @fig-svm-cm. 
-```{python}
-#| label: fig-svm-opt
-#| fig-cap: "Hyperparameter optimization of the C value for linear SVM model."
-
-from IPython.display import Image
-Image('../results/figures/svm_final_random_fit.png')
-```
 
 ```{python}
 #| label: fig-svm-cm
@@ -146,15 +139,34 @@ Image('../results/figures/svm_confusion_matrix.png')
 ```
 
 ### Logistic Regression
-The best fit logistic regression model achieved a test accuracy of 62.8%, indicating slightly lower performance than KNN and SVM.
+The baseline logistic regression model ahieved a test accuracy of `{python} baseline_logreg_scores['accuracy'].values[0]`. The best fit logistic regression model achieved a test accuracy of `{python} logreg_scores['accuracy'].values[0]`
+and an F1 score of `{python} baseline_logreg_scores['f1'].values[0]`,
+indicating slightly lower performance than KNN and SVM., indicating slightly lower performance than KNN and SVM.
+The confusion matrix for the best fit logistic regression model is shown in @fig-LR-cm . 
+```{python}
+#| label: fig-LR-cm
+#| fig-cap: "Confusion matrix for best fit Log Reg model, showing predicted crime type versus actual crime type."
+
+from IPython.display import Image
+Image('../results/figures/log_reg_confusion_matrix.png')
+```
+
 
 ## Comparison
 
 All three of our models gave quite similar accuracies:
-- Baseline K-NN: ~58%
+
+- Baseline K-NN: `{python} baseline_knn_scores['accuracy'].values[0]`
 - Optimized K-NN: `{python} knn_scores['accuracy'].values[0]`
 - Optimized SVM: `{python} svm_scores['accuracy'].values[0]`
-- Logistic Regression: 62.8%
+- Logistic Regression: `{python} logreg_scores['accuracy'].values[0]`
+
+All three models also produced somewhat similar F1 scores, with the k-NN models performing best:
+
+- Baseline K-NN: `{python} baseline_knn_scores['f1'].values[0]`
+- Optimized K-NN: `{python} knn_scores['f1'].values[0]`
+- Optimized SVM: `{python} svm_scores['f1'].values[0]`
+- Optimized Logistic Regression: `{python} baseline_logreg_scores['f1'].values[0]`
 
 The models did well on common crimes like "Theft from Vehicle" but struggled with rarer or more ambiguous categories. 
 We also noticed that crime in Vancouver decreased from 2003 to 2011, then started increasing again after 2012.
@@ -170,12 +182,13 @@ but rather what we can predict using only "when" and "where" information.
 
 ## Why This Matters
 
-Even with 64% accuracy, these models could still be useful for helping police decide where to patrol,
+Even with an average accuracy of `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + baseline_logreg_scores['accuracy'].values[0])/3, 2)` accuracy, these models could still be useful for helping police decide where to patrol,
 understanding which crime types are more predictable, showing that we need more features beyond just time and location. 
 
 # Future Work
 
 Going forward, to continue this project, we would like to try:
+
 - Add more features like weather, day of week, proximity to bars/schools
 - Try more advanced models like Random Forests or neural networks
 - Instead of predicting exact crime type, predict severity level (minor/moderate/serious)

@@ -67,7 +67,6 @@ The analysis is run through modular Python scripts. See the [Running with Docker
 For a fully reproducible environment, you can run this analysis using Docker.
 
 
-
 ### Prerequisites
 
 - [Docker](https://www.docker.com/get-started) installed on your machine

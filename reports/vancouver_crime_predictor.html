@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.21">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -53,10 +53,10 @@ div.csl-indent {
 <script src="vancouver_crime_predictor_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="vancouver_crime_predictor_files/libs/quarto-html/anchor.min.js"></script>
 <link href="vancouver_crime_predictor_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="vancouver_crime_predictor_files/libs/quarto-html/quarto-syntax-highlighting-ea1d7ac60288e0f1efdbc993fd8432ae.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="vancouver_crime_predictor_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="vancouver_crime_predictor_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="vancouver_crime_predictor_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="vancouver_crime_predictor_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="vancouver_crime_predictor_files/libs/bootstrap/bootstrap-2370c8c79ff6248aee5434bd5280c96b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -97,7 +97,7 @@ div.csl-indent {
   <li><a href="#future-work" id="toc-future-work" class="nav-link" data-scroll-target="#future-work">Future Work</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="vancouver_crime_predictor.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../vancouver_crime_predictor.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -135,7 +135,7 @@ div.csl-indent {
 <section id="summary" class="level1">
 <h1>Summary</h1>
 <p>In this project, we aim to predict what type of crime occurred in Vancouver based on when and where it happened. We use a dataset from the Vancouver Police Department with over 530,000 crime records from 2003-2017, covering 11 different crime types including theft, break-ins, and vehicle collisions.</p>
-<p>We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. After tuning, all three models performed similarly, achieving around 62-64% accuracy. While this isn’t perfect, it shows that time and location do provide some useful information for predicting crime types, though there is clearly room for improvement, possibly with additional features.</p>
+<p>We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. After tuning, all three models performed similarly, achieving an accuracy around 0.5. While this isn’t perfect, it shows that time and location do provide some useful information for predicting crime types, though there is clearly room for improvement, possibly with additional features.</p>
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
@@ -155,7 +155,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>We’re using the Vancouver Crime Dataset from Kaggle, which originally came from the Vancouver Police Department <span class="citation" data-cites="CrimeKaggle">(<a href="#ref-CrimeKaggle" role="doc-biblioref">Osaku 2017</a>)</span>. It has 530,652 crime records from 2003 to 2017, split into 11 crime types. The most common is “Theft from Vehicle” (over 172,000 cases) and the rarest is “Homicide” (220 cases). We selected the four most common types of crime, to ensure that all of our target classes have a sufficient number of observations. The counts of these crimes in our training data are shown in <a href="#fig-type_dist" class="quarto-xref">Figure&nbsp;1</a>.</p>
 <div id="cell-fig-type_dist" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="79">
 <div id="fig-type_dist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-type_dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -168,12 +168,16 @@ Figure&nbsp;1: Observed counts of the four most frequent crime types in the trai
 </div>
 </div>
 </div>
-<p>Each record includes: - Time info: year, month, day, hour, minute - Location info: neighborhood, street block, coordinates</p>
+<p>Each record includes:</p>
+<ul>
+<li>Time info: year, month, day, hour, minute</li>
+<li>Location info: neighborhood, street block, coordinates</li>
+</ul>
 <p>There’s some missing data - about 10% of records don’t have time information and 11% are missing neighborhood data. We filled in missing times with the most common values and labeled missing neighborhoods as “Unknown.”</p>
 </section>
 <section id="analysis" class="level2">
 <h2 class="anchored" data-anchor-id="analysis">Analysis</h2>
-<p>We selected three models to use to build a classification model to predict the crime type for each incident in the Vancouver crime dataset: a k-Nearest Neighbors (k-NN) algorithm, a linear Support Vector Machine (SVM) classifier, and a multinomial Logistic Regression model (LogReg). For all tested models, all spatial, temporal, numeric, and categorical features were included. The categorical variables were one-hot encoded, and numeric variables were standardized using a column transformer immediately before model fitting. The crime dataset was split using an 80/20 stratified train test split, in order to preserve class proportions in both sets. A baseline model was created for each model type, using the default hyperparameter values. Then, hyperparameter optimization was performed on all models, using a 15,000-observation stratified subset of the training data, in order to decrease computational load. The best fit models found from these optimizations were then scored on the test data set. The analysis was conducted in Python using python, numpy, pandas, matplotlib, tqdm, and scikit-learn <span class="citation" data-cites="python numpy pandas matplotlib scikit-learn">Team (<a href="#ref-click" role="doc-biblioref">2020</a>)</span>. The code used to perform this analysis is available at: <a href="https://github.com/nicolelink33/Vancouver_Crime_Predictor" class="uri">https://github.com/nicolelink33/Vancouver_Crime_Predictor</a>.</p>
+<p>We selected three models to use to build a classification model to predict the crime type for each incident in the Vancouver crime dataset: a k-Nearest Neighbors (k-NN) algorithm, a linear Support Vector Machine (SVM) classifier, and a multinomial Logistic Regression model (LogReg). For all tested models, all spatial, temporal, numeric, and categorical features were included. The categorical variables were one-hot encoded, and numeric variables were standardized using a column transformer immediately before model fitting. The crime dataset was split using an 80/20 stratified train test split, in order to preserve class proportions in both sets. A baseline model was created for each model type, using the default hyperparameter values. Then, hyperparameter optimization was performed on all models, using a 15,000-observation stratified subset of the training data, in order to decrease computational load. The best fit models found from these optimizations were then scored on the test data set. The analysis was conducted in Python using python <span class="citation" data-cites="python">(<a href="#ref-python" role="doc-biblioref">Van Rossum and Drake 2009</a>)</span>, numpy <span class="citation" data-cites="numpy">(<a href="#ref-numpy" role="doc-biblioref">Harris et al. 2020</a>)</span>, pandas <span class="citation" data-cites="pandas">(<a href="#ref-pandas" role="doc-biblioref">team 2024</a>)</span>, matplotlib <span class="citation" data-cites="matplotlib">(<a href="#ref-matplotlib" role="doc-biblioref">Hunter 2007</a>)</span>, tqdm <span class="citation" data-cites="tqdm">(<a href="#ref-tqdm" role="doc-biblioref">Costa-Luis 2019</a>)</span>, click <span class="citation" data-cites="click">(<a href="#ref-click" role="doc-biblioref">Team 2020</a>)</span>, and scikit-learn <span class="citation" data-cites="scikit-learn">(<a href="#ref-scikit-learn" role="doc-biblioref">Pedregosa et al. 2011</a>)</span>. The code used to perform this analysis is available at: <a href="https://github.com/nicolelink33/Vancouver_Crime_Predictor" class="uri">https://github.com/nicolelink33/Vancouver_Crime_Predictor</a>.</p>
 </section>
 </section>
 <section id="results-discussion" class="level1">
@@ -182,9 +186,9 @@ Figure&nbsp;1: Observed counts of the four most frequent crime types in the trai
 <h2 class="anchored" data-anchor-id="model-performance">Model Performance</h2>
 <section id="knn" class="level3">
 <h3 class="anchored" data-anchor-id="knn">KNN</h3>
-<p>The baseline k-NN model, using k = 5, achieved 58.8% accuracy. After hyperparameter optimization, the optimal value was found to be k = 85, yielding a final accuracy of np.float64(0.51) on the test set. The hyperparameter optimization results are shown in <a href="#fig-knn-opt" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<p>The baseline k-NN model, using k = 5, achieved an accuracy of 0.44. After hyperparameter optimization, the optimal value was found to be k = 85, yielding a final accuracy of 0.51 on the test set. The hyperparameter optimization results are shown in <a href="#fig-knn-opt" class="quarto-xref">Figure&nbsp;2</a>.</p>
 <div id="cell-fig-knn-opt" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="80">
 <div id="fig-knn-opt" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-knn-opt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -199,7 +203,7 @@ Figure&nbsp;2: Hyperparameter optimization of the k value for k-NN model.
 </div>
 <p>This model performed best on “Theft from Vehicle”, while categories such as “Mischief” and “Break and Enter” were more challenging. k-NN model performance by crime type is shown in the produced confusion matrix, shown in <a href="#fig-knn-cm" class="quarto-xref">Figure&nbsp;3</a>.</p>
 <div id="cell-fig-knn-cm" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="81">
 <div id="fig-knn-cm" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-knn-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -215,30 +219,16 @@ Figure&nbsp;3: Confusion matrix for best fit k-NN model, showing predicted crime
 </section>
 <section id="svm" class="level3">
 <h3 class="anchored" data-anchor-id="svm">SVM</h3>
-<p>The baseline LinearSVC model with C = 1 achieved an accuracy of np.float64(0.5). Results of the hyperparameter optimization search are shown in <a href="#fig-svm-opt" class="quarto-xref">Figure&nbsp;4</a>. The selected model gave a final accuracy of np.float64(0.5) and an F1 score of np.float64(0.39), only slightly higher than the baseline, indicating that model performance was not highly sensitive to the value of C. The confusion matrix for the best fit linear SVM model is shown in <a href="#fig-svm-cm" class="quarto-xref">Figure&nbsp;5</a>.</p>
-<div id="cell-fig-svm-opt" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display" data-execution_count="18">
-<div id="fig-svm-opt" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-svm-opt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="vancouver_crime_predictor_files/figure-html/fig-svm-opt-output-1.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-svm-opt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Hyperparameter optimization of the C value for linear SVM model.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-fig-svm-cm" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display" data-execution_count="19">
+<p>The baseline LinearSVC model with C = 1 achieved an accuracy of 0.5. A best fit model was then found through hyperparameter optimization of C, which gave a final accuracy of 0.5 and an F1 score of 0.39, only slightly higher than the baseline, indicating that model performance was not highly sensitive to the value of C. The confusion matrix for the best fit linear SVM model is shown in <a href="#fig-svm-cm" class="quarto-xref">Figure&nbsp;4</a>.</p>
+<div id="cell-fig-svm-cm" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="82">
 <div id="fig-svm-cm" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-svm-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="vancouver_crime_predictor_files/figure-html/fig-svm-cm-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-svm-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Confusion matrix for best fit SVM model, showing predicted crime type versus actual crime type.
+Figure&nbsp;4: Confusion matrix for best fit SVM model, showing predicted crime type versus actual crime type.
 </figcaption>
 </figure>
 </div>
@@ -247,12 +237,39 @@ Figure&nbsp;5: Confusion matrix for best fit SVM model, showing predicted crime 
 </section>
 <section id="logistic-regression" class="level3">
 <h3 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h3>
-<p>The best fit logistic regression model achieved a test accuracy of 62.8%, indicating slightly lower performance than KNN and SVM.</p>
+<p>The baseline logistic regression model ahieved a test accuracy of 0.48. The best fit logistic regression model achieved a test accuracy of 0.48 and an F1 score of 0.32, indicating slightly lower performance than KNN and SVM., indicating slightly lower performance than KNN and SVM. The confusion matrix for the best fit logistic regression model is shown in <strong>?@fig-LR-cm</strong> .</p>
+<div id="cell-fig-LR-cm" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="83">
+<div id="fig-lr-cm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lr-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="vancouver_crime_predictor_files/figure-html/fig-lr-cm-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lr-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Confusion matrix for best fit Log Reg model, showing predicted crime type versus actual crime type.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="comparison" class="level2">
 <h2 class="anchored" data-anchor-id="comparison">Comparison</h2>
-<p>All three of our models gave quite similar accuracies: - Baseline K-NN: ~58% - Optimized K-NN: np.float64(0.51) - Optimized SVM: np.float64(0.5) - Logistic Regression: 62.8%</p>
+<p>All three of our models gave quite similar accuracies:</p>
+<ul>
+<li>Baseline K-NN: 0.44</li>
+<li>Optimized K-NN: 0.51</li>
+<li>Optimized SVM: 0.5</li>
+<li>Logistic Regression: 0.48</li>
+</ul>
+<p>All three models also produced somewhat similar F1 scores, with the k-NN models performing best:</p>
+<ul>
+<li>Baseline K-NN: 0.44</li>
+<li>Optimized K-NN: 0.45</li>
+<li>Optimized SVM: 0.39</li>
+<li>Optimized Logistic Regression: 0.32</li>
+</ul>
 <p>The models did well on common crimes like “Theft from Vehicle” but struggled with rarer or more ambiguous categories. We also noticed that crime in Vancouver decreased from 2003 to 2011, then started increasing again after 2012.</p>
 </section>
 </section>
@@ -262,12 +279,19 @@ Figure&nbsp;5: Confusion matrix for best fit SVM model, showing predicted crime 
 <p>The fact that all three algorithms performed similarly suggests the limiting factor isn’t the algorithm choice, but rather what we can predict using only “when” and “where” information.</p>
 <section id="why-this-matters" class="level2">
 <h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Even with 64% accuracy, these models could still be useful for helping police decide where to patrol, understanding which crime types are more predictable, showing that we need more features beyond just time and location.</p>
+<p>Even with an average accuracy of 0.5 accuracy, these models could still be useful for helping police decide where to patrol, understanding which crime types are more predictable, showing that we need more features beyond just time and location.</p>
 </section>
 </section>
 <section id="future-work" class="level1">
 <h1>Future Work</h1>
-<p>Going forward, to continue this project, we would like to try: - Add more features like weather, day of week, proximity to bars/schools - Try more advanced models like Random Forests or neural networks - Instead of predicting exact crime type, predict severity level (minor/moderate/serious) - Use more recent data (this dataset ends in 2017) - Apply techniques to handle the class imbalance problem</p>
+<p>Going forward, to continue this project, we would like to try:</p>
+<ul>
+<li>Add more features like weather, day of week, proximity to bars/schools</li>
+<li>Try more advanced models like Random Forests or neural networks</li>
+<li>Instead of predicting exact crime type, predict severity level (minor/moderate/serious)</li>
+<li>Use more recent data (this dataset ends in 2017)</li>
+<li>Apply techniques to handle the class imbalance problem</li>
+</ul>
 </section>
 <section id="references" class="level1 unnumbered">
 
@@ -352,13 +376,14 @@ Van Rossum, Guido, and Fred L. Drake. 2009. <em>Python 3 Reference Manual</em>. 
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
