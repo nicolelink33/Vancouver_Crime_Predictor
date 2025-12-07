@@ -98,8 +98,8 @@ python scripts/download_data.py \
     --output-zip data/crimedata.zip
 
 python scripts/data_validation.py \
-    --input_csv data/crimedata.csv \
-    --output_csv data/crimedata_clean.csv
+    --input-csv data/crimedata.csv \
+    --output-csv data/crimedata_clean.csv
 
 python scripts/preprocessing.py \
     --raw-data data/crime.csv \
