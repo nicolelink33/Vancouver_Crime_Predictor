@@ -14,10 +14,10 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 @click.command()
 @click.option('--x-test-path', type=str, default='data/processed/X_test.csv', help="Path to X_test CSV")
 @click.option('--y-test-path', type=str, default='data/processed/y_test.csv', help="Path to y_test CSV")
-@click.option('--model-path', type=str, default='models/knn_model.pickle', help="Path to trained KNN model")
-@click.option('--plot-out', type=str, default='results/knn_confusion_matrix.png', help="Path to save confusion matrix plot")
-@click.option('--report-out', type=str, default='results/knn_class_report.txt', help="Path to save classification report")
-@click.option('--results-to', type=str, default='results', help="Directory to save results table")
+@click.option('--model-path', type=str, default='results/models/knn_model.pickle', help="Path to trained KNN model")
+@click.option('--plot-out', type=str, default='results/figures/knn_confusion_matrix.png', help="Path to save confusion matrix plot")
+@click.option('--report-out', type=str, default='results/tables/knn_class_report.txt', help="Path to save classification report")
+@click.option('--results-to', type=str, default='results/tables', help="Directory to save results table")
 def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results_to):
     """
     Evaluate the trained KNN model on test data and save results.

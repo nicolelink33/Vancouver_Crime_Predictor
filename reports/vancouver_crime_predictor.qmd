@@ -27,6 +27,7 @@ import pickle
 baseline_svm_scores = pd.read_csv("../results/tables/svm_baseline_score.csv").round(2)
 svm_scores = pd.read_csv("../results/tables/svm_score.csv").round(2)
 knn_scores = pd.read_csv("../results/knn_score.csv").round(2)
+baseline_knn_scores = pd.read_csv("../results/knn_baseline_score.csv").round(2)
 
 ```
 
@@ -96,13 +97,15 @@ The code used to perform this analysis is available at: <https://github.com/nico
 ## Model Performance
 
 ### KNN
-The baseline k-NN model, using k = 5, achieved 58.8% accuracy. 
-After hyperparameter optimization, the optimal value was found to be k = 85, yielding a final accuracy of `{python} knn_scores['accuracy'].values[0]` on the test set. 
+The baseline k-NN model, using k = 5, achieved an accuracy of `{python} baseline_knn_scores['accuracy'].values[0]`. 
+After hyperparameter optimization, the optimal value was found to be k = 85, 
+yielding a final accuracy of `{python} knn_scores['accuracy'].values[0]` 
+and a final F1 score of `{python} knn_scores['f1'].values[0]` on the test set. 
 The hyperparameter optimization results are shown in @fig-KNN_opt. 
-![Hyperparameter optimization of the k value for k-NN model.](../results/knn_k_optimization.png){#fig-KNN_opt width=100%}
+![Hyperparameter optimization of the k value for k-NN model.](../results/figures/knn_k_optimization.png){#fig-KNN_opt width=100%}
 This model performed best on “Theft from Vehicle”, while categories such as “Mischief” and “Break and Enter” were more challenging. 
 k-NN model performance by crime type is shown in the produced confusion matrix, shown in @fig-KNN_cm.
-![Confusion matrix for best fit k-NN model, showing predicted crime type versus actual crime type.](../results/knn_confusion_matrix.png){#fig-KNN_cm width=100%}
+![Confusion matrix for best fit k-NN model, showing predicted crime type versus actual crime type.](../results/figures/knn_confusion_matrix.png){#fig-KNN_cm width=100%}
 
 ### SVM
 The baseline LinearSVC model with C = 1 achieved an accuracy of `{python} baseline_svm_scores['accuracy'].values[0]`. 
@@ -122,9 +125,15 @@ The confusion matrix for the best fit logistic regression model is shown in @fig
 ## Comparison
 
 All three of our models gave quite similar accuracies:
-- Baseline K-NN: ~58%
+- Baseline K-NN: `{python} baseline_knn_scores['accuracy'].values[0]`
 - Optimized K-NN: `{python} knn_scores['accuracy'].values[0]`
 - Optimized SVM: `{python} svm_scores['accuracy'].values[0]`
+- Logistic Regression: 62.8%
+
+All three models also produced similar F1 scores:
+- Baseline K-NN: `{python} baseline_knn_scores['f1'].values[0]`
+- Optimized K-NN: `{python} knn_scores['f1'].values[0]`
+- Optimized SVM: `{python} svm_scores['f1'].values[0]`
 - Logistic Regression: 62.8%
 
 The models did well on common crimes like "Theft from Vehicle" but struggled with rarer or more ambiguous categories. 

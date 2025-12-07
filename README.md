@@ -132,7 +132,7 @@ python scripts/knn_eval.py \
     --y-test-path data/processed/y_test.csv \
     --model-path results/models/knn_model.pickle \
     --plot-out results/figures/knn_confusion_matrix.png \
-    --report-out results/knn_class_report.txt
+    --report-out results/tables/knn_class_report.txt
 
 # Step 7: Train SVM model
 python scripts/svm_training.py \
