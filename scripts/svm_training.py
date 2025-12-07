@@ -52,6 +52,7 @@ from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.compose import make_column_transformer
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV, RandomizedSearchCV
+from scipy.stats import loguniform
 
 @click.command()
 @click.option('--x-train-path', type=str, help="Path to X_train")
@@ -126,7 +127,7 @@ def svm_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
     )
 
     # Save the plot
-    svm_grid_results_plot.save(os.path.join(plot_to, "svm_initial_grid_fit"), scale_factor=2.0)
+    svm_grid_results_plot.save(os.path.join(plot_to, "svm_initial_grid_fit.png"), scale_factor=2.0)
 
     # Repeat hyperparameter optimization in the best range with RandomizedSearchCV
     param_dist = {
@@ -160,7 +161,7 @@ def svm_fitting(x_train_path, y_train_path, preprocessor, pipeline_to, plot_to, 
             y=alt.Y('mean_test_score').scale(zero=False
             ).title("Cross-Validation Accuracy")
     )
-    svm_random_results_plot.save(os.path.join(plot_to, "svm_final_random_fit"), scale_factor=2.0)
+    svm_random_results_plot.save(os.path.join(plot_to, "svm_final_random_fit.png"), scale_factor=2.0)
 
     # Create and fit final best model:
 
