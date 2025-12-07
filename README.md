@@ -106,8 +106,8 @@ python scripts/preprocessing.py \
     --seed=522
 
 python scripts/eda.py \
-  --processed-training-data data/crime_processed.csv \
-  --target-csv data/crime_target.csv \
+  --processed-training-data data/processed/X_train.csv \
+  --target-csv data/processed/y_train.csv \
   --plot-to plots/eda
   
 python scripts/svm_training.py \
