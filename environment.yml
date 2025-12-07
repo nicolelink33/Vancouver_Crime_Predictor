@@ -27,3 +27,4 @@ dependencies:
       - kagglehub==0.3.4
       - deepchecks==0.19.1
       - vegafusion[embed]==2.0.1
+      - vl-convert-python==1.7.0
