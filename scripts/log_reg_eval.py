@@ -9,6 +9,8 @@ import pickle
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, f1_score
+from sklearn.metrics import precision_score, recall_score
+
 @click.command()
 @click.option('--x-test-path', type=str, required=True,help="Path to X_test CSV file")
 @click.option('--y-test-path', type=str, required=True,help="Path to y_test CSV file")
@@ -35,19 +37,27 @@ def log_reg_eval(x_test_path, y_test_path, model_path, plot_out, report_out):
     y_pred = model.predict(X_test)
 
     # Accuracy & report
-    acc = accuracy_score(y_test, y_pred)
-    report = classification_report(y_test, y_pred)
-    f1_macro = f1_score(y_test, y_pred, average='macro')
-    f1_weighted = f1_score(y_test, y_pred, average='weighted')
+    accuracy = accuracy_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred, average='weighted')
+    precision = precision_score(y_test, y_pred, average='weighted')
+    recall = recall_score(y_test, y_pred, average='weighted')
 
     report = classification_report(y_test, y_pred)
 
-    # Save classification report with F1 scores
+
+    # Save metrics to CSV
+    metrics_df = pd.DataFrame({
+    'accuracy': [accuracy],
+    'f1': [f1],
+    'precision': [precision],
+    'recall': [recall]})
+    metrics_df.to_csv(report_out.replace('.txt', '.csv'), index=False)
+
     with open(report_out, "w") as f:
         f.write("Logistic Regression Classification Report\n")
-        f.write(f"Accuracy: {acc:.4f}\n")
-        f.write(f"Macro F1: {f1_macro:.4f}\n")
-        f.write(f"Weighted F1: {f1_weighted:.4f}\n\n")
+        f.write(f"Accuracy: {accuracy:.4f}\n")
+        f.write(f"Precision: {precision:.4f}\n")
+        f.write(f"Recall: {recall:.4f}\n\n")
         f.write(report)
         
     # Confusion Matrix
