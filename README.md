@@ -111,9 +111,10 @@ python scripts/preprocessing.py \
     --seed 522
 
 # Step 4: Generate exploratory data analysis visualizations
+# Note: EDA uses clean data before preprocessing to access original columns
 python scripts/eda.py \
-    --processed-training-data data/processed/X_train.csv \
-    --target-csv data/processed/y_train.csv \
+    --processed-training-data data/crimedata_clean.csv \
+    --target-csv data/crimedata_clean.csv \
     --plot-to plots/eda
 
 # Step 5: Train KNN model
