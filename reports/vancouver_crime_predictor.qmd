@@ -26,7 +26,7 @@ import pickle
 ```{python}
 baseline_svm_scores = pd.read_csv("../results/tables/svm_baseline_score.csv").round(2)
 svm_scores = pd.read_csv("../results/tables/svm_score.csv").round(2)
-knn_scores = pd.read_csv("../results/knn_score.csv").round(2)
+knn_scores = pd.read_csv("../results/tables/knn_score.csv").round(2)
 
 ```
 
@@ -72,7 +72,7 @@ The counts of these crimes in our training data are shown in @fig-type_dist.
 #| fig-cap: "Observed counts of the four most frequent crime types in the training dataset."
 
 from IPython.display import Image
-Image('../plots/eda/crime_type_distribution.png')
+Image('../results/figures/crime_type_distribution.png')
 ```
 
 Each record includes:
@@ -104,33 +104,33 @@ The code used to perform this analysis is available at: <https://github.com/nico
 ### KNN
 The baseline k-NN model, using k = 5, achieved 58.8% accuracy. 
 After hyperparameter optimization, the optimal value was found to be k = 85, yielding a final accuracy of `{python} knn_scores['accuracy'].values[0]` on the test set. 
-The hyperparameter optimization results are shown in @fig-KNN_opt. 
+The hyperparameter optimization results are shown in @fig-knn-opt. 
 ```{python}
-#| label: fig-KNN_opt
+#| label: fig-knn-opt
 #| fig-cap: "Hyperparameter optimization of the k value for k-NN model."
 
 from IPython.display import Image
-Image('../results/knn_k_optimization.png')
+Image('../results/figures/knn_k_optimization.png')
 ```
 This model performed best on “Theft from Vehicle”, while categories such as “Mischief” and “Break and Enter” were more challenging. 
-k-NN model performance by crime type is shown in the produced confusion matrix, shown in @fig-KNN_cm.
+k-NN model performance by crime type is shown in the produced confusion matrix, shown in @fig-knn-cm.
 ```{python}
-#| label: fig-KNN_cm
+#| label: fig-knn-cm
 #| fig-cap: "Confusion matrix for best fit k-NN model, showing predicted crime type versus actual crime type."
 
 from IPython.display import Image
-Image('../results/knn_confusion_matrix.png')
+Image('../results/figures/knn_confusion_matrix.png')
 ```
 
 ### SVM
 The baseline LinearSVC model with C = 1 achieved an accuracy of `{python} baseline_svm_scores['accuracy'].values[0]`. 
-Results of the hyperparameter optimization search are shown in @fig-SVM_opt. 
+Results of the hyperparameter optimization search are shown in @fig-svm-opt. 
 The selected model gave a final accuracy of `{python} svm_scores['accuracy'].values[0]` 
 and an F1 score of `{python} svm_scores['f1'].values[0]`, only slightly higher than the baseline, 
 indicating that model performance was not highly sensitive to the value of C. 
-The confusion matrix for the best fit linear SVM model is shown in @fig-SVM_cm. 
+The confusion matrix for the best fit linear SVM model is shown in @fig-svm-cm. 
 ```{python}
-#| label: fig-SVM_opt
+#| label: fig-svm-opt
 #| fig-cap: "Hyperparameter optimization of the C value for linear SVM model."
 
 from IPython.display import Image
@@ -138,7 +138,7 @@ Image('../results/figures/svm_final_random_fit.png')
 ```
 
 ```{python}
-#| label: fig-SVM_cm
+#| label: fig-svm-cm
 #| fig-cap: "Confusion matrix for best fit SVM model, showing predicted crime type versus actual crime type."
 
 from IPython.display import Image
