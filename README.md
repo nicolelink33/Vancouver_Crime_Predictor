@@ -134,8 +134,8 @@ python scripts/knn_eval.py \
 
 # Step 7: Train SVM model
 python scripts/svm_training.py \
-    --X_train_path data/processed/X_train.csv \
-    --y_train_path data/processed/y_train.csv \
+    --x-train-path data/processed/X_train.csv \
+    --y-train-path data/processed/y_train.csv \
     --preprocessor data/preprocessor.pickle \
     --pipeline-to models \
     --plot-to results \
@@ -143,8 +143,8 @@ python scripts/svm_training.py \
 
 # Step 8: Evaluate SVM model
 python scripts/svm_eval.py \
-    --X_test_path data/processed/X_test.csv \
-    --y_test_path data/processed/y_test.csv \
+    --x-test-path data/processed/X_test.csv \
+    --y-test-path data/processed/y_test.csv \
     --pipeline-from models \
     --results-to results \
     --plot-to results
