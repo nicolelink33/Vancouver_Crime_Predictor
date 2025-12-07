@@ -12,16 +12,25 @@ The dataset includes over 530,000 crime incidents across 11 different crime type
 
 ## Report
 
-The complete analysis is available in the Jupyter notebook `reports/vancouver_crime_predictor.ipynb` in this repository. The notebook includes:
-- Data loading and preprocessing
-- Exploratory data analysis with visualizations
-- Feature engineering and model training
-- Model evaluation and comparison
-- Discussion of findings
+The final analysis report for Milestone 3 is available as a Quarto document: `reports/vancouver_crime_predictor.qmd`
 
-To view the notebook, you can either:
-- Open it directly on GitHub (limited interactivity)
-- Run it locally following the instructions in the [Usage](#usage) section below
+This report includes:
+- Abstract with research motivation and key findings
+- Introduction and background
+- Methods section describing data and analysis approach
+- Results and discussion of model performance
+- Limitations and future work
+
+**Note:** The repository also contains `vancouver_crime_predictor.ipynb` from earlier milestones (M1/M2), which includes exploratory code and analysis. For Milestone 3, the official report is the `.qmd` file, which focuses on the narrative and results, while all analysis code has been modularized into separate Python scripts in the `scripts/` directory.
+
+To view the rendered report:
+- **HTML version:** `reports/vancouver_crime_predictor.html`
+- **PDF version:** `reports/vancouver_crime_predictor.pdf`
+
+To regenerate the report from source:
+```bash
+quarto render reports/vancouver_crime_predictor.qmd
+```
 
 ## Usage
 
@@ -50,15 +59,7 @@ The notebook will automatically download the latest version of the crime dataset
 
 ### Running the analysis
 
-1. **Launch Jupyter Lab:**
-```bash
-jupyter lab
-```
-
-2. **Open and run the notebook:**
-   - Navigate to `reports/vancouver_crime_predictor.ipynb` in the Jupyter interface
-   - Under Switch/Select Kernel choose "Python [conda env:vancouver_crime_predictor]"
-   - Run all cells sequentially (Cell → Run All) or execute cells individually
+The analysis is run through modular Python scripts. See the [Running with Docker](#running-with-docker) section below for the complete pipeline commands.
 
 
 ## Running with Docker
@@ -170,7 +171,7 @@ python scripts/log_reg_eval.py \
 quarto render reports/vancouver_crime_predictor.qmd
 ```
 
-5. Navigate to the `work` folder, then open `reports/vancouver_crime_predictor.ipynb` and run the analysis
+5. The rendered report will be available at `reports/vancouver_crime_predictor.html` and `reports/vancouver_crime_predictor.pdf`
 
 6. To stop the container, press `Ctrl+C` in the terminal
 
