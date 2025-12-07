@@ -67,7 +67,13 @@ It has 530,652 crime records from 2003 to 2017, split into 11 crime types.
 The most common is "Theft from Vehicle" (over 172,000 cases) and the rarest is "Homicide" (220 cases). 
 We selected the four most common types of crime, to ensure that all of our target classes have a sufficient number of observations. 
 The counts of these crimes in our training data are shown in @fig-type_dist.
-![Observed counts of the four most frequent crime types in the training dataset.](../results/figures/crime_type_distribution.png){#fig-type_dist width=100%}
+```{python}
+#| label: fig-type_dist
+#| fig-cap: "Observed counts of the four most frequent crime types in the training dataset."
+
+from IPython.display import Image
+Image('../plots/eda/crime_type_distribution.png')
+```
 
 Each record includes:
 - Time info: year, month, day, hour, minute
@@ -99,10 +105,22 @@ The code used to perform this analysis is available at: <https://github.com/nico
 The baseline k-NN model, using k = 5, achieved 58.8% accuracy. 
 After hyperparameter optimization, the optimal value was found to be k = 85, yielding a final accuracy of `{python} knn_scores['accuracy'].values[0]` on the test set. 
 The hyperparameter optimization results are shown in @fig-KNN_opt. 
-![Hyperparameter optimization of the k value for k-NN model.](../results/knn_k_optimization.png){#fig-KNN_opt width=100%}
+```{python}
+#| label: fig-KNN_opt
+#| fig-cap: "Hyperparameter optimization of the k value for k-NN model."
+
+from IPython.display import Image
+Image('../results/knn_k_optimization.png')
+```
 This model performed best on “Theft from Vehicle”, while categories such as “Mischief” and “Break and Enter” were more challenging. 
 k-NN model performance by crime type is shown in the produced confusion matrix, shown in @fig-KNN_cm.
-![Confusion matrix for best fit k-NN model, showing predicted crime type versus actual crime type.](../results/knn_confusion_matrix.png){#fig-KNN_cm width=100%}
+```{python}
+#| label: fig-KNN_cm
+#| fig-cap: "Confusion matrix for best fit k-NN model, showing predicted crime type versus actual crime type."
+
+from IPython.display import Image
+Image('../results/knn_confusion_matrix.png')
+```
 
 ### SVM
 The baseline LinearSVC model with C = 1 achieved an accuracy of `{python} baseline_svm_scores['accuracy'].values[0]`. 
@@ -111,13 +129,24 @@ The selected model gave a final accuracy of `{python} svm_scores['accuracy'].val
 and an F1 score of `{python} svm_scores['f1'].values[0]`, only slightly higher than the baseline, 
 indicating that model performance was not highly sensitive to the value of C. 
 The confusion matrix for the best fit linear SVM model is shown in @fig-SVM_cm. 
-![Hyperparameter optimization of the C value for linear SVM model.](../results/figures/svm_final_random_fit.png){#fig-SVM_opt width=100%}
-![Confusion matrix for best fit SVM model, showing predicted crime type versus actual crime type.](../results/figures/svm_confusion_matrix.png){#fig-SVM_cm width=100%}
+```{python}
+#| label: fig-SVM_opt
+#| fig-cap: "Hyperparameter optimization of the C value for linear SVM model."
+
+from IPython.display import Image
+Image('../results/figures/svm_final_random_fit.png')
+```
+
+```{python}
+#| label: fig-SVM_cm
+#| fig-cap: "Confusion matrix for best fit SVM model, showing predicted crime type versus actual crime type."
+
+from IPython.display import Image
+Image('../results/figures/svm_confusion_matrix.png')
+```
 
 ### Logistic Regression
-The best fit logistic regression model achieved a test accuracy of 62.8%, indicating slightly lower performance than KNN and SVM. 
-The confusion matrix for the best fit logistic regression model is shown in @fig-LR_cm. 
-![Confusion matrix for best fit logistic regression model, showing predicted crime type versus actual crime type.](../results/figures/logreg_confusion_matrix.png){#fig-LR_cm width=100%}
+The best fit logistic regression model achieved a test accuracy of 62.8%, indicating slightly lower performance than KNN and SVM.
 
 ## Comparison
 
