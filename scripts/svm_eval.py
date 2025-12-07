@@ -8,6 +8,7 @@ import os
 import altair as alt
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score
 
 @click.command()
