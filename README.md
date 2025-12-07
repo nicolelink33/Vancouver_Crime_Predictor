@@ -102,7 +102,7 @@ python scripts/data_validation.py \
     --output-csv data/crimedata_clean.csv
 
 python scripts/preprocessing.py \
-    --raw-data data/crime.csv \
+    --raw-data data/crimedata_clean.csv \
     --data-to data/crime_processed.csv \
     --preprocessor-to data/preprocessor.pickle \
     --seed=522
