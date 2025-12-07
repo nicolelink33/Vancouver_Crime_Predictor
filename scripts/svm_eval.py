@@ -44,12 +44,12 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
 
 
     accuracy = svm_fit.score(X_test, y_test)
-    f1_score = f1_score(y_test, svm_fit.predict(X_test))
+    test_f1 = f1_score(y_test, svm_fit.predict(X_test))
     precision = precision_score(y_test, svm_fit.predict(X_test))
     recall = recall_score(y_test, svm_fit.predict(X_test))
 
     results_table = pd.DataFrame({'accuracy': [accuracy],
-                                  'f1': [f1_score],
+                                  'f1': [test_f1],
                                   'precision': [precision],
                                   'recall': [recall]})
     results_table.to_csv(os.path.join(results_to, "svm_score.csv"), index=False)
