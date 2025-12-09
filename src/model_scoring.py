@@ -40,6 +40,13 @@ def model_scoring(x_test_path, y_test_path, pipeline_from, results_to):
         - 'precision': Lists the calculated precision of the given model on the test data
         - 'recall': Lists the calculated recall of the given model on the test data
 
+    Raises:
+    --------
+    ValueError
+        If the X_test and y_test paths do not end with '.csv'
+    FileNotFoundError
+        If the X_test, y_test, or pipeline_from paths do not exist.
+
     Examples:
     --------
     >>> from sklearn.pipeline import make_pipeline
@@ -61,9 +68,30 @@ def model_scoring(x_test_path, y_test_path, pipeline_from, results_to):
 
     """
     
+    # Check input paths and file types
+    # Code adapted from Tiffany Timbers breast-cancer-predictor 3.0.0
+    if not x_test_path.endswith(".csv"):
+        raise ValueError("X_test filename must end with '.csv'")
+    if not y_test_path.endswith(".csv"):
+        raise ValueError("y_test filename must end with '.csv'")
+    if not pipeline_from.endswith(".pickle"):
+        raise ValueError("model filename must end with '.pickle'")
+    if not os.path.exists(x_test_path):
+        raise FileNotFoundError(f"Given X_test path does not exist.")
+    if not os.path.exists(y_test_path):
+        raise FileNotFoundError(f"Given y_test path does not exist.")
+    if not os.path.exists(pipeline_from):
+        raise FileNotFoundError(f"Given model path does not exist.")
+
     # Read in the data and fitted model
     X_test = pd.read_csv(x_test_path)
     y_test = pd.read_csv(y_test_path)
+
+    # Check that the given X_test and y_test are not empty dataframes
+    if X_test.empty:
+        raise ValueError("X_test must contain observations.")
+    if y_test.empty:
+        raise ValueError("y_test must contain observations")
 
     with open(pipeline_from, 'rb') as f:
         model = pickle.load(f)
