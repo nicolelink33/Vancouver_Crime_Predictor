@@ -8,6 +8,7 @@ import os
 import pandas as pd
 import altair as alt
 import folium
+from src.plotting import save_bar_plot
 
 
 @click.command()
@@ -39,55 +40,32 @@ def eda(processed_training_data,  target_csv, plot_to):
     alt.data_transformers.disable_max_rows()
 
     # Crime distribution plot
-
-    type_plot = (
-        alt.Chart(df)
-        .mark_bar()
-        .encode(
-            y=alt.Y('TYPE:N', sort='-x', title='Crime Type'),
-            x=alt.X('count():Q', title='Number of Crimes')
-        )
-        .properties(
-            title='Distribution of Crime Types',
-            width=700,
-            height=400
-        )
+    save_bar_plot (
+        df = df,
+        x_col = 'count()',
+        y_col = 'TYPE:N',
+        title='Distribution of Crime Types',
+        save_path=os.path.join(plot_to, "crime_type_distribution.png") 
     )
-    type_plot.save(os.path.join(plot_to, "crime_type_distribution.png"), scale_factor=2)
-
-    year_plot = (
-        alt.Chart(df)
-        .mark_line(point=True)
-        .encode(
-            x=alt.X('YEAR:O', title='Year'),
-            y=alt.Y('count():Q', title='Number of Crimes')
-        )
-        .properties(
-            title='Crime Trend Over Years',
-            width=700,
-            height=400
-        )
+    # Crime Trend Over Years
+    save_bar_plot(
+    df=df,
+    x_col='YEAR:O',
+    y_col='count():Q',
+    title='Crime Trend Over Years',
+    save_path=os.path.join(plot_to, "crime_trend_years.png")    
     )
 
-    year_plot.save(os.path.join(plot_to, "crime_trend_years.png"), scale_factor=2)
-
-
-    hour_plot = (
-        alt.Chart(df)
-        .mark_bar()
-        .encode(
-            x=alt.X('HOUR:O', title='Hour of Day'),
-            y=alt.Y('count():Q', title='Number of Crimes')
-        )
-        .properties(
-            title='Crimes by Hour of Day',
-            width=700,
-            height=400
-        )
+# Crimes by hour
+    save_bar_plot(
+    df=df,
+    x_col='HOUR:O',
+    y_col='count():Q',
+    title='Crimes by Hour of Day',
+    save_path=os.path.join(plot_to, "crimes_by_hour.png")
     )
-    hour_plot.save(os.path.join(plot_to, "crimes_by_hour.png"), scale_factor=2)
 
-
+# Top 10 Neighborhood with crimes
     neighbourhood_counts = (
         df["NEIGHBOURHOOD"]
         .value_counts()
@@ -96,21 +74,13 @@ def eda(processed_training_data,  target_csv, plot_to):
         .head(10)
     )
 
-    neighbourhood_plot = (
-        alt.Chart(neighbourhood_counts)
-        .mark_bar()
-        .encode(
-            y=alt.Y('NEIGHBOURHOOD:N', sort='-x', title='Neighbourhood'),
-            x=alt.X('count:Q', title='Number of Crimes')
-        )
-        .properties(
-            title='Top 10 Neighbourhoods by Crime Count',
-            width=700,
-            height=400
-        )
-    )
-    neighbourhood_plot.save(os.path.join(plot_to, "top10_neighbourhoods.png"), scale_factor=2)
-
+    save_bar_plot(
+    df=neighbourhood_counts,
+    x_col='count',
+    y_col='NEIGHBOURHOOD:N',
+    title='Top 10 Neighbourhoods by Crime Count',
+    save_path=os.path.join(plot_to, "top10_neighbourhoods.png")
+    )   
 
 
     #folium map viz

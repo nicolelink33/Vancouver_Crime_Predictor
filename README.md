@@ -112,7 +112,7 @@ python scripts/preprocessing.py \
 
 # Step 4: Generate exploratory data analysis visualizations
 # Note: EDA uses clean data before preprocessing to access original columns
-python scripts/eda.py \
+python -m scripts.eda \
     --processed-training-data data/crimedata_clean.csv \
     --target-csv data/crimedata_clean.csv \
     --plot-to results/figures
