@@ -1,6 +1,13 @@
-# svm_eval.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-05
+"""
+svm_eval.py
+Function to score and evaluate the fitted Linear SVM model
+
+This function takes in a fitted Linear SVM model and test data and calculates the accuracy, F1 score, precision, and recall on the provided test data. 
+It saves the results to a csv file, and creates and saves both a confusion matrix plot and a classification report. 
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-10
+"""
 
 import click
 import pickle

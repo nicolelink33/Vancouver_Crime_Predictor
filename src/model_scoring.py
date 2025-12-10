@@ -1,6 +1,14 @@
 # model_scoring.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-08
+"""
+model_scoring.py
+Function to score and evaluate the a given fitted model
+
+This function takes in a fitted model and test data and calculates the accuracy, F1 score, precision, and recall on the provided test data. 
+It returns the results as a pandas DataFrame. More details are provided in the function documentation below. 
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-10
+"""
 
 import click
 import pickle

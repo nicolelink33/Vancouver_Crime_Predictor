@@ -1,46 +1,13 @@
-# svm_training.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-01
+"""
+svm_training.py
+Function to create and train a Linear SVM model
 
-# passthrough_feats = ['NEIGHBOURHOOD_Central Business District',
-#  'NEIGHBOURHOOD_Dunbar-Southlands',
-#  'NEIGHBOURHOOD_Fairview',
-#  'NEIGHBOURHOOD_Grandview-Woodland',
-#  'NEIGHBOURHOOD_Hastings-Sunrise',
-#  'NEIGHBOURHOOD_Kensington-Cedar Cottage',
-#  'NEIGHBOURHOOD_Kerrisdale',
-#  'NEIGHBOURHOOD_Killarney',
-#  'NEIGHBOURHOOD_Kitsilano',
-#  'NEIGHBOURHOOD_Marpole',
-#  'NEIGHBOURHOOD_Mount Pleasant',
-#  'NEIGHBOURHOOD_Musqueam',
-#  'NEIGHBOURHOOD_Oakridge',
-#  'NEIGHBOURHOOD_Renfrew-Collingwood',
-#  'NEIGHBOURHOOD_Riley Park',
-#  'NEIGHBOURHOOD_Shaughnessy',
-#  'NEIGHBOURHOOD_South Cambie',
-#  'NEIGHBOURHOOD_Stanley Park',
-#  'NEIGHBOURHOOD_Strathcona',
-#  'NEIGHBOURHOOD_Sunset',
-#  'NEIGHBOURHOOD_Victoria-Fraserview',
-#  'NEIGHBOURHOOD_West End',
-#  'NEIGHBOURHOOD_West Point Grey',
-#  'TIME_OF_DAY_Evening',
-#  'TIME_OF_DAY_Morning',
-#  'TIME_OF_DAY_Night',
-#  'SEASON_Spring',
-#  'SEASON_Summer',
-#  'SEASON_Winter']
+This function takes in training data and a created preprocessor, and creates a Linear SVM model, performs hyperparameter optimization to find the best fit model,
+fits this optimized model, and returns the model as a pickle object. It also creates a plot for the hyperparameter optimization and saves it. 
 
-# numeric_cols = [
-#     'HOUR', 'DAY_OF_WEEK', 'MONTH', 'DAY',
-#     'IS_WEEKEND', 'IS_RUSH_HOUR', 'YEAR', 'IS_LATE_NIGHT',
-#     'HOUR_SIN', 'HOUR_COS', 'MONTH_SIN', 'MONTH_COS',
-#     'DIST_FROM_DOWNTOWN', 'X', 'Y'
-# ]
-
-# categorical_cols = ['NEIGHBOURHOOD', 'TIME_OF_DAY', 'SEASON']
-
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-10
+"""
 
 import click
 import pickle

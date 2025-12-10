@@ -1,6 +1,15 @@
-# svm_small_data_test.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-05
+"""
+svm_small_data_test.py
+Function to test Linear SVM model performance on a subset of the features
+
+This function takes in training data and a created preprocessor, and creates a Linear SVM model. 
+It also creates a subset of the training features, eliminating some of the features created in feature engineering. 
+It then performs hyperparameter optimization to find the best fit model, fits this optimized model, and returns the model as a pickle object. 
+It also creates a plot for the hyperparameter optimization and saves it, and also saves the results from cross validation. 
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-10
+"""
 
 import click
 import pickle
