@@ -7,6 +7,7 @@ import kagglehub
 import os
 import zipfile
 import pandas as pd
+from src.data_utils import download_and_load_csv, save_csv_and_zip
 
 @click.command()
 @click.option('--dataset', required=True, help='Kaggle dataset identifier')
@@ -16,19 +17,12 @@ import pandas as pd
 def download_data(dataset, output_csv, output_zip):
     """Download dataset from Kaggle and save locally as CSV and ZIP."""
     
-    path = kagglehub.dataset_download(dataset)
 
     try:
-        df = pd.read_csv(os.path.join(path, "crime.csv"))
+        df = download_and_load_csv(dataset)
+        save_csv_and_zip(df, output_csv, output_zip)
     except Exception as e:
         raise ValueError(f"File format issue: {e}")
-    
-        
-    df.to_csv(output_csv, index=False)
-    
-    
-    with zipfile.ZipFile(output_zip, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        zipf.write(output_csv, arcname=os.path.basename(output_csv))
     
     
 
