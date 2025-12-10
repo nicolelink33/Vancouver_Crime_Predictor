@@ -33,6 +33,16 @@ def save_bar_plot(df, x_col, y_col, title, save_path, width = 700, height = 400)
     None
         The plot is saved to the specified path. Nothing is returned.
 
+    Examples:
+    -------
+    >>> save_bar_plot(
+    >>> df=df,
+    >>> x_col='HOUR:O',
+    >>> y_col='count():Q',
+    >>> title='Crimes by Hour of Day',
+    >>> save_path=os.path.join(plot_to, "crimes_by_hour.png")
+    )
+
     Notes:
     -----
     - If x_col is 'count()', the function counts the number of records grouped by y_col.
