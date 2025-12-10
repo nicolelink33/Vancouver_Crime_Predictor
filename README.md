@@ -93,7 +93,7 @@ docker-compose up
 cd work
 
 # Step 1: Download data from Kaggle
-python scripts/download_data.py \
+python -m scripts/download_data.py \
     --dataset wosaku/crime-in-vancouver \
     --output-csv data/crimedata.csv \
     --output-zip data/crimedata.zip
