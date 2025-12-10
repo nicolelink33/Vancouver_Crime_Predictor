@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score, classification_report
+from src.model_scoring import model_scoring
 
 @click.command()
 @click.option('--x-test-path', type=str, help="Path to X_test")
@@ -32,28 +33,34 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
         svm_fit = pickle.load(f)
     
     # Compute and save the baseline model scores
-    base_accuracy = svm_base_fit.score(X_test, y_test)
-    base_f1 = f1_score(y_test, svm_base_fit.predict(X_test), average='weighted')
-    base_precision = precision_score(y_test, svm_base_fit.predict(X_test), average='weighted')
-    base_recall = recall_score(y_test, svm_base_fit.predict(X_test), average='weighted')
+    baseline_results = model_scoring(X_test, y_test, svm_base_fit)
+    baseline_results.to_csv(os.path.join(results_to, "tables", "svm_baseline_score.csv"), index=False)
 
-    results_table = pd.DataFrame({'accuracy': [base_accuracy],
-                                  'f1': [base_f1],
-                                  'precision': [base_precision],
-                                  'recall': [base_recall]})
-    results_table.to_csv(os.path.join(results_to, "tables", "svm_baseline_score.csv"), index=False)
+    # base_accuracy = svm_base_fit.score(X_test, y_test)
+    # base_f1 = f1_score(y_test, svm_base_fit.predict(X_test), average='weighted')
+    # base_precision = precision_score(y_test, svm_base_fit.predict(X_test), average='weighted')
+    # base_recall = recall_score(y_test, svm_base_fit.predict(X_test), average='weighted')
 
+    # results_table = pd.DataFrame({'accuracy': [base_accuracy],
+    #                               'f1': [base_f1],
+    #                               'precision': [base_precision],
+    #                               'recall': [base_recall]})
+    
 
-    accuracy = svm_fit.score(X_test, y_test)
-    test_f1 = f1_score(y_test, svm_fit.predict(X_test), average='weighted')
-    precision = precision_score(y_test, svm_fit.predict(X_test), average='weighted')
-    recall = recall_score(y_test, svm_fit.predict(X_test), average='weighted')
+    # Compute and save the best fit model scores
+    svm_best_results = model_scoring(X_test, y_test, svm_fit)
+    svm_best_results.to_csv(os.path.join(results_to, "tables", "svm_score.csv"), index=False)
 
-    results_table = pd.DataFrame({'accuracy': [accuracy],
-                                  'f1': [test_f1],
-                                  'precision': [precision],
-                                  'recall': [recall]})
-    results_table.to_csv(os.path.join(results_to, "tables", "svm_score.csv"), index=False)
+    # accuracy = svm_fit.score(X_test, y_test)
+    # test_f1 = f1_score(y_test, svm_fit.predict(X_test), average='weighted')
+    # precision = precision_score(y_test, svm_fit.predict(X_test), average='weighted')
+    # recall = recall_score(y_test, svm_fit.predict(X_test), average='weighted')
+
+    # results_table = pd.DataFrame({'accuracy': [accuracy],
+    #                               'f1': [test_f1],
+    #                               'precision': [precision],
+    #                               'recall': [recall]})
+    
 
     # Create and save confusion matrix
     final_svm_pred = svm_fit.predict(X_test)
