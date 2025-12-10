@@ -5,11 +5,13 @@
 import click
 import pickle
 import os
+import sys
 import altair as alt
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score, classification_report
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.model_scoring import model_scoring
 
 @click.command()
