@@ -205,6 +205,23 @@ This project requires the following main dependencies:
 
 For a complete list of dependencies with exact versions, see `environment.yml`. Platform-specific lock files (`conda-lock.yml`) ensure reproducibility across different operating systems.
 
+## Running Tests
+
+Tests are run using `pytest` in the root of the project. To run the test suite:
+
+1. Launch the Docker container using `docker compose up` as described above
+2. Open a terminal in JupyterLab
+3. Navigate to the project root and run:
+```bash
+pytest tests/
+```
+
+The test suite includes:
+- Unit tests for the confusion matrix utility function (`tests/test_confusion_matrix.py`)
+- Tests for data reading functions (`tests/test_data_utils.py`)
+- Tests for plotting functions (`tests/test_plotting.py`)
+- Tests for model scoring function (`tests/test_scoring.py`)
+
 ## Getting Help
 
 ### Reporting Issues
