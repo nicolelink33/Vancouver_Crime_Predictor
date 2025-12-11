@@ -9,10 +9,6 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score, precision_score, recall_score
 
-@click.command()
-@click.option('--X-test', type=str, help="X_test dataframe")
-@click.option('--y-test', type=str, help="y_test dataframe")
-@click.option('--model', type=str, help="A fit model object")
 def model_scoring(X_test, y_test, model):
     """
     Evaluates the given fitted model on the test data and returns the score results as a dataframe.
@@ -24,7 +20,7 @@ def model_scoring(X_test, y_test, model):
     x_test : pandas.DataFrame
         The DataFrame containing the X_test data
     y_test : pandas.DataFrame
-        The DataFrame containing the y_test data
+        The Pandas Series containing the y_test data
     model : a fitted model object
         The fit model to score on the test data
 
@@ -67,7 +63,7 @@ def model_scoring(X_test, y_test, model):
     if not isinstance(X_test, pd.DataFrame):
         raise TypeError("X_test must be a pandas DataFrame")
     if not isinstance(y_test, pd.Series):
-        raise TypeError("X_test must be a pandas Series")
+        raise TypeError("y_test must be a pandas Series")
 
     # Check that the given X_test and y_test are not empty dataframes
     if X_test.empty:
@@ -86,6 +82,3 @@ def model_scoring(X_test, y_test, model):
                                   'precision': [precision],
                                   'recall': [recall]})
     return results_table
-
-if __name__ == '__main__':
-    model_scoring()

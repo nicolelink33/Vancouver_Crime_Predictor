@@ -33,6 +33,10 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
     '''Evaluates the Vancouver Crime Predictor on the test data 
     and saves the evaluation results.'''
     
+    # Check that directories exist
+    os.makedirs(os.path.join(results_to, "tables"), exist_ok=True)
+    os.makedirs(plot_to, exist_ok=True)
+
     # Read in the data, baseline model, and fitted svm model
     X_test = pd.read_csv(x_test_path)
     y_test = pd.read_csv(y_test_path)

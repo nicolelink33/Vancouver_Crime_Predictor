@@ -181,7 +181,7 @@ def preprocess(raw_data, data_to, preprocessor_to, seed):
     X_test = pd.concat([X_test[numeric_cols].reset_index(drop=True), X_test_cat.reset_index(drop=True)], axis=1)
 
     # Create processed folder if it doesn't exist
-    processed_dir = os.path.join(data_to, "processed")
+    processed_dir = data_to
     os.makedirs(processed_dir, exist_ok=True)
 
     # Save train/test splits
