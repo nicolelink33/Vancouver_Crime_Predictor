@@ -2,6 +2,16 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-01
 
+"""
+Support Vector Machine model training script for Vancouver Crime Predictor.
+
+This module trains and optimizes an SVM classifier to predict crime types in Vancouver,
+including baseline and tuned models with hyperparameter optimization.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-01
+"""
+
 # passthrough_feats = ['NEIGHBOURHOOD_Central Business District',
 #  'NEIGHBOURHOOD_Dunbar-Southlands',
 #  'NEIGHBOURHOOD_Fairview',

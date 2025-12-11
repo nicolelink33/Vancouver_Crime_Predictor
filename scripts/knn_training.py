@@ -2,6 +2,16 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-06
 
+"""
+K-Nearest Neighbors model training script for Vancouver Crime Predictor.
+
+This module trains and optimizes a KNN classifier to predict crime types in Vancouver,
+including hyperparameter tuning and model persistence.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-06
+"""
+
 import click
 import pickle
 import os

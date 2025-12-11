@@ -1,8 +1,16 @@
 # eda.py
 # author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-05
+# date 2025-12-01
 
+"""
+Exploratory Data Analysis script for Vancouver Crime Predictor.
 
+This module generates visualizations and summary statistics to understand patterns
+in the Vancouver crime dataset, including temporal trends and spatial distributions.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-01
+"""
 import click
 import os
 import pandas as pd

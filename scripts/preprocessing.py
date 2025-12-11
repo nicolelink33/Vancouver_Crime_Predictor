@@ -2,6 +2,16 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-01
 
+"""
+Data preprocessing script for Vancouver Crime Predictor.
+
+This module handles data preprocessing including train/test splitting, feature engineering,
+and scaling for the Vancouver crime prediction models.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-01
+"""
+
 import click
 import numpy as np
 import pandas as pd

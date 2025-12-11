@@ -2,6 +2,15 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-06
 
+"""
+Logistic Regression model evaluation script for Vancouver Crime Predictor.
+
+This module evaluates the trained Logistic Regression model on test data, generating
+performance metrics, confusion matrices, and classification reports.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-06
+"""
 
 import click
 import pandas as pd
