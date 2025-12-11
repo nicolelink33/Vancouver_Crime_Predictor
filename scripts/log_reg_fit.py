@@ -2,6 +2,16 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-06
 
+"""
+Logistic Regression model training script for Vancouver Crime Predictor.
+
+This module trains a Logistic Regression classifier to predict crime types in Vancouver,
+including baseline and optimized models.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-06
+"""
+
 import click
 import pandas as pd
 import pickle

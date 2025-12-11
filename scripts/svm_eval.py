@@ -2,6 +2,16 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-05
 
+"""
+Support Vector Machine model evaluation script for Vancouver Crime Predictor.
+
+This module evaluates the trained SVM model on test data, generating performance
+metrics, confusion matrices, and classification reports for both baseline and optimized models.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-05
+"""
+
 import click
 import pickle
 import os
