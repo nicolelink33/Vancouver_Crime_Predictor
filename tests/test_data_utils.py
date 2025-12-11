@@ -1,6 +1,13 @@
-# test_data_utils.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-10
+"""
+Unit tests for data utility functions: download_and_load_csv and save_csv_and_zip.
+
+This module provides tests to verify the correct behavior of functions in
+src.data_utils, including CSV downloading/loading from Kaggle and saving
+DataFrames to CSV and ZIP formats.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-10
+"""
 
 
 import os

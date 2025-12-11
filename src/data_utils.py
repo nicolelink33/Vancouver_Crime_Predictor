@@ -1,6 +1,17 @@
-# data_utils.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-09
+"""
+Data utility functions for downloading, loading, and saving datasets.
+
+This module provides functions to:
+- Download a dataset from Kaggle using kagglehub and load it as a pandas DataFrame.
+- Save a DataFrame to a CSV file and also compress it into a ZIP archive.
+
+These functions are designed to be reusable across different projects where
+Kaggle datasets are used or where saving data in both CSV and ZIP format is
+desired for portability.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-09
+"""
 
 import os
 import pandas as pd

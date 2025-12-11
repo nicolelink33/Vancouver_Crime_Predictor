@@ -1,6 +1,13 @@
-# test_plotting.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-10
+"""
+Unit tests for plotting utility functions: save_bar_plot.
+
+This module provides tests to verify the correct behavior of functions in
+src.plotting, ensuring that bar plots are correctly generated, saved, and
+that directories are created automatically.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-10
+"""
 
 
 import os

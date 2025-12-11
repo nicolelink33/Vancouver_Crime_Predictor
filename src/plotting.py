@@ -1,6 +1,13 @@
-# plotting.py
-# author: Nicole Link, Zain Nofal, Tirth Joshi
-# date 2025-12-09
+"""
+Plotting utilities for creating and saving visualizations.
+
+This module provides reusable functions for generating and saving
+bar plots using Altair. The functions handle creating directories
+if they do not exist, and allow saving plots as HTML or PNG files.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-09
+"""
 
 import altair as alt
 import os
