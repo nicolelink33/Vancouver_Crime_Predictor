@@ -3,6 +3,7 @@ FROM quay.io/jupyter/minimal-notebook:afe30f0c9ad8
 # Install LaTeX packages for Quarto rendering
 USER root
 RUN apt-get update && apt-get install -y \
+    make \
     texlive-latex-base \
     texlive-fonts-recommended \
     texlive-fonts-extra \
