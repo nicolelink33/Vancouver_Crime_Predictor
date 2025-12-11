@@ -20,6 +20,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, f1_score
 from sklearn.metrics import precision_score, recall_score
+from src.confusion_matrix_utils import create_confusion_matrix
 
 @click.command()
 @click.option('--x-test-path', type=str, required=True,help="Path to X_test CSV file")
@@ -89,18 +90,14 @@ def log_reg_eval(x_test_path, y_test_path, model_path, plot_out, report_out):
         f.write(f"Recall: {recall:.4f}\n\n")
         f.write(report)
         
-    # Confusion Matrix
-    cm = confusion_matrix(y_test, y_pred, labels=model.classes_)
-
-    plt.figure(figsize=(12, 8))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-                xticklabels=model.classes_,
-                yticklabels=model.classes_)
-    plt.xlabel("Predicted")
-    plt.ylabel("Actual")
-    plt.title("Confusion Matrix - Logistic Regression")
-
-    plt.savefig(plot_out, bbox_inches='tight')
+    # Create confusion matrix using utility function
+    create_confusion_matrix(
+        y_test=y_test,
+        y_pred=y_pred,
+        labels=list(model.classes_),
+        title='Confusion Matrix - Logistic Regression',
+        save_path=plot_out
+    )
 
     print("\nEvaluation complete.")
     print("Confusion matrix saved to:", plot_out)

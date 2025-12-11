@@ -21,6 +21,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score, classification_report
 from src.model_scoring import model_scoring
+from src.confusion_matrix_utils import create_confusion_matrix
 
 @click.command()
 @click.option('--x-test-path', type=str, help="Path to X_test")
@@ -72,21 +73,19 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
     #                               'recall': [recall]})
     
 
-    # Create and save confusion matrix
+    
+
+    # Create and save confusion matrix using utility function
     final_svm_pred = svm_fit.predict(X_test)
-
-    cm_svm = confusion_matrix(y_test, final_svm_pred)
-    fig, ax = plt.subplots(figsize=(10, 8))
-
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm_svm, display_labels=['Theft from Vehicle', 'Mischief', 'Break and Enter Residential/Other', 'Offence Against a Person'])
-    disp.plot(ax=ax, cmap='Blues', values_format='d')
-
-    plt.title(f'Confusion Matrix - SVM', fontsize=14, fontweight='bold', pad=20)
-    plt.xlabel('Predicted Crime Type', fontsize=12)
-    plt.ylabel('Actual Crime Type', fontsize=12)
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    plt.savefig(os.path.join(plot_to, "svm_confusion_matrix.png"), dpi=300, bbox_inches='tight')
+    labels = ['Theft from Vehicle', 'Mischief', 'Break and Enter Residential/Other', 'Offence Against a Person']
+    
+    create_confusion_matrix(
+        y_test=y_test,
+        y_pred=final_svm_pred,
+        labels=labels,
+        title='Confusion Matrix - SVM',
+        save_path=os.path.join(plot_to, "svm_confusion_matrix.png")
+    )
 
     # Create and save classification report
     class_report = pd.DataFrame(classification_report(y_test, final_svm_pred, output_dict=True))

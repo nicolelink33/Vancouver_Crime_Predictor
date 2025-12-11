@@ -20,6 +20,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score, precision_score, recall_score
+from src.confusion_matrix_utils import create_confusion_matrix
 
 @click.command()
 @click.option('--x-test-path', type=str, default='data/processed/X_test.csv', help="Path to X_test CSV")
@@ -111,21 +112,14 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
     # Get crime type labels
     crime_types = knn_model.classes_
     
-    # Create confusion matrix
-    cm = confusion_matrix(y_test, y_pred, labels=crime_types)
-    
-    # Plot confusion matrix
-    plt.figure(figsize=(12, 8))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-                xticklabels=crime_types,
-                yticklabels=crime_types)
-    plt.xlabel('Predicted', fontsize=12)
-    plt.ylabel('Actual', fontsize=12)
-    plt.title('Confusion Matrix - KNN Model', fontsize=14, fontweight='bold', pad=20)
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    plt.savefig(plot_out, dpi=300, bbox_inches='tight')
-    plt.close()
+    # Create confusion matrix using utility function
+    create_confusion_matrix(
+        y_test=y_test,
+        y_pred=y_pred,
+        labels=list(crime_types),
+        title='Confusion Matrix - KNN Model',
+        save_path=plot_out
+    )
     
     print(f"Confusion matrix saved to {plot_out}")
     
