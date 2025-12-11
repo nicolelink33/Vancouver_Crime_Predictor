@@ -34,14 +34,9 @@ baseline_logreg_scores = pd.read_csv("../results/tables/logreg_baseline_score.cs
 
 # Summary
 
-In this project, we aim to predict what type of crime occurred in Vancouver based on when and where it happened. 
-We use a dataset from the Vancouver Police Department with over 530,000 crime records from 2003-2017, 
-covering 11 different crime types including theft, break-ins, and vehicle collisions.
+In this project, we aim to predict what type of crime occurred in Vancouver based on when and where it happened. This is important because understanding crime patterns can help police departments allocate resources more effectively and plan better patrol routes. We use a dataset from the Vancouver Police Department with over 530,000 crime records from 2003-2017, covering 11 different crime types including theft, break-ins, and vehicle collisions.
 
-We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. 
-After tuning, all three models performed similarly, achieving an accuracy around `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + baseline_logreg_scores['accuracy'].values[0])/3, 2)`. 
-While this isn't perfect, it shows that time and location do provide some useful information for predicting crime types, 
-though there is clearly room for improvement, possibly with additional features.
+We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. After tuning, all three models performed similarly, achieving an accuracy around `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + logreg_scores['accuracy'].values[0])/3, 2)`. While this shows that time and location do provide some useful information for predicting crime types, the moderate accuracy suggests there are limitations. The models only use when and where crimes happen, without other information like weather, economic conditions, or other factors that might matter.
 
 # Introduction
 
@@ -154,45 +149,35 @@ Image('../results/figures/log_reg_confusion_matrix.png')
 
 ## Comparison
 
-All three of our models gave quite similar accuracies:
+All three models achieved similar performance on the test set. The table below summarizes the accuracy and F1 scores for each model:
 
-- Baseline K-NN: `{python} baseline_knn_scores['accuracy'].values[0]`
-- Optimized K-NN: `{python} knn_scores['accuracy'].values[0]`
-- Optimized SVM: `{python} svm_scores['accuracy'].values[0]`
-- Logistic Regression: `{python} logreg_scores['accuracy'].values[0]`
+| Model | Accuracy | F1 Score |
+|-------|----------|----------|
+| Baseline K-NN (k=5) | `{python} baseline_knn_scores['accuracy'].values[0]` | `{python} baseline_knn_scores['f1'].values[0]` |
+| Optimized K-NN (k=85) | `{python} knn_scores['accuracy'].values[0]` | `{python} knn_scores['f1'].values[0]` |
+| Optimized SVM | `{python} svm_scores['accuracy'].values[0]` | `{python} svm_scores['f1'].values[0]` |
+| Optimized Logistic Regression | `{python} logreg_scores['accuracy'].values[0]` | `{python} logreg_scores['f1'].values[0]` |
 
-All three models also produced somewhat similar F1 scores, with the k-NN models performing best:
+The optimized K-NN model performed best overall, achieving the highest F1 score of `{python} knn_scores['f1'].values[0]`. However, the differences between models were relatively small, with all achieving accuracies around 50%. The models performed well on common crimes like "Theft from Vehicle" but struggled with rarer or more ambiguous categories. We also observed that crime in Vancouver decreased from 2003 to 2011, then started increasing again after 2012.
 
-- Baseline K-NN: `{python} baseline_knn_scores['f1'].values[0]`
-- Optimized K-NN: `{python} knn_scores['f1'].values[0]`
-- Optimized SVM: `{python} svm_scores['f1'].values[0]`
-- Optimized Logistic Regression: `{python} logreg_scores['f1'].values[0]`
+## Discussion
 
-The models did well on common crimes like "Theft from Vehicle" but struggled with rarer or more ambiguous categories. 
-We also noticed that crime in Vancouver decreased from 2003 to 2011, then started increasing again after 2012.
+These results are somewhat expected given the nature of crime classification. Different crime types often occur in similar locations at similar times, making them difficult to distinguish based solely on temporal and spatial features. For example, various types of theft might all peak during nighttime hours in the same neighborhoods. Our models are limited to using only time and location information, without access to potentially important factors such as weather conditions, economic indicators, or other contextual variables that might influence crime patterns.
 
-# Was This Expected?
+The fact that all three algorithms performed similarly suggests that the limiting factor is not the choice of algorithm, but rather the inherent predictability of crime types using only "when" and "where" information. This indicates that while these features provide some useful signal, they are insufficient on their own for highly accurate crime type prediction.
 
-Somewhat! Crime classification is tough because different crime types often happen in similar places at similar times. 
-For example, various types of theft might all peak at night in the same neighborhoods. 
-We're also only using time and location so we don't have info about weather, economic conditions, or other factors that might matter.
+Despite the moderate accuracy of approximately `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + logreg_scores['accuracy'].values[0])/3, 2)`, these models could still provide value for law enforcement planning. They can help identify which crime types are more predictable from spatiotemporal patterns, inform patrol allocation decisions, and highlight the need for additional features beyond basic time and location data to improve prediction accuracy.
 
-The fact that all three algorithms performed similarly suggests the limiting factor isn't the algorithm choice, 
-but rather what we can predict using only "when" and "where" information.
+### Limitations and Assumptions
 
-## Why This Matters
+Our analysis has several important limitations. First, we only use time and location features, which means we're missing other information that could be important like weather, economic conditions, or proximity to bars and schools. This limited feature set probably explains why our accuracy isn't higher.
 
-Even with an average accuracy of `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + baseline_logreg_scores['accuracy'].values[0])/3, 2)` accuracy, these models could still be useful for helping police decide where to patrol,
-understanding which crime types are more predictable, showing that we need more features beyond just time and location. 
+Second, there's a class imbalance problem - some crime types are way more common than others. Even though we focused on the four most common types, the imbalance still exists and might make our models biased toward predicting the more frequent crimes. We also had missing data for about 10% of time values and 11% of neighborhood values, which we filled in with simple methods that might not perfectly represent what actually happened.
+
+Third, our dataset only goes up to 2017, so our models might not work as well for current crime patterns, especially if things have changed in Vancouver over the past few years. Finally, we're assuming that the reported crimes accurately represent what actually occurred, but we know that reporting rates can vary by crime type and neighborhood, which could introduce bias into our models.
 
 # Future Work
 
-Going forward, to continue this project, we would like to try:
-
-- Add more features like weather, day of week, proximity to bars/schools
-- Try more advanced models like Random Forests or neural networks
-- Instead of predicting exact crime type, predict severity level (minor/moderate/serious)
-- Use more recent data (this dataset ends in 2017)
-- Apply techniques to handle the class imbalance problem
+Several avenues exist for improving upon this work. First, incorporating additional features could significantly enhance model performance. Weather conditions, day of week patterns, proximity to specific locations such as bars or schools, and economic indicators could all provide valuable predictive information. Second, exploring more sophisticated modeling approaches such as Random Forests or neural networks might better capture complex non-linear relationships in the data. Third, rather than predicting specific crime types, it may be more practical to predict crime severity levels (minor, moderate, or serious), which could reduce the classification complexity while still providing actionable insights. Fourth, updating the analysis with more recent data would be valuable, as this dataset ends in 2017 and crime patterns may have evolved. Finally, applying techniques specifically designed to handle class imbalance, such as SMOTE or class weighting, could improve performance on rarer crime types that are currently poorly predicted.
 
 # References

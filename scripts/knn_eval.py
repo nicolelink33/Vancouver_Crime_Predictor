@@ -62,7 +62,7 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
                                   'f1': [base_f1],
                                   'precision': [base_precision],
                                   'recall': [base_recall]})
-    results_table.to_csv(os.path.join(results_to, "tables", "knn_baseline_score.csv"), index=False)
+    results_table.to_csv(os.path.join(results_to, "knn_baseline_score.csv"), index=False)
     
     # Load trained KNN model
     with open(model_path, 'rb') as f:
@@ -86,7 +86,7 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
         'precision': [precision],
         'recall': [recall]
     })
-    results_table.to_csv(os.path.join(results_to, "tables", "knn_score.csv"), index=False)
+    results_table.to_csv(os.path.join(results_to, "knn_score.csv"), index=False)
     
     print(f"Metrics table saved to {results_to}/knn_score.csv")
     

@@ -204,6 +204,27 @@ This project requires the following main dependencies:
 - **HTTP requests:** requests 2.32
 
 For a complete list of dependencies with exact versions, see `environment.yml`. Platform-specific lock files (`conda-lock.yml`) ensure reproducibility across different operating systems.
+
+## Getting Help
+
+### Reporting Issues
+If you encounter any problems or bugs with this analysis:
+1. Check existing [issues](https://github.com/nicolelink33/Vancouver_Crime_Predictor/issues) to see if it's already been reported
+2. If not, create a new issue with:
+   - A clear description of the problem
+   - Steps to reproduce the issue
+   - Your environment details (OS, Python version, etc.)
+   - Any error messages or screenshots
+
+### Requesting Support
+For questions or support:
+- Open a [discussion](https://github.com/nicolelink33/Vancouver_Crime_Predictor/discussions) on GitHub
+- Check the [CONTRIBUTING.md](CONTRIBUTING.md) file for contribution guidelines
+- Review the README and documentation first
+
+### Contributing
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
 2. Scikit-learn developers. (2024). *Scikit-learn: Machine Learning in Python*. https://scikit-learn.org/
 
 ## License
