@@ -1,6 +1,6 @@
 services:
   vancouver-crime-predictor:
-    image: tirthjoship/vancouver-crime-predictor:a5ff66d
+    image: tirthjoship/vancouver-crime-predictor:644ba72
     ports:
       - "10000:8888"
     volumes:
