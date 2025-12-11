@@ -93,7 +93,7 @@ docker-compose up
 cd work
 
 # Step 1: Download data from Kaggle
-python scripts/download_data.py \
+python -m scripts/download_data.py \
     --dataset wosaku/crime-in-vancouver \
     --output-csv data/crimedata.csv \
     --output-zip data/crimedata.zip
@@ -112,7 +112,7 @@ python scripts/preprocessing.py \
 
 # Step 4: Generate exploratory data analysis visualizations
 # Note: EDA uses clean data before preprocessing to access original columns
-python scripts/eda.py \
+python -m scripts.eda \
     --processed-training-data data/crimedata_clean.csv \
     --target-csv data/crimedata_clean.csv \
     --plot-to results/figures
