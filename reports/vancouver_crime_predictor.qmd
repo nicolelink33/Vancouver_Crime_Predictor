@@ -34,14 +34,9 @@ baseline_logreg_scores = pd.read_csv("../results/tables/logreg_baseline_score.cs
 
 # Summary
 
-In this project, we aim to predict what type of crime occurred in Vancouver based on when and where it happened. 
-We use a dataset from the Vancouver Police Department with over 530,000 crime records from 2003-2017, 
-covering 11 different crime types including theft, break-ins, and vehicle collisions.
+In this project, we aim to predict what type of crime occurred in Vancouver based on when and where it happened. This is important because understanding crime patterns can help police departments allocate resources more effectively and plan better patrol routes. We use a dataset from the Vancouver Police Department with over 530,000 crime records from 2003-2017, covering 11 different crime types including theft, break-ins, and vehicle collisions.
 
-We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. 
-After tuning, all three models performed similarly, achieving an accuracy around `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + baseline_logreg_scores['accuracy'].values[0])/3, 2)`. 
-While this isn't perfect, it shows that time and location do provide some useful information for predicting crime types, 
-though there is clearly room for improvement, possibly with additional features.
+We tested three machine learning models: K-Nearest Neighbors, Support Vector Machines, and Logistic Regression. After tuning, all three models performed similarly, achieving an accuracy around `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + logreg_scores['accuracy'].values[0])/3, 2)`. While this shows that time and location do provide some useful information for predicting crime types, the moderate accuracy suggests there are limitations. The models only use when and where crimes happen, without other information like weather, economic conditions, or other factors that might matter.
 
 # Introduction
 
@@ -172,6 +167,14 @@ These results are somewhat expected given the nature of crime classification. Di
 The fact that all three algorithms performed similarly suggests that the limiting factor is not the choice of algorithm, but rather the inherent predictability of crime types using only "when" and "where" information. This indicates that while these features provide some useful signal, they are insufficient on their own for highly accurate crime type prediction.
 
 Despite the moderate accuracy of approximately `{python} round((knn_scores['accuracy'].values[0] + svm_scores['accuracy'].values[0] + logreg_scores['accuracy'].values[0])/3, 2)`, these models could still provide value for law enforcement planning. They can help identify which crime types are more predictable from spatiotemporal patterns, inform patrol allocation decisions, and highlight the need for additional features beyond basic time and location data to improve prediction accuracy.
+
+### Limitations and Assumptions
+
+Our analysis has several important limitations. First, we only use time and location features, which means we're missing other information that could be important like weather, economic conditions, or proximity to bars and schools. This limited feature set probably explains why our accuracy isn't higher.
+
+Second, there's a class imbalance problem - some crime types are way more common than others. Even though we focused on the four most common types, the imbalance still exists and might make our models biased toward predicting the more frequent crimes. We also had missing data for about 10% of time values and 11% of neighborhood values, which we filled in with simple methods that might not perfectly represent what actually happened.
+
+Third, our dataset only goes up to 2017, so our models might not work as well for current crime patterns, especially if things have changed in Vancouver over the past few years. Finally, we're assuming that the reported crimes accurately represent what actually occurred, but we know that reporting rates can vary by crime type and neighborhood, which could introduce bias into our models.
 
 # Future Work
 
