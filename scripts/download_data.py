@@ -2,6 +2,16 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-01
 
+"""
+Data download script for Vancouver Crime Predictor.
+
+This module provides functionality to download the Vancouver crime dataset from
+Kaggle and save it locally as both CSV and ZIP formats for analysis.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-01
+"""
+
 import click
 import kagglehub
 import os

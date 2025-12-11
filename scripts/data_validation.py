@@ -2,6 +2,16 @@
 # author: Nicole Link, Zain Nofal, Tirth Joshi
 # date 2025-12-01
 
+"""
+Data validation script for Vancouver Crime Predictor.
+
+This module provides functionality to validate and clean the Vancouver crime dataset
+using Pandera schemas, ensuring data quality before analysis.
+
+Author: Nicole Link, Zain Nofal, Tirth Joshi
+Date: 2025-12-01
+"""
+
 import click
 import pandas as pd
 import pandera as pa
