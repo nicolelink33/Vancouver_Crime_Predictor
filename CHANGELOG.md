@@ -10,30 +10,30 @@ All notable changes to this project based on peer review feedback will be docume
   - Included links to GitHub issues and discussions
   - Addresses feedback from reviewer @Chikire about missing issue reporting instructions
   
-- Raw data folder structure ([2cc2ecb](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/2cc2ecb))
+- Raw data folder structure ([aa23f4a](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/aa23f4a))
   - Created `data/raw/` folder with README
   - Better organization for raw vs processed data
   - Addresses feedback from reviewers @Chikire and @sapolraadnui about data folder organization
 
-- Limitations section in report ([2cc2ecb](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/2cc2ecb))
+- Limitations section in report ([2ec9cf2](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/2ec9cf2))
   - Added comprehensive "Limitations and Assumptions" subsection to Discussion
   - Discusses feature limitations, class imbalance, missing data, and dataset age
   - Addresses professor's M2 feedback about including limitations
 
 ### Changed
-- Fixed knn_eval.py directory path bug ([9f88e8d](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/9f88e8d))
+- Fixed knn_eval.py directory path bug ([4fa5dae](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/4fa5dae))
   - Removed extra 'tables' subdirectory from results path
   - Fixes error where script tried to save to `results/tables/tables`
   - Addresses feedback from reviewer @Chikire about script execution error
 
-- Improved report formatting ([749d2d9](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/749d2d9))
+- Improved report formatting ([8d8fd2c](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/8d8fd2c))
   - Removed informal section headings ("Was This Expected?", "Why This Matters")
   - Moved content to formal Discussion section
   - Converted comparison results to table format instead of bullet points
   - Changed Future Work from bullet points to paragraph format
   - Addresses feedback from reviewers @jentsang and @sapolraadnui about report formality
 
-- Enhanced Summary section ([2cc2ecb](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/2cc2ecb))
+- Enhanced Summary section ([2ec9cf2](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/2ec9cf2))
   - Added importance statement about why crime prediction matters
   - Included limitations in abstract
   - Addresses professor's M2 feedback about abstract requirements
