@@ -40,6 +40,8 @@ def svm_eval(x_test_path, y_test_path, pipeline_from, results_to, plot_to):
     # Read in the data, baseline model, and fitted svm model
     X_test = pd.read_csv(x_test_path)
     y_test = pd.read_csv(y_test_path)
+    if isinstance(y_test, pd.DataFrame):
+        y_test = y_test.iloc[:, 0]
 
     with open(os.path.join(pipeline_from, "svm_baseline_fit.pickle"), 'rb') as f:
         svm_base_fit = pickle.load(f)
