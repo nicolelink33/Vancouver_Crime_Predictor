@@ -20,7 +20,7 @@ data/crimedata_clean.csv : data/crimedata.csv scripts/data_validation.py
 
 # Step 3: Preprocess
 data/processed/X_train.csv data/processed/y_train.csv data/processed/X_test.csv data/processed/y_test.csv data/preprocessor.pickle : \
-	data/crimedata_clean.csv scripts/preprocessing.py
+data/crimedata_clean.csv scripts/preprocessing.py
 	python scripts/preprocessing.py \
 		--raw-data=data/crimedata_clean.csv \
 		--data-to=data/processed \
@@ -28,16 +28,16 @@ data/processed/X_train.csv data/processed/y_train.csv data/processed/X_test.csv 
 		--seed=522
 
 # Step 4: EDA Figures
-results/figures/eda_done.flag : data/crimedata_clean.csv scripts/eda.py
-	python scripts/eda.py \
+results/figures/eda_done.flag results/figures/crime_type_distribution.png : data/crimedata_clean.csv scripts/eda.py
+	PYTHONPATH=. python scripts/eda.py \
 		--processed-training-data=data/crimedata_clean.csv \
 		--target-csv=data/crimedata_clean.csv \
 		--plot-to=results/figures
 	touch results/figures/eda_done.flag
 
 # Step 5: KNN
-results/models/knn_model.pickle results/figures/knn_k_optimization.png : \
-	data/processed/X_train.csv data/processed/y_train.csv scripts/knn_training.py
+results/models/knn_model.pickle results/models/knn_model_baseline.pickle results/figures/knn_k_optimization.png : \
+data/processed/X_train.csv data/processed/y_train.csv scripts/knn_training.py
 	python scripts/knn_training.py \
 		--x-train-path=data/processed/X_train.csv \
 		--y-train-path=data/processed/y_train.csv \
@@ -45,8 +45,8 @@ results/models/knn_model.pickle results/figures/knn_k_optimization.png : \
 		--plot-out=results/figures/knn_k_optimization.png \
 		--seed=522
 
-results/figures/knn_confusion_matrix.png results/tables/knn_class_report.txt : \
-	data/processed/X_test.csv data/processed/y_test.csv results/models/knn_model.pickle scripts/knn_eval.py
+results/figures/knn_confusion_matrix.png results/tables/knn_class_report.txt results/tables/knn_score.csv results/tables/knn_baseline_score.csv : \
+data/processed/X_test.csv data/processed/y_test.csv results/models/knn_model.pickle results/models/knn_model_baseline.pickle scripts/knn_eval.py
 	PYTHONPATH=. python scripts/knn_eval.py \
         --x-test-path=data/processed/X_test.csv \
         --y-test-path=data/processed/y_test.csv \
@@ -58,7 +58,7 @@ results/figures/knn_confusion_matrix.png results/tables/knn_class_report.txt : \
 results/models/svm_final_best_fit.pickle results/models/svm_baseline_fit.pickle \
 results/models/svm_initial_grid_fit.pickle results/models/svm_final_random_fit.pickle \
 results/figures/svm_initial_grid_fit.png results/figures/svm_final_random_fit.png : \
-	data/processed/X_train.csv data/processed/y_train.csv data/preprocessor.pickle scripts/svm_training.py
+data/processed/X_train.csv data/processed/y_train.csv data/preprocessor.pickle scripts/svm_training.py
 	python scripts/svm_training.py \
 		--x-train-path=data/processed/X_train.csv \
 		--y-train-path=data/processed/y_train.csv \
@@ -70,9 +70,9 @@ results/figures/svm_initial_grid_fit.png results/figures/svm_final_random_fit.pn
 # Step 7: SVM evaluation
 results/tables/svm_baseline_score.csv results/tables/svm_score.csv \
 results/tables/svm_class_report.csv results/figures/svm_confusion_matrix.png : \
-	data/processed/X_test.csv data/processed/y_test.csv scripts/svm_eval.py \
-	results/models/svm_final_best_fit.pickle results/models/svm_baseline_fit.pickle
-    PYTHONPATH=. python scripts/svm_eval.py \
+data/processed/X_test.csv data/processed/y_test.csv scripts/svm_eval.py \
+results/models/svm_final_best_fit.pickle results/models/svm_baseline_fit.pickle
+	PYTHONPATH=. python scripts/svm_eval.py \
         --x-test-path=data/processed/X_test.csv \
         --y-test-path=data/processed/y_test.csv \
         --pipeline-from=results/models \
@@ -80,8 +80,8 @@ results/tables/svm_class_report.csv results/figures/svm_confusion_matrix.png : \
         --plot-to=results/figures
 
 # Step 8: Logistic Regression
-results/models/logreg_model.pickle results/tables/logreg_params.csv : \
-	data/processed/X_train.csv data/processed/y_train.csv scripts/log_reg_fit.py
+results/models/log_reg_model.pickle results/models/logreg_baseline_fit.pickle results/tables/logreg_params.csv : \
+data/processed/X_train.csv data/processed/y_train.csv scripts/log_reg_fit.py
 	python scripts/log_reg_fit.py \
 		--x-train-path=data/processed/X_train.csv \
 		--y-train-path=data/processed/y_train.csv \
@@ -91,8 +91,8 @@ results/models/logreg_model.pickle results/tables/logreg_params.csv : \
 
 results/tables/logreg_score.csv results/tables/logreg_baseline_score.csv \
 results/figures/log_reg_confusion_matrix.png : \
-	data/processed/X_test.csv data/processed/y_test.csv scripts/log_reg_eval.py \
-	results/models/logreg_model.pickle
+data/processed/X_test.csv data/processed/y_test.csv scripts/log_reg_eval.py \
+results/models/log_reg_model.pickle results/models/logreg_baseline_fit.pickle
 	PYTHONPATH=. python scripts/log_reg_eval.py \
         --x-test-path=data/processed/X_test.csv \
         --y-test-path=data/processed/y_test.csv \
@@ -104,11 +104,11 @@ results/figures/log_reg_confusion_matrix.png : \
 reports/vancouver_crime_predictor.html reports/vancouver_crime_predictor.pdf : \
 	reports/vancouver_crime_predictor.qmd reports/references.bib \
 	results/tables/svm_baseline_score.csv results/tables/svm_score.csv \
-	results/tables/knn_class_report.txt \
-	results/tables/logreg_score.csv results/tables/logreg_params.csv \
+	results/tables/logreg_score.csv results/tables/logreg_baseline_score.csv \
+    results/tables/knn_score.csv results/tables/knn_baseline_score.csv \
 	results/figures/knn_k_optimization.png results/figures/knn_confusion_matrix.png \
-	results/figures/svm_initial_grid_fit.png results/figures/svm_final_random_fit.png \
-	results/figures/svm_confusion_matrix.png results/figures/log_reg_confusion_matrix.png
+	results/figures/svm_confusion_matrix.png results/figures/log_reg_confusion_matrix.png \
+    results/figures/crime_type_distribution.png
 	quarto render reports/vancouver_crime_predictor.qmd
 
 # Clean

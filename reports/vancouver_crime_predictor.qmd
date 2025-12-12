@@ -138,9 +138,10 @@ The baseline logistic regression model achieved a test accuracy of `{python} bas
 and an F1 score of `{python} logreg_scores['f1'].values[0]`,
 indicating slightly lower performance than KNN and SVM.
 The confusion matrix for the best fit logistic regression model is shown in @fig-LR-cm . 
+
 ```{python}
 #| label: fig-LR-cm
-#| fig-cap: "Confusion matrix for best fit Log Reg model, showing predicted crime type versus actual crime type."
+#| fig-cap: "Confusion matrix for best fit Logistic Regression model, showing predicted crime type versus actual crime type."
 
 from IPython.display import Image
 Image('../results/figures/log_reg_confusion_matrix.png')
