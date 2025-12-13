@@ -4,14 +4,14 @@ All notable changes to this project based on peer review feedback will be docume
 
 ## [Milestone 4] - 2025-12-13
 
-### Fixed - Grading Feedback from Milestone 4
+### Fixed - Addressing Milestone 2 Grading Feedback
 
 - **Package version pinning** ([86b286e](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/86b286e))
   - Changed pip packages from `>=` to `==` for exact version pinning
   - `deepchecks>=0.18.0` → `deepchecks==0.19.1`
   - `vegafusion[embed]>=1.5.0` → `vegafusion[embed]==2.0.1`
   - Ensures reproducible Docker builds in the future
-  - Addresses Milestone 4 grading feedback about version pinning (-2 pts)
+  - Addresses Milestone 2 grading feedback about version pinning (-2 pts)
 
 - **Added deno to fix Quarto rendering** ([86b286e](https://github.com/nicolelink33/Vancouver_Crime_Predictor/commit/86b286e))
   - Added `deno=2.3.1` to environment.yml
@@ -22,7 +22,7 @@ All notable changes to this project based on peer review feedback will be docume
 - **GitHub Actions workflow trigger** (Already implemented)
   - `conda-lock.yml` already included in workflow triggers (line 9)
   - Ensures Docker image rebuilds when lock file changes
-  - Addresses Milestone 4 grading feedback about workflow triggers (-0.5 pts)
+  - Addresses Milestone 2 grading feedback about workflow triggers (-0.5 pts)
 
 ## [Unreleased] - 2025-12-10
 
