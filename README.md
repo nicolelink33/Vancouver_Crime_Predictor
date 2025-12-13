@@ -93,7 +93,7 @@ docker-compose up
 cd work
 
 # Step 1: Download data from Kaggle
-python -m scripts/download_data.py \
+python -m scripts.download_data.py \
     --dataset wosaku/crime-in-vancouver \
     --output-csv data/crimedata.csv \
     --output-zip data/crimedata.zip
@@ -159,7 +159,7 @@ python scripts/log_reg_fit.py \
     --seed 522
 
 # Step 10: Evaluate Logistic Regression model
-python scripts/log_reg_eval.py \
+python -m scripts.log_reg_eval \
     --x-test-path data/processed/X_test.csv \
     --y-test-path data/processed/y_test.csv \
     --model-path results/models \
