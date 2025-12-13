@@ -54,7 +54,7 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
     # Evaluate baseline model
     baseline_results = model_scoring(X_test, y_test, baseline_model)
     baseline_results.to_csv(os.path.join(results_to, "knn_baseline_score.csv"), index=False)
-    # y_base_pred = baseline_model.predict(X_test)
+    y_base_pred = baseline_model.predict(X_test)
 
     # base_accuracy = baseline_model.score(X_test, y_test)
     # base_f1 = f1_score(y_test, baseline_model.predict(X_test), average='weighted')
@@ -78,13 +78,13 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
     knn_results.to_csv(os.path.join(results_to, "knn_score.csv"), index=False)
 
     # Generate predictions
-    # y_pred = knn_model.predict(X_test)
+    y_pred = knn_model.predict(X_test)
     
     # # Compute metrics
-    # test_accuracy = knn_model.score(X_test, y_test)
-    # f1 = f1_score(y_test, y_pred, average='weighted')
-    # precision = precision_score(y_test, y_pred, average='weighted')
-    # recall = recall_score(y_test, y_pred, average='weighted')
+    test_accuracy = knn_model.score(X_test, y_test)
+    f1 = f1_score(y_test, y_pred, average='weighted')
+    precision = precision_score(y_test, y_pred, average='weighted')
+    recall = recall_score(y_test, y_pred, average='weighted')
     
     # # Save metrics table as CSV (matching Nicole's SVM format)
     # results_table = pd.DataFrame({
