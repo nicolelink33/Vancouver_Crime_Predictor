@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score, precision_score, recall_score
 from src.confusion_matrix_utils import create_confusion_matrix
+from src.model_scoring import model_scoring
 
 @click.command()
 @click.option('--x-test-path', type=str, default='data/processed/X_test.csv', help="Path to X_test CSV")
@@ -51,18 +52,20 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
         baseline_model = pickle.load(f)
 
     # Evaluate baseline model
-    y_base_pred = baseline_model.predict(X_test)
+    baseline_results = model_scoring(X_test, y_test, baseline_model)
+    baseline_results.to_csv(os.path.join(results_to, "knn_baseline_score.csv"), index=False)
+    # y_base_pred = baseline_model.predict(X_test)
 
-    base_accuracy = baseline_model.score(X_test, y_test)
-    base_f1 = f1_score(y_test, baseline_model.predict(X_test), average='weighted')
-    base_precision = precision_score(y_test, baseline_model.predict(X_test), average='weighted')
-    base_recall = recall_score(y_test, baseline_model.predict(X_test), average='weighted')
+    # base_accuracy = baseline_model.score(X_test, y_test)
+    # base_f1 = f1_score(y_test, baseline_model.predict(X_test), average='weighted')
+    # base_precision = precision_score(y_test, baseline_model.predict(X_test), average='weighted')
+    # base_recall = recall_score(y_test, baseline_model.predict(X_test), average='weighted')
 
-    results_table = pd.DataFrame({'accuracy': [base_accuracy],
-                                  'f1': [base_f1],
-                                  'precision': [base_precision],
-                                  'recall': [base_recall]})
-    results_table.to_csv(os.path.join(results_to, "knn_baseline_score.csv"), index=False)
+    # results_table = pd.DataFrame({'accuracy': [base_accuracy],
+    #                               'f1': [base_f1],
+    #                               'precision': [base_precision],
+    #                               'recall': [base_recall]})
+    # results_table.to_csv(os.path.join(results_to, "knn_baseline_score.csv"), index=False)
     
     # Load trained KNN model
     with open(model_path, 'rb') as f:
@@ -70,23 +73,27 @@ def knn_eval(x_test_path, y_test_path, model_path, plot_out, report_out, results
     
     print("Evaluating KNN model on test data...")
     
+    # Evaluate and save best fit KNN model
+    knn_results = model_scoring(X_test, y_test, knn_model)
+    knn_results.to_csv(os.path.join(results_to, "knn_score.csv"), index=False)
+
     # Generate predictions
-    y_pred = knn_model.predict(X_test)
+    # y_pred = knn_model.predict(X_test)
     
-    # Compute metrics
-    test_accuracy = knn_model.score(X_test, y_test)
-    f1 = f1_score(y_test, y_pred, average='weighted')
-    precision = precision_score(y_test, y_pred, average='weighted')
-    recall = recall_score(y_test, y_pred, average='weighted')
+    # # Compute metrics
+    # test_accuracy = knn_model.score(X_test, y_test)
+    # f1 = f1_score(y_test, y_pred, average='weighted')
+    # precision = precision_score(y_test, y_pred, average='weighted')
+    # recall = recall_score(y_test, y_pred, average='weighted')
     
-    # Save metrics table as CSV (matching Nicole's SVM format)
-    results_table = pd.DataFrame({
-        'accuracy': [test_accuracy],
-        'f1': [f1],
-        'precision': [precision],
-        'recall': [recall]
-    })
-    results_table.to_csv(os.path.join(results_to, "knn_score.csv"), index=False)
+    # # Save metrics table as CSV (matching Nicole's SVM format)
+    # results_table = pd.DataFrame({
+    #     'accuracy': [test_accuracy],
+    #     'f1': [f1],
+    #     'precision': [precision],
+    #     'recall': [recall]
+    # })
+    # results_table.to_csv(os.path.join(results_to, "knn_score.csv"), index=False)
     
     print(f"Metrics table saved to {results_to}/knn_score.csv")
     
