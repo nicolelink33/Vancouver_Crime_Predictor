@@ -34,6 +34,40 @@ quarto render reports/vancouver_crime_predictor.qmd
 
 ## Usage
 
+## Running with Docker
+
+For a fully reproducible environment, you can run this analysis using Docker.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed on your machine
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+### Using Docker Compose (Recommended)
+
+1. Clone this repository:
+```bash
+git clone https://github.com/nicolelink33/Vancouver_Crime_Predictor.git
+cd Vancouver_Crime_Predictor
+```
+
+2. Launch the container:
+```bash
+docker-compose up
+```
+
+3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
+
+4. To run the complete analysis pipeline, open a terminal in Jupyter Lab and run the following commands:
+
+```bash
+cd work
+make clean
+make all
+```
+
+## Alternative Methods:
+
 ### Setting up the environment
 
 1. **Clone this repository:**
@@ -59,35 +93,7 @@ The notebook will automatically download the latest version of the crime dataset
 
 ### Running the analysis
 
-The analysis is run through modular Python scripts. See the [Running with Docker](#running-with-docker) section below for the complete pipeline commands.
-
-
-## Running with Docker
-
-For a fully reproducible environment, you can run this analysis using Docker.
-
-
-### Prerequisites
-
-- [Docker](https://www.docker.com/get-started) installed on your machine
-- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
-
-### Using Docker Compose (Recommended)
-
-1. Clone this repository:
-```bash
-git clone https://github.com/nicolelink33/Vancouver_Crime_Predictor.git
-cd Vancouver_Crime_Predictor
-```
-
-2. Launch the container:
-```bash
-docker-compose up
-```
-
-3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
-
-4. To run the complete analysis pipeline, open a terminal in Jupyter Lab and run the following commands:
+The analysis can be run through modular Python scripts. See the [Running with Docker](#running-with-docker) section below for the complete pipeline commands.
 
 ```bash
 cd work
