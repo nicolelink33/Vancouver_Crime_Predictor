@@ -1,4 +1,15 @@
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 */.ipynb_checkpoints/*
+
+# Python cache
+__pycache__/
+*/__pycache__/
+*.pyc
+*.pyo
+
+# Log files
+*.log
+
+# IDE
 .claude
