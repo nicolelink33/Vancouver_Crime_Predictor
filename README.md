@@ -58,13 +58,23 @@ docker-compose up
 
 3. Open Jupyter Lab in your browser at: http://localhost:10000/lab
 
-4. To run the complete analysis pipeline, open a terminal in Jupyter Lab and run the following commands:
-
+4. To reset the project to a clean slate, open a terminal in Jupyter Lab and run the following commands:
 ```bash
 cd work
 make clean
+```
+
+
+4. To run the complete analysis pipeline, in the Jupyter Lab terminal from the work directory, run the following command:
+
+```bash
 make all
 ```
+
+5. The rendered report will be available at `reports/vancouver_crime_predictor.html` and `reports/vancouver_crime_predictor.pdf`
+
+6. To stop the container, press `Ctrl+C` in the terminal where you launched the container, then type `docker compose rm`. 
+
 
 ## Alternative Methods:
 
@@ -176,10 +186,6 @@ python -m scripts.log_reg_eval \
 quarto render reports/vancouver_crime_predictor.qmd
 ```
 
-5. The rendered report will be available at `reports/vancouver_crime_predictor.html` and `reports/vancouver_crime_predictor.pdf`
-
-6. To stop the container, press `Ctrl+C` in the terminal
-
 ### Pulling the Docker Image Directly
 
 You can also pull the pre-built image from DockerHub:
@@ -187,7 +193,7 @@ You can also pull the pre-built image from DockerHub:
 docker pull tirthjoship/vancouver-crime-predictor:latest
 docker run -p 10000:8888 -v $(pwd):/home/jovyan/work tirthjoship/vancouver-crime-predictor:latest
 ```
-### Updating the Docker Image
+## Updating the Docker Image
 
 When dependencies in `environment.yml` change:
 - **Python 3.11**
