@@ -24,6 +24,56 @@ All notable changes to this project based on peer review feedback will be docume
   - Ensures Docker image rebuilds when lock file changes
   - Addresses Milestone 2 grading feedback about workflow triggers (-0.5 pts)
 
+### Fixed - Addressing Milestone 1 Grading Feedback
+
+All items below were addressed and included in the Milestone 4 submission:
+
+- **Report rendering to PDF and HTML** 
+  - Quarto report now renders to both HTML and PDF formats
+  - Files: `reports/vancouver_crime_predictor.html` and `reports/vancouver_crime_predictor.pdf`
+  - Addresses Milestone 1 grading feedback (-1 pt)
+
+- **Package version specifications**
+  - All packages in `environment.yml` now have exact versions specified
+  - All conda packages use `=` (e.g., `python=3.11`)
+  - All pip packages use `==` (e.g., `kagglehub==0.3.4`)
+  - Addresses Milestone 1 grading feedback (-1 pt)
+
+- **LICENSE file with all team members**
+  - Updated LICENSE to include all group member names
+  - Copyright line: "Nicole Link, Zain Nofal, Tirth Joshi"
+  - Addresses Milestone 1 grading feedback (-1 pt)
+
+- **Target/response variable definition**
+  - Clearly defined crime type as the target variable in report
+  - Added detailed description of 11 crime types and selection criteria
+  - Included visualization of crime type distribution
+  - Addresses Milestone 1 grading feedback (-0.5 pts)
+
+- **Dataset references**
+  - Added BibTeX citations for dataset using `references.bib`
+  - Dataset properly cited as `[@CrimeKaggle]` in report
+  - Addresses Milestone 1 grading feedback (-0.25 pts)
+
+- **Methodology descriptions**
+  - Expanded Methods section with comprehensive details
+  - Included: models used, feature engineering, train/test split, hyperparameter optimization
+  - Clearly described evaluation metrics and approach
+  - Addresses Milestone 1 grading feedback (-1 pt)
+
+- **Code for saving data**
+  - Implemented data saving in all analysis scripts
+  - `preprocessing.py` saves train/test splits
+  - All model evaluation scripts save results to CSV
+  - Complete data pipeline documented in Makefile
+  - Addresses Milestone 1 grading feedback (-0.5 pts)
+
+- **GitHub Issues for communication**
+  - GitHub issues have been consistently created for each milestone
+  - Issues have been actively used for project communication and task tracking
+  - All milestone-related issues have been resolved
+  - Addresses Milestone 1 grading feedback (-4 pts)
+
 ## [Unreleased] - 2025-12-10
 
 ### Added
