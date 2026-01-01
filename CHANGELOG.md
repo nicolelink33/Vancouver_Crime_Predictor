@@ -9,9 +9,8 @@ All notable changes to this project based on peer review feedback will be docume
 - **Added pytest configuration** ([pytest.ini](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/pytest.ini))
   - Configured `pythonpath = .` to enable test imports without manual environment variable setting
   - Added test path configuration and naming conventions
-  - Tests now work "out of the box" without requiring `PYTHONPATH=.`
+  - Tests now work without requiring `PYTHONPATH=.` environment variable
   - Addresses Milestone 4 grading feedback about test automation (-2.5 pts)
-  - **Note:** Original tests were functional and passed when using `PYTHONPATH=.` (consistent with all Makefile targets)
 
 - **Added make test target** ([Makefile](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/Makefile#L123-L126))
   - Provides explicit command for running test suite: `make test`
@@ -58,13 +57,13 @@ All issues identified in Milestone 4 grading have been addressed:
 
 | Issue | Points Lost | Status | Fix |
 |-------|-------------|--------|-----|
-| Test automation | -2.5 | ✅ Fixed | Added pytest.ini and make test target |
-| Data cleanup | -1.0 | ✅ Fixed | Updated Makefile clean target |
-| Input validation | -0.5 | ✅ Fixed | Added validation to all utility functions |
-| Test edge cases | -0.75 | ✅ Fixed | Added 22 error handling tests |
-| **Total** | **-4.75** | **✅ All Fixed** | |
+| Test automation | -2.5 | Fixed | Added pytest.ini and make test target |
+| Data cleanup | -1.0 | Fixed | Updated Makefile clean target |
+| Input validation | -0.5 | Fixed | Added validation to all utility functions |
+| Test edge cases | -0.75 | Fixed | Added 22 error handling tests |
+| **Total** | **-4.75** | **All Fixed** | |
 
-**Test Results:** All tests now pass (31 total tests including 22 new error handling tests)
+All tests now pass (42 total tests including 21 new error handling tests).
 
 ## [Milestone 4] - 2025-12-13
 
