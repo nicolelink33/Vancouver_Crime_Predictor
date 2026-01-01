@@ -75,3 +75,91 @@ def test_save_csv_and_zip(tmp_path):
     # Check ZIP contains the CSV file
     with zipfile.ZipFile(output_zip, 'r') as zipf:
         assert "test.csv" in zipf.namelist()
+
+
+# ---------------------------------------------------------------------
+# Error Handling Tests: download_and_load_csv
+# ---------------------------------------------------------------------
+def test_download_and_load_csv_invalid_dataset_type():
+    """Test that invalid dataset type raises TypeError"""
+    with pytest.raises(TypeError, match="dataset must be a string"):
+        download_and_load_csv(123)
+
+
+def test_download_and_load_csv_empty_dataset():
+    """Test that empty dataset raises ValueError"""
+    with pytest.raises(ValueError, match="dataset cannot be empty"):
+        download_and_load_csv("")
+
+
+def test_download_and_load_csv_whitespace_dataset():
+    """Test that whitespace-only dataset raises ValueError"""
+    with pytest.raises(ValueError, match="dataset cannot be empty"):
+        download_and_load_csv("   ")
+
+
+def test_download_and_load_csv_invalid_csv_filename_type():
+    """Test that invalid csv_filename type raises TypeError"""
+    with pytest.raises(TypeError, match="csv_filename must be a string"):
+        download_and_load_csv("valid/dataset", 123)
+
+
+def test_download_and_load_csv_empty_csv_filename():
+    """Test that empty csv_filename raises ValueError"""
+    with pytest.raises(ValueError, match="csv_filename cannot be empty"):
+        download_and_load_csv("valid/dataset", "")
+
+
+def test_download_and_load_csv_missing_file(tmp_path):
+    """Test that missing CSV file raises FileNotFoundError"""
+    fake_kaggle_path = tmp_path / "fake_dataset"
+    fake_kaggle_path.mkdir()
+    # Don't create the CSV file
+    
+    with patch("src.data_utils.kagglehub.dataset_download", return_value=str(fake_kaggle_path)):
+        with pytest.raises(FileNotFoundError, match="CSV file .* not found"):
+            download_and_load_csv("username/dataset", "nonexistent.csv")
+
+
+# ---------------------------------------------------------------------
+# Error Handling Tests: save_csv_and_zip
+# ---------------------------------------------------------------------
+def test_save_csv_and_zip_invalid_df_type(tmp_path):
+    """Test that invalid DataFrame type raises TypeError"""
+    with pytest.raises(TypeError, match="df must be a pandas DataFrame"):
+        save_csv_and_zip("not a dataframe", str(tmp_path / "out.csv"), str(tmp_path / "out.zip"))
+
+
+def test_save_csv_and_zip_empty_df(tmp_path):
+    """Test that empty DataFrame raises ValueError"""
+    empty_df = pd.DataFrame()
+    with pytest.raises(ValueError, match="DataFrame cannot be empty"):
+        save_csv_and_zip(empty_df, str(tmp_path / "out.csv"), str(tmp_path / "out.zip"))
+
+
+def test_save_csv_and_zip_invalid_output_csv_type(tmp_path):
+    """Test that invalid output_csv type raises TypeError"""
+    df = pd.DataFrame({"a": [1, 2]})
+    with pytest.raises(TypeError, match="output_csv must be a string"):
+        save_csv_and_zip(df, 123, str(tmp_path / "out.zip"))
+
+
+def test_save_csv_and_zip_empty_output_csv(tmp_path):
+    """Test that empty output_csv raises ValueError"""
+    df = pd.DataFrame({"a": [1, 2]})
+    with pytest.raises(ValueError, match="output_csv cannot be empty"):
+        save_csv_and_zip(df, "", str(tmp_path / "out.zip"))
+
+
+def test_save_csv_and_zip_invalid_output_zip_type(tmp_path):
+    """Test that invalid output_zip type raises TypeError"""
+    df = pd.DataFrame({"a": [1, 2]})
+    with pytest.raises(TypeError, match="output_zip must be a string"):
+        save_csv_and_zip(df, str(tmp_path / "out.csv"), 123)
+
+
+def test_save_csv_and_zip_empty_output_zip(tmp_path):
+    """Test that empty output_zip raises ValueError"""
+    df = pd.DataFrame({"a": [1, 2]})
+    with pytest.raises(ValueError, match="output_zip cannot be empty"):
+        save_csv_and_zip(df, str(tmp_path / "out.csv"), "")

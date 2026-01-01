@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean test
 
 all: reports/vancouver_crime_predictor.html reports/vancouver_crime_predictor.pdf
 
@@ -113,10 +113,14 @@ reports/vancouver_crime_predictor.html reports/vancouver_crime_predictor.pdf : \
 
 # Clean
 clean :
-	rm -rf data/crimedata.csv data/crimedata_clean.csv data/crime_processed.csv data/crimedata.zip
+	rm -rf data/*.csv data/*.zip
 	rm -rf data/processed/*
 	rm -rf data/preprocessor.pickle
 	rm -rf results/models/*
 	rm -rf results/figures/*
 	rm -rf results/tables/*
 	rm -rf reports/vancouver_crime_predictor.pdf reports/vancouver_crime_predictor.html
+
+# Run tests
+test :
+	PYTHONPATH=. pytest tests/ -v

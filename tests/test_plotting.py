@@ -84,3 +84,61 @@ def test_save_bar_plot_count_special_case(tmp_path, sample_df):
     )
 
     assert output_path.exists(), "HTML plot with count() was not created."
+
+
+# ---------------------------------------------------------------------
+# Error Handling Tests
+# ---------------------------------------------------------------------
+def test_save_bar_plot_invalid_df_type(tmp_path):
+    """Test that invalid DataFrame type raises TypeError"""
+    with pytest.raises(TypeError, match="df must be a pandas DataFrame"):
+        save_bar_plot("not a df", "x", "y", "Title", str(tmp_path / "plot.html"))
+
+
+def test_save_bar_plot_empty_df(tmp_path):
+    """Test that empty DataFrame raises ValueError"""
+    empty_df = pd.DataFrame()
+    with pytest.raises(ValueError, match="DataFrame cannot be empty"):
+        save_bar_plot(empty_df, "x", "y", "Title", str(tmp_path / "plot.html"))
+
+
+def test_save_bar_plot_invalid_x_column(tmp_path, sample_df):
+    """Test that invalid x column name raises ValueError"""
+    with pytest.raises(ValueError, match="Column .* not found"):
+        save_bar_plot(sample_df, "nonexistent", "value", "Title", str(tmp_path / "plot.html"))
+
+
+def test_save_bar_plot_invalid_y_column(tmp_path, sample_df):
+    """Test that invalid y column name raises ValueError"""
+    with pytest.raises(ValueError, match="Column .* not found"):
+        save_bar_plot(sample_df, "category", "nonexistent", "Title", str(tmp_path / "plot.html"))
+
+
+def test_save_bar_plot_invalid_x_col_type(tmp_path, sample_df):
+    """Test that invalid x_col type raises TypeError"""
+    with pytest.raises(TypeError, match="x_col must be a string"):
+        save_bar_plot(sample_df, 123, "value", "Title", str(tmp_path / "plot.html"))
+
+
+def test_save_bar_plot_invalid_y_col_type(tmp_path, sample_df):
+    """Test that invalid y_col type raises TypeError"""
+    with pytest.raises(TypeError, match="y_col must be a string"):
+        save_bar_plot(sample_df, "category", 123, "Title", str(tmp_path / "plot.html"))
+
+
+def test_save_bar_plot_invalid_title_type(tmp_path, sample_df):
+    """Test that invalid title type raises TypeError"""
+    with pytest.raises(TypeError, match="title must be a string"):
+        save_bar_plot(sample_df, "category", "value", 123, str(tmp_path / "plot.html"))
+
+
+def test_save_bar_plot_invalid_save_path_type(tmp_path, sample_df):
+    """Test that invalid save_path type raises TypeError"""
+    with pytest.raises(TypeError, match="save_path must be a string"):
+        save_bar_plot(sample_df, "category", "value", "Title", 123)
+
+
+def test_save_bar_plot_empty_save_path(tmp_path, sample_df):
+    """Test that empty save_path raises ValueError"""
+    with pytest.raises(ValueError, match="save_path cannot be empty"):
+        save_bar_plot(sample_df, "category", "value", "Title", "")

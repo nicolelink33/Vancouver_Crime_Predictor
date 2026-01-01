@@ -36,6 +36,10 @@ def download_and_load_csv(dataset: str, csv_filename: str = "crime.csv") -> pd.D
 
     Raises:
     -------
+    TypeError
+        If dataset or csv_filename are not strings.
+    ValueError
+        If dataset or csv_filename are empty strings.
     FileNotFoundError
         If the CSV file does not exist in the downloaded dataset.
     Exception
@@ -50,9 +54,24 @@ def download_and_load_csv(dataset: str, csv_filename: str = "crime.csv") -> pd.D
     -----
     This function uses kagglehub to download the dataset. The CSV file must exist in the dataset directory.
     """
+    
+    # Input validation
+    if not isinstance(dataset, str):
+        raise TypeError("dataset must be a string")
+    if not dataset or not dataset.strip():
+        raise ValueError("dataset cannot be empty")
+    if not isinstance(csv_filename, str):
+        raise TypeError("csv_filename must be a string")
+    if not csv_filename or not csv_filename.strip():
+        raise ValueError("csv_filename cannot be empty")
 
     path = kagglehub.dataset_download(dataset)
-    df = pd.read_csv(os.path.join(path, csv_filename))
+    csv_path = os.path.join(path, csv_filename)
+    
+    if not os.path.exists(csv_path):
+        raise FileNotFoundError(f"CSV file '{csv_filename}' not found in dataset")
+    
+    df = pd.read_csv(csv_path)
     return df
 
 def save_csv_and_zip(df: pd.DataFrame, output_csv: str, output_zip: str):
@@ -72,6 +91,13 @@ def save_csv_and_zip(df: pd.DataFrame, output_csv: str, output_zip: str):
     -------
     None
 
+    Raises:
+    -------
+    TypeError
+        If df is not a DataFrame, or if output_csv or output_zip are not strings.
+    ValueError
+        If df is empty, or if output_csv or output_zip are empty strings.
+
     Examples:
     --------
     >>> save_csv_and_zip(df, 'data/crime.csv', 'data/crime.zip')
@@ -80,6 +106,21 @@ def save_csv_and_zip(df: pd.DataFrame, output_csv: str, output_zip: str):
     -----
     This function ensures both CSV and compressed ZIP versions of the data are saved for portability.
     """
+    
+    # Input validation
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("df must be a pandas DataFrame")
+    if df.empty:
+        raise ValueError("DataFrame cannot be empty")
+    if not isinstance(output_csv, str):
+        raise TypeError("output_csv must be a string")
+    if not output_csv or not output_csv.strip():
+        raise ValueError("output_csv cannot be empty")
+    if not isinstance(output_zip, str):
+        raise TypeError("output_zip must be a string")
+    if not output_zip or not output_zip.strip():
+        raise ValueError("output_zip cannot be empty")
+    
     df.to_csv(output_csv, index=False)
     with zipfile.ZipFile(output_zip, 'w', zipfile.ZIP_DEFLATED) as zipf:
         zipf.write(output_csv, arcname=os.path.basename(output_csv))

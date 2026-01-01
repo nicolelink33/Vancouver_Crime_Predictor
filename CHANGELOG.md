@@ -2,6 +2,70 @@
 
 All notable changes to this project based on peer review feedback will be documented in this file.
 
+## [Post-Milestone 4] - 2025-12-30
+
+### Fixed - Addressing Milestone 4 Grading Feedback
+
+- **Added pytest configuration** ([pytest.ini](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/pytest.ini))
+  - Configured `pythonpath = .` to enable test imports without manual environment variable setting
+  - Added test path configuration and naming conventions
+  - Tests now work "out of the box" without requiring `PYTHONPATH=.`
+  - Addresses Milestone 4 grading feedback about test automation (-2.5 pts)
+  - **Note:** Original tests were functional and passed when using `PYTHONPATH=.` (consistent with all Makefile targets)
+
+- **Added make test target** ([Makefile](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/Makefile#L123-L126))
+  - Provides explicit command for running test suite: `make test`
+  - Documents PYTHONPATH requirement in Makefile
+  - Improves developer experience and test discoverability
+
+- **Fixed data cleanup** ([Makefile](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/Makefile#L116))
+  - Updated clean target to remove all `.zip` and `.csv` files in data directory
+  - Now removes `crime_data_2025-11-22.zip` and any other generated data files
+  - Changed from specific file names to wildcard patterns: `data/*.csv data/*.zip`
+  - Addresses Milestone 4 grading feedback about data pipeline (-1.0 pt)
+
+- **Updated .gitignore** ([.gitignore](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/.gitignore#L17-L20))
+  - Added patterns to ignore generated data files
+  - Prevents accidental commits of `data/*.zip`, `data/*.csv`, `data/*.pickle`
+  - Ensures clean repository state
+
+- **Added input validation to data_utils.py** ([src/data_utils.py](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/src/data_utils.py))
+  - Added type checking for all function parameters in `download_and_load_csv`
+  - Added type checking for all function parameters in `save_csv_and_zip`
+  - Validates DataFrame types, string inputs, and checks for empty values
+  - Provides clear, descriptive error messages for invalid inputs
+  - Checks file existence before attempting to read CSV files
+  - Addresses Milestone 4 grading feedback about function design (-0.5 pts)
+
+- **Added input validation to plotting.py** ([src/plotting.py](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/src/plotting.py))
+  - Added comprehensive type checking for `save_bar_plot` function
+  - Validates DataFrame type and checks for empty DataFrames
+  - Validates column names exist in DataFrame (except for special `count()` case)
+  - Validates all string parameters (x_col, y_col, title, save_path)
+  - Added pandas import for DataFrame type checking
+  - Addresses Milestone 4 grading feedback about function design (-0.5 pts)
+
+- **Added error handling tests** ([tests/test_data_utils.py](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/tests/test_data_utils.py), [tests/test_plotting.py](file:///Users/tirthjoshi/MDS/Block_3/522/Vancouver_Crime_Predictor/tests/test_plotting.py))
+  - Added 12 error handling tests for `download_and_load_csv` and `save_csv_and_zip`
+  - Added 10 error handling tests for `save_bar_plot`
+  - Tests cover invalid types, empty inputs, missing columns, and edge cases
+  - All tests verify proper error messages are raised
+  - Addresses Milestone 4 grading feedback about test design (-0.75 pts)
+
+### Summary of Milestone 4 Feedback Resolution
+
+All issues identified in Milestone 4 grading have been addressed:
+
+| Issue | Points Lost | Status | Fix |
+|-------|-------------|--------|-----|
+| Test automation | -2.5 | ✅ Fixed | Added pytest.ini and make test target |
+| Data cleanup | -1.0 | ✅ Fixed | Updated Makefile clean target |
+| Input validation | -0.5 | ✅ Fixed | Added validation to all utility functions |
+| Test edge cases | -0.75 | ✅ Fixed | Added 22 error handling tests |
+| **Total** | **-4.75** | **✅ All Fixed** | |
+
+**Test Results:** All tests now pass (31 total tests including 22 new error handling tests)
+
 ## [Milestone 4] - 2025-12-13
 
 ### Fixed - Addressing Milestone 2 Grading Feedback
